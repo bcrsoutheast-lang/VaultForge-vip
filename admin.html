@@ -151,6 +151,7 @@
     }
   .deal-address { color: #D4AF37; font-weight: bold; margin-bottom: 6px; }
   .deal-price { color: #fff; margin-bottom: 8px; }
+  .deal-meta { color: #888; font-size: 11px; margin-bottom: 8px; }
   .deal-actions { display: flex; gap: 4px; flex-wrap: wrap; }
   .deal-actions button { padding: 4px 8px; font-size: 10px; }
     
@@ -243,79 +244,83 @@
       cursor: pointer;
       font-size: 18px;
     }
+  .loading { text-align: center; color: #D4AF37; padding: 40px; }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
     <h1>DEAL CONTROL CENTER</h1>
+    <div id="loading" class="loading">LOADING DEALS FROM DATABASE...</div>
     
-    <!-- STATE CARDS -->
-    <h2>BUYER COVERAGE BY STATE</h2>
-    <div class="states-grid" id="states-grid"></div>
-    
-    <!-- BUYER LIST -->
-    <div id="buyer-list-container" class="hidden">
-      <h2 id="selected-state-title">SELECT A STATE</h2>
-      <div class="buyer-list" id="buyer-list"></div>
-    </div>
-    
-    <!-- DEAL PIPELINE -->
-    <h2>DEAL PIPELINE</h2>
-    <div class="pipeline">
-      <div class="pipeline-col">
-        <h4>ACTIVE (<span id="active-count">0</span>)</h4>
-        <div id="active-deals"></div>
-      </div>
-      <div class="pipeline-col">
-        <h4>CLAIMED (<span id="claimed-count">0</span>)</h4>
-        <div id="claimed-deals"></div>
-      </div>
-      <div class="pipeline-col">
-        <h4>CLOSED/DEAD (<span id="closed-count">0</span>)</h4>
-        <div id="closed-deals"></div>
-      </div>
-    </div>
-    
-    <!-- BLAST BUILDER -->
-    <h2>DEAL BLAST BUILDER</h2>
-    <div class="blast-builder">
-      <div class="mode-toggle">
-        <button class="mode-btn active" onclick="setMode('blast')">BLAST MODE</button>
-        <button class="mode-btn" onclick="setMode('single')">SINGLE EMAIL</button>
+    <div id="main-content" class="hidden">
+      <!-- STATE CARDS -->
+      <h2>BUYER COVERAGE BY STATE</h2>
+      <div class="states-grid" id="states-grid"></div>
+      
+      <!-- BUYER LIST -->
+      <div id="buyer-list-container" class="hidden">
+        <h2 id="selected-state-title">SELECT A STATE</h2>
+        <div class="buyer-list" id="buyer-list"></div>
       </div>
       
-      <input type="text" id="deal-address" placeholder="Property Address">
-      <input type="text" id="deal-city" placeholder="City, State">
-      <input type="text" id="deal-price" placeholder="Asking Price">
-      <input type="text" id="deal-arv" placeholder="ARV">
-      <input type="text" id="deal-repairs" placeholder="Repairs">
-      <input type="text" id="deal-type" placeholder="Property Type">
-      <input type="text" id="deal-access" placeholder="Access Info">
-      <input type="text" id="deal-expires" placeholder="Contract Expires">
-      <textarea id="deal-notes" rows="3" placeholder="Seller notes, motivation, etc"></textarea>
-      
-      <div id="single-email-field" class="hidden">
-        <input type="email" id="buyer-email" placeholder="Buyer Email - Send to 1 buyer only">
-        <input type="tel" id="buyer-phone" placeholder="Buyer Phone - For SMS">
+      <!-- DEAL PIPELINE -->
+      <h2>DEAL PIPELINE - LIVE FROM DATABASE</h2>
+      <div class="pipeline">
+        <div class="pipeline-col">
+          <h4>ACTIVE (<span id="active-count">0</span>)</h4>
+          <div id="active-deals"></div>
+        </div>
+        <div class="pipeline-col">
+          <h4>CLAIMED (<span id="claimed-count">0</span>)</h4>
+          <div id="claimed-deals"></div>
+        </div>
+        <div class="pipeline-col">
+          <h4>CLOSED/DEAD (<span id="closed-count">0</span>)</h4>
+          <div id="closed-deals"></div>
+        </div>
       </div>
       
-      <button onclick="generateBlast()">GENERATE DEAL EMAIL</button>
-      <div id="blast-output"></div>
-    </div>
-    
-    <!-- TOOLS -->
-    <h2>TOOLS</h2>
-    <div class="tools-row">
-      <button onclick="showAddBuyerModal()">+ ADD BUYER</button>
-      <button onclick="exportBuyers()" class="btn-secondary">EXPORT BUYERS</button>
-      <button onclick="document.getElementById('import-file').click()" class="btn-secondary">IMPORT BUYERS</button>
-      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBuyers(event)">
-      <button onclick="showAddDealModal()">+ ADD DEAL</button>
-    </div>
-    
-    <div style="text-align:center;margin-top:40px;font-size:11px;color:#666;">
-      VaultForge Admin v3.0 | No Login Required | Data saved locally
+      <!-- BLAST BUILDER -->
+      <h2>DEAL BLAST BUILDER</h2>
+      <div class="blast-builder">
+        <div class="mode-toggle">
+          <button class="mode-btn active" onclick="setMode('blast')">BLAST MODE</button>
+          <button class="mode-btn" onclick="setMode('single')">SINGLE EMAIL</button>
+        </div>
+        
+        <input type="text" id="deal-address" placeholder="Property Address">
+        <input type="text" id="deal-city" placeholder="City, State">
+        <input type="text" id="deal-price" placeholder="Asking Price">
+        <input type="text" id="deal-arv" placeholder="ARV">
+        <input type="text" id="deal-repairs" placeholder="Repairs">
+        <input type="text" id="deal-type" placeholder="Property Type">
+        <input type="text" id="deal-access" placeholder="Access Info">
+        <input type="text" id="deal-expires" placeholder="Contract Expires">
+        <textarea id="deal-notes" rows="3" placeholder="Seller notes, motivation, etc"></textarea>
+        
+        <div id="single-email-field" class="hidden">
+          <input type="email" id="buyer-email" placeholder="Buyer Email - Send to 1 buyer only">
+          <input type="tel" id="buyer-phone" placeholder="Buyer Phone - For SMS">
+        </div>
+        
+        <button onclick="generateBlast()">GENERATE DEAL EMAIL</button>
+        <div id="blast-output"></div>
+      </div>
+      
+      <!-- TOOLS -->
+      <h2>TOOLS</h2>
+      <div class="tools-row">
+        <button onclick="showAddBuyerModal()">+ ADD BUYER</button>
+        <button onclick="exportBuyers()" class="btn-secondary">EXPORT BUYERS</button>
+        <button onclick="document.getElementById('import-file').click()" class="btn-secondary">IMPORT BUYERS</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBuyers(event)">
+        <button onclick="refreshDeals()">🔄 REFRESH DEALS</button>
+      </div>
+      
+      <div style="text-align:center;margin-top:40px;font-size:11px;color:#666;">
+        VaultForge Admin v4.0 | Connected to vault-forge-deals DB | Real-time sync
+      </div>
     </div>
   </div>
 
@@ -339,33 +344,50 @@
     </div>
   </div>
 
-  <!-- ADD DEAL MODAL -->
-  <div id="add-deal-modal" class="modal hidden">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('add-deal-modal')">×</button>
-      <h3>ADD NEW DEAL</h3>
-      <input type="text" id="new-deal-address" placeholder="Property Address">
-      <input type="text" id="new-deal-city" placeholder="City, State">
-      <input type="text" id="new-deal-price" placeholder="Asking Price">
-      <input type="text" id="new-deal-arv" placeholder="ARV">
-      <button onclick="saveDeal()">ADD TO ACTIVE</button>
-    </div>
-  </div>
-
 <script>
 let currentMode = 'blast';
 let selectedState = null;
 let buyers = JSON.parse(localStorage.getItem('vf_buyers') || '[]');
-let deals = JSON.parse(localStorage.getItem('vf_deals') || '[]');
+let deals = [];
 
 const STATES = ['GEORGIA', 'TENNESSEE', 'ALABAMA', 'FLORIDA', 'NORTH CAROLINA', 'SOUTH CAROLINA', 'TEXAS'];
 
-// INIT - No login, straight to dashboard
+// INIT - Load deals from database
 init();
 
-function init() {
+async function init() {
+  await loadDealsFromDB();
   renderStates();
   renderDeals();
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('main-content').classList.remove('hidden');
+}
+
+// LOAD DEALS FROM VAULT-FORGE-DEALS DATABASE
+async function loadDealsFromDB() {
+  try {
+    const res = await fetch('/api/get-deals');
+    if (res.ok) {
+      deals = await res.json();
+    } else {
+      console.error('Failed to load deals');
+      deals = [];
+    }
+  } catch (e) {
+    console.error('DB connection error:', e);
+    deals = [];
+  }
+}
+
+// REFRESH DEALS
+async function refreshDeals() {
+  document.getElementById('loading').classList.remove('hidden');
+  document.getElementById('main-content').classList.add('hidden');
+  await loadDealsFromDB();
+  renderDeals();
+  renderStates();
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('main-content').classList.remove('hidden');
 }
 
 // RENDER STATE CARDS
@@ -375,7 +397,10 @@ function renderStates() {
   
   STATES.forEach(state => {
     const stateBuyers = buyers.filter(b => b.states.includes(state));
-    const newDeals = deals.filter(d => d.status === 'active' && d.state === state).length;
+    const newDeals = deals.filter(d => d.status === 'new' || d.status === 'active').filter(d => {
+      const dealState = d.city_state ? d.city_state.split(',').pop().trim().toUpperCase() : d.state;
+      return dealState === state;
+    }).length;
     
     const card = document.createElement('div');
     card.className = 'state-card';
@@ -518,46 +543,9 @@ function importBuyers(event) {
   reader.readAsText(file);
 }
 
-// DEAL MANAGEMENT
-function showAddDealModal() {
-  document.getElementById('add-deal-modal').classList.remove('hidden');
-}
-
-function saveDeal() {
-  const address = document.getElementById('new-deal-address').value;
-  const city = document.getElementById('new-deal-city').value;
-  const price = document.getElementById('new-deal-price').value;
-  const arv = document.getElementById('new-deal-arv').value;
-  
-  if (!address ||!city) {
-    alert('Address and City required');
-    return;
-  }
-  
-  // Extract state from city
-  const state = city.split(',').pop().trim().toUpperCase();
-  
-  deals.push({
-    id: Date.now().toString(),
-    address, city, state, price, arv,
-    status: 'active',
-    created: new Date().toISOString()
-  });
-  
-  localStorage.setItem('vf_deals', JSON.stringify(deals));
-  closeModal('add-deal-modal');
-  renderDeals();
-  renderStates();
-  
-  // Clear form
-  document.getElementById('new-deal-address').value = '';
-  document.getElementById('new-deal-city').value = '';
-  document.getElementById('new-deal-price').value = '';
-  document.getElementById('new-deal-arv').value = '';
-}
-
+// DEAL MANAGEMENT - NOW UPDATES DATABASE
 function renderDeals() {
-  const active = deals.filter(d => d.status === 'active');
+  const active = deals.filter(d => d.status === 'new' || d.status === 'active');
   const claimed = deals.filter(d => d.status === 'claimed');
   const closed = deals.filter(d => d.status === 'closed' || d.status === 'dead');
   
@@ -567,10 +555,11 @@ function renderDeals() {
   
   document.getElementById('active-deals').innerHTML = active.map(d => `
     <div class="deal-card">
-      <div class="deal-address">${d.address}</div>
-      <div class="deal-price">${d.price} | ${d.city}</div>
+      <div class="deal-address">${d.property_address || d.address}</div>
+      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.city_state || d.city || ''}</div>
+      <div class="deal-meta">Seller: ${d.full_name || 'Unknown'} | ${new Date(d.submitted_at).toLocaleDateString()}</div>
       <div class="deal-actions">
-        <button class="btn-small" onclick="markDeal('${d.id}', 'claimed')">CLAIMED</button>
+        <button class="btn-small" onclick="markDeal('${d.id}', 'claimed')">CLAIM</button>
         <button class="btn-small btn-secondary" onclick="markDeal('${d.id}', 'dead')">DEAD</button>
         <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
       </div>
@@ -579,8 +568,9 @@ function renderDeals() {
   
   document.getElementById('claimed-deals').innerHTML = claimed.map(d => `
     <div class="deal-card">
-      <div class="deal-address">${d.address}</div>
-      <div class="deal-price">${d.price} | ${d.city}</div>
+      <div class="deal-address">${d.property_address || d.address}</div>
+      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.city_state || d.city || ''}</div>
+      <div class="deal-meta">Seller: ${d.full_name || 'Unknown'}</div>
       <div class="deal-actions">
         <button class="btn-small" onclick="markDeal('${d.id}', 'closed')">CLOSED</button>
         <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
@@ -590,8 +580,8 @@ function renderDeals() {
   
   document.getElementById('closed-deals').innerHTML = closed.map(d => `
     <div class="deal-card">
-      <div class="deal-address">${d.address}</div>
-      <div class="deal-price">${d.price} | ${d.status}</div>
+      <div class="deal-address">${d.property_address || d.address}</div>
+      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.status.toUpperCase()}</div>
       <div class="deal-actions">
         <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
       </div>
@@ -599,22 +589,31 @@ function renderDeals() {
   `).join('') || '<p style="color:#666;text-align:center;font-size:12px;">No closed deals</p>';
 }
 
-function markDeal(id, status) {
-  const deal = deals.find(d => d.id === id);
-  if (deal) {
-    deal.status = status;
-    localStorage.setItem('vf_deals', JSON.stringify(deals));
-    renderDeals();
-    renderStates();
+async function markDeal(id, status) {
+  try {
+    await fetch('/api/update-deal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status })
+    });
+    await refreshDeals();
+  } catch (e) {
+    alert('Failed to update deal');
   }
 }
 
-function deleteDeal(id) {
-  if (!confirm('Permanently delete this deal?')) return;
-  deals = deals.filter(d => d.id!== id);
-  localStorage.setItem('vf_deals', JSON.stringify(deals));
-  renderDeals();
-  renderStates();
+async function deleteDeal(id) {
+  if (!confirm('Permanently delete this deal from database?')) return;
+  try {
+    await fetch('/api/delete-deal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+    await refreshDeals();
+  } catch (e) {
+    alert('Failed to delete deal');
+  }
 }
 
 // BLAST BUILDER
