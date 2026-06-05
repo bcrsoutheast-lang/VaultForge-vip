@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Deal - VaultForge</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #0a0a0a;
+      border: 2px solid #D4AF37;
+      border-radius: 8px;
+      padding: 30px;
+    }
+    .logo { display: block; margin: 0 auto 20px auto; max-width: 150px; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 8px; font-size: 26px; letter-spacing: 1px; }
+    .tagline { text-align: center; color: #aaa; margin-bottom: 20px; font-size: 14px; }
+    .vetting-box {
+      background: #111;
+      border: 1px solid #D4AF37;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .vetting-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 8px; }
+    .vetting-box p { color: #ccc; font-size: 13px; line-height: 1.5; }
+    .terms-box {
+      background: #111;
+      border: 1px solid #333;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 25px 0;
+    }
+    .terms-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 12px; }
+    .terms-box ul { list-style: none; }
+    .terms-box li { color: #aaa; font-size: 13px; margin-bottom: 8px; padding-left: 16px; position: relative; }
+    .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
+    label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin: 16px 0 6px 0; }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 16px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #D4AF37;
+    }
+    .note { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 16px; }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #D4AF37;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      text-transform: uppercase;
+    }
+    button:hover { background: #e5c158; }
+    button:disabled { background: #555; cursor: not-allowed; }
+    .footer { text-align: center; font-size: 11px; color: #666; margin-top: 25px; line-height: 1.6; }
+    .success-msg { text-align: center; padding: 40px 20px; }
+    .success-msg img { max-width: 120px; margin: 0 auto 20px auto; display: block; }
+    .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
+    .success-msg p { color: #ccc; font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
+    .gold { color: #D4AF37; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container" id="form-container">
+    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
+    <h1>SUBMIT YOUR OFF-MARKET DEAL</h1>
+    <p class="tagline">Private Buyers. 48-Hour Performance. No Daisy Chains.</p>
+    
+    <div class="vetting-box">
+      <h3>PRIVATE NETWORK - SERIOUS DEALS ONLY</h3>
+      <p>We have private buyers with funds ready to go. If your number works, we claim in 48hrs and wire EMD. No window shoppers. Submission does not guarantee we take the deal. If more info is needed, VaultForge will contact you.</p>
+    </div>
+
+    <div class="terms-box">
+      <h3>⚡ SELLER TERMS</h3>
+      <ul>
+        <li>Submit deals with clean title + access. We verify before blast.</li>
+        <li>VaultForge or buyer wires EMD to title within 24hrs of CLAIM.</li>
+        <li>Split assignment 50/50 with wholesaler on closed deals.</li>
+        <li>VaultForge network fee = 1% of purchase price, paid by buyer at close.</li>
+        <li>48hr performance. We close or release it.</li>
+      </ul>
+    </div>
+    
+    <form id="seller-form" action="https://formspree.io/f/REPLACE-WITH-NEW-SELLER-FORM-ID" method="POST">
+      <input type="text" name="_gotcha" style="display:none">
+      
+      <label>Property Address *</label>
+      <input type="text" name="property_address" required>
+      
+      <label>City, State *</label>
+      <input type="text" name="city_state" required placeholder="Atlanta, GA">
+      
+      <label>Deal Type *</label>
+      <select name="deal_type" required>
+        <option value="">Select...</option>
+        <option>Wholesale Contract</option>
+        <option>Pocket Listing</option>
+        <option>Pre-Foreclosure</option>
+        <option>Probate/Inherited</option>
+        <option>Vacant/Fire Damaged</option>
+        <option>Owner Finance</option>
+        <option>Other</option>
+      </select>
+
+      <label>Asking Price *</label>
+      <input type="text" name="asking_price" required placeholder="$175,000">
+
+      <label>ARV + Repair Estimate</label>
+      <input type="text" name="arv_repair" placeholder="ARV $250k, Repairs $30k">
+
+      <label>Your Expected Spread/Fee</label>
+      <input type="text" name="expected_fee" placeholder="$10,000">
+
+      <label>Contract Expiration Date *</label>
+      <input type="date" name="contract_expires" required>
+
+      <label>Property Access *</label>
+      <select name="access" required>
+        <option value="">Select...</option>
+        <option>Vacant - Lockbox</option>
+        <option>Vacant - Code</option>
+        <option>Occupied - Appointment Only</option>
+        <option>Tenant Occupied</option>
+      </select>
+
+      <label>Your Name *</label>
+      <input type="text" name="full_name" required>
+      
+      <label>Phone *</label>
+      <input type="tel" name="phone" required>
+      
+      <label>Email *</label>
+      <input type="email" name="email" required>
+      <p class="note">No file upload needed. If approved, VaultForge will contact you for contract + photos before blast.</p>
+      
+      <label>Additional Details</label>
+      <textarea name="message" rows="4" placeholder="Liens, occupancy, motivation, timeline, anything we should know..."></textarea>
+      
+      <button type="submit" id="submit-btn">SUBMIT DEAL</button>
+    </form>
+
+    <div class="footer">
+      VaultForge is not a broker. We connect vetted buyers with off-market opportunities. 
+      All deals subject to verification. Your info is encrypted & never sold.
+    </div>
+  </div>
+
+<script>
+document.getElementById('seller-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'SUBMITTING...';
+  
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      document.getElementById('form-container').innerHTML = `
+        <div class="success-msg">
+          <img src="IMG_4751.png" alt="VaultForge Logo">
+          <h1>DEAL RECEIVED</h1>
+          <p class="gold">We have private buyers with funds ready to go.</p>
+          <p>Your deal is under review.</p>
+          <p>Submission does not guarantee we take the deal.</p>
+          <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
+          <p>No daisy chains. 48hr performance only.</p>
+        </div>
+      `;
+    } else {
+      alert('Error submitting. Please try again or refresh the page.');
+      btn.disabled = false;
+      btn.textContent = 'SUBMIT DEAL';
+    }
+  }).catch(error => {
+    alert('Network error. Check connection and try again.');
+    btn.disabled = false;
+    btn.textContent = 'SUBMIT DEAL';
+  });
+});
+</script>
+</body>
+</html>
