@@ -66,12 +66,14 @@
     .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
     .type-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin: 20px 0;
+      flex-wrap: wrap;
     }
     .type-btn {
       flex: 1;
-      padding: 14px;
+      min-width: 100px;
+      padding: 12px 8px;
       background: #111;
       border: 2px solid #333;
       color: #aaa;
@@ -79,7 +81,7 @@
       font-weight: bold;
       cursor: pointer;
       text-transform: uppercase;
-      font-size: 13px;
+      font-size: 12px;
     }
     .type-btn.active {
       background: #D4AF37;
@@ -184,13 +186,13 @@
       <label>Company / LLC</label>
       <input type="text" name="company">
 
-      <label>Property Type Focus *</label>
+      <label>Property Types - Select All That Apply *</label>
       <div class="type-buttons">
-        <button type="button" class="type-btn active" data-type="residential">RESIDENTIAL</button>
+        <button type="button" class="type-btn" data-type="residential">RESIDENTIAL</button>
         <button type="button" class="type-btn" data-type="commercial">COMMERCIAL</button>
         <button type="button" class="type-btn" data-type="land">LAND</button>
       </div>
-      <input type="hidden" name="property_type" id="property_type" value="Residential">
+      <input type="hidden" name="property_types" id="property_types">
 
       <label>Investment States - Select All That Apply *</label>
       <div class="checkbox-group">
@@ -215,8 +217,8 @@
       </select>
 
       <!-- RESIDENTIAL FIELDS -->
-      <div id="residential-fields">
-        <label>Residential Buy Box - Select All That Apply *</label>
+      <div id="residential-fields" class="hidden">
+        <label>Residential Buy Box - Select All That Apply</label>
         <div class="checkbox-group">
           <div class="checkbox-item"><input type="checkbox" name="buybox_residential[]" value="Single Family" id="sf"><label for="sf">Single Family</label></div>
           <div class="checkbox-item"><input type="checkbox" name="buybox_residential[]" value="Multi-Family 2-4" id="mf24"><label for="mf24">Multi-Family 2-4</label></div>
@@ -229,24 +231,32 @@
 
       <!-- COMMERCIAL FIELDS -->
       <div id="commercial-fields" class="hidden">
-        <label>Commercial Buy Box - Select All That Apply *</label>
+        <label>Commercial Type</label>
+        <select name="commercial_type">
+          <option value="">Select Type...</option>
+          <option>Multi-Family 5+</option>
+          <option>Retail</option>
+          <option>Office</option>
+          <option>Industrial</option>
+          <option>Mixed Use</option>
+          <option>Other</option>
+        </select>
+        <label>Commercial Buy Box - Select All That Apply</label>
         <div class="checkbox-group">
-          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Multi-Family 5+" id="mf5"><label for="mf5">Multi-Family 5+</label></div>
-          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Retail" id="retail"><label for="retail">Retail</label></div>
-          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Office" id="office"><label for="office">Office</label></div>
-          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Industrial" id="ind"><label for="ind">Industrial</label></div>
-          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Mixed Use" id="mixed"><label for="mixed">Mixed Use</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Value-Add" id="va"><label for="va">Value-Add</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Stabilized" id="stab"><label for="stab">Stabilized</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="buybox_commercial[]" value="Development" id="cdev"><label for="cdev">Development</label></div>
         </div>
       </div>
 
       <!-- LAND FIELDS -->
       <div id="land-fields" class="hidden">
-        <label>Land Buy Box - Select All That Apply *</label>
+        <label>Land Buy Box - Select All That Apply</label>
         <div class="checkbox-group">
           <div class="checkbox-item"><input type="checkbox" name="buybox_land[]" value="Residential Lots" id="reslots"><label for="reslots">Residential Lots</label></div>
           <div class="checkbox-item"><input type="checkbox" name="buybox_land[]" value="Commercial Lots" id="comlots"><label for="comlots">Commercial Lots</label></div>
           <div class="checkbox-item"><input type="checkbox" name="buybox_land[]" value="Acreage" id="acre"><label for="acre">Acreage 5+ Acres</label></div>
-          <div class="checkbox-item"><input type="checkbox" name="buybox_land[]" value="Development" id="dev"><label for="dev">Development</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="buybox_land[]" value="Development" id="ldev"><label for="ldev">Development</label></div>
         </div>
       </div>
 
@@ -272,24 +282,31 @@
   </div>
 
 <script>
-// Property Type Toggle
+// Multi-select Property Type Toggle
+const selectedTypes = new Set();
 document.querySelectorAll('.type-btn').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
     const type = this.dataset.type;
-    document.getElementById('property_type').value = type.charAt(0).toUpperCase() + type.slice(1);
-    
-    document.getElementById('residential-fields').classList.add('hidden');
-    document.getElementById('commercial-fields').classList.add('hidden');
-    document.getElementById('land-fields').classList.add('hidden');
-    document.getElementById(type + '-fields').classList.remove('hidden');
+    if (this.classList.contains('active')) {
+      this.classList.remove('active');
+      selectedTypes.delete(type);
+      document.getElementById(type + '-fields').classList.add('hidden');
+    } else {
+      this.classList.add('active');
+      selectedTypes.add(type);
+      document.getElementById(type + '-fields').classList.remove('hidden');
+    }
+    document.getElementById('property_types').value = Array.from(selectedTypes).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
   });
 });
 
 // Form Submit
 document.getElementById('buyer-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  if (selectedTypes.size === 0) {
+    alert('Please select at least one Property Type');
+    return;
+  }
   const form = e.target;
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
