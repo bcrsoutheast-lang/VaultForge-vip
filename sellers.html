@@ -19,7 +19,27 @@
       border: 2px solid #D4AF37;
       border-radius: 8px;
       padding: 30px;
+      position: relative;
     }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #111;
+      border: 1px solid #333;
+      color: #888;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .close-btn:hover { background: #222; color: #D4AF37; }
     .logo { display: block; margin: 0 auto 20px auto; max-width: 150px; }
     h1 { color: #D4AF37; text-align: center; margin-bottom: 8px; font-size: 26px; letter-spacing: 1px; }
     .tagline { text-align: center; color: #aaa; margin-bottom: 20px; font-size: 14px; }
@@ -44,6 +64,29 @@
     .terms-box ul { list-style: none; }
     .terms-box li { color: #aaa; font-size: 13px; margin-bottom: 8px; padding-left: 16px; position: relative; }
     .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
+    .type-buttons {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .type-btn {
+      flex: 1;
+      padding: 14px;
+      background: #111;
+      border: 2px solid #333;
+      color: #aaa;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    .type-btn.active {
+      background: #D4AF37;
+      border-color: #D4AF37;
+      color: #000;
+    }
+    .hidden { display: none; }
     label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin: 16px 0 6px 0; }
     input, select, textarea {
       width: 100%;
@@ -80,10 +123,23 @@
     .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
     .success-msg p { color: #ccc; font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
     .gold { color: #D4AF37; font-weight: 600; }
+    .exit-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #111;
+      border: 1px solid #D4AF37;
+      color: #D4AF37;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .exit-btn:hover { background: #222; }
   </style>
 </head>
 <body>
   <div class="container" id="form-container">
+    <a href="/" class="close-btn">×</a>
     <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
     <h1>SUBMIT YOUR OFF-MARKET DEAL</h1>
     <p class="tagline">Private Buyers. 48-Hour Performance. No Daisy Chains.</p>
@@ -107,6 +163,14 @@
     <form id="seller-form" action="https://formspree.io/f/mqeoeeqe" method="POST">
       <input type="text" name="_gotcha" style="display:none">
       
+      <label>Property Type *</label>
+      <div class="type-buttons">
+        <button type="button" class="type-btn active" data-type="residential">RESIDENTIAL</button>
+        <button type="button" class="type-btn" data-type="commercial">COMMERCIAL</button>
+        <button type="button" class="type-btn" data-type="land">LAND</button>
+      </div>
+      <input type="hidden" name="property_type" id="property_type" value="Residential">
+
       <label>Property Address *</label>
       <input type="text" name="property_address" required placeholder="123 Main St">
       
@@ -128,8 +192,29 @@
       <label>Asking Price *</label>
       <input type="text" name="asking_price" required placeholder="$175,000">
 
-      <label>ARV + Repair Estimate</label>
-      <input type="text" name="arv_repair" placeholder="ARV $250k, Repairs $30k">
+      <!-- RESIDENTIAL FIELDS -->
+      <div id="residential-fields">
+        <label>ARV + Repair Estimate</label>
+        <input type="text" name="arv_repair" placeholder="ARV $250k, Repairs $30k">
+        <label>Beds / Baths</label>
+        <input type="text" name="beds_baths" placeholder="3 Bed / 2 Bath">
+      </div>
+
+      <!-- COMMERCIAL FIELDS -->
+      <div id="commercial-fields" class="hidden">
+        <label>NOI / Cap Rate</label>
+        <input type="text" name="noi_cap" placeholder="NOI $50k, 7% Cap">
+        <label>Square Footage</label>
+        <input type="text" name="sqft" placeholder="10,000 SF">
+      </div>
+
+      <!-- LAND FIELDS -->
+      <div id="land-fields" class="hidden">
+        <label>Acreage</label>
+        <input type="text" name="acreage" placeholder="5.2 Acres">
+        <label>Zoning</label>
+        <input type="text" name="zoning" placeholder="Residential R-1, Commercial, etc">
+      </div>
 
       <label>Your Expected Spread/Fee</label>
       <input type="text" name="expected_fee" placeholder="$10,000">
@@ -169,6 +254,22 @@
   </div>
 
 <script>
+// Property Type Toggle
+document.querySelectorAll('.type-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const type = this.dataset.type;
+    document.getElementById('property_type').value = type.charAt(0).toUpperCase() + type.slice(1);
+    
+    document.getElementById('residential-fields').classList.add('hidden');
+    document.getElementById('commercial-fields').classList.add('hidden');
+    document.getElementById('land-fields').classList.add('hidden');
+    document.getElementById(type + '-fields').classList.remove('hidden');
+  });
+});
+
+// Form Submit
 document.getElementById('seller-form').addEventListener('submit', function(e) {
   e.preventDefault();
   const form = e.target;
@@ -191,6 +292,7 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
           <p>Submission does not guarantee we take the deal.</p>
           <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
           <p>No daisy chains. 48hr performance only.</p>
+          <a href="/" class="exit-btn">CLOSE</a>
         </div>
       `;
     } else {
