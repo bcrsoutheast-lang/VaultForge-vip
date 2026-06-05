@@ -3,707 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge Admin</title>
+  <title>Deal Control Center - VaultForge</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: #000;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      padding: 20px;
-    }
-  .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      background: #0a0a0a;
-      border: 2px solid #D4AF37;
-      border-radius: 8px;
-      padding: 30px;
-    }
-  .hidden { display: none; }
-  .logo { display: block; margin: 0 auto 20px auto; max-width: 120px; }
-    h1 { color: #D4AF37; text-align: center; margin-bottom: 20px; font-size: 24px; letter-spacing: 1px; }
-    h2 { color: #D4AF37; font-size: 18px; margin: 30px 0 15px 0; border-bottom: 1px solid #333; padding-bottom: 8px; }
-    h3 { color: #D4AF37; margin-bottom: 15px; font-size: 16px; }
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 4px;
-      color: #fff;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: #D4AF37; }
-    button {
-      padding: 12px 20px;
-      background: #D4AF37;
-      color: #000;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      text-transform: uppercase;
-    }
-    button:hover { background: #e5c158; }
-  .btn-secondary { background: #333; color: #D4AF37; }
-  .btn-secondary:hover { background: #444; }
-  .btn-danger { background: #ff4444; color: #fff; }
-  .btn-danger:hover { background: #ff6666; }
-  .btn-small { padding: 6px 12px; font-size: 12px; }
-  .button-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-  .button-row button { flex: 1; min-width: 120px; }
-    
-    /* State Cards */
-  .states-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin: 20px 0;
-    }
-  .state-card {
-      background: #111;
-      border: 2px solid #333;
-      border-radius: 8px;
-      padding: 20px 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
-    }
-  .state-card:hover { border-color: #D4AF37; background: #1a1a1a; }
-  .state-card.active { border-color: #D4AF37; background: #1a1a1a; }
-  .state-card.pulse {
-      border-color: #D4AF37;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-      50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-    }
-  .state-name { color: #D4AF37; font-weight: bold; font-size: 16px; margin-bottom: 8px; }
-  .state-count { color: #aaa; font-size: 13px; }
-  .state-badge {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #ff4444;
-      color: #fff;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: bold;
-    }
-    
-    /* Buyer List */
-  .buyer-list {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 20px;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-  .buyer-item {
-      background: #0a0a0a;
-      border: 1px solid #222;
-      border-radius: 4px;
-      padding: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  .buyer-info { flex: 1; }
-  .buyer-name { color: #D4AF37; font-weight: bold; font-size: 14px; }
-  .buyer-meta { color: #aaa; font-size: 12px; margin-top: 4px; }
-  .buyer-actions { display: flex; gap: 6px; }
-    
-    /* Deal Pipeline */
-  .pipeline {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin: 20px 0;
-    }
-  .pipeline-col {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 15px;
-      min-height: 200px;
-    }
-  .pipeline-col h4 { color: #D4AF37; font-size: 14px; margin-bottom: 12px; text-align: center; }
-  .deal-card {
-      background: #0a0a0a;
-      border: 1px solid #222;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
-  .deal-address { color: #D4AF37; font-weight: bold; margin-bottom: 6px; }
-  .deal-price { color: #fff; margin-bottom: 8px; }
-  .deal-meta { color: #888; font-size: 11px; margin-bottom: 8px; }
-  .deal-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-  .deal-actions button { padding: 4px 8px; font-size: 10px; }
-    
-    /* Blast Builder */
-  .blast-builder {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 20px;
-      margin: 20px 0;
-    }
-  .mode-toggle {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-  .mode-btn {
-      flex: 1;
-      padding: 12px;
-      background: #111;
-      border: 2px solid #333;
-      color: #aaa;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  .mode-btn.active {
-      background: #D4AF37;
-      border-color: #D4AF37;
-      color: #000;
-    }
-  .blast-template {
-      background: #000;
-      border: 1px solid #D4AF37;
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 15px;
-    }
-  .copy-alert {
-      background: #D4AF37;
-      color: #000;
-      padding: 10px;
-      border-radius: 4px;
-      text-align: center;
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 13px;
-    }
-    
-    /* Tools */
-  .tools-row {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    }
-  .tools-row button { flex: 1; min-width: 150px; }
-    
-    /* Modal */
-  .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-  .modal-content {
-      background: #0a0a0a;
-      border: 2px solid #D4AF37;
-      border-radius: 8px;
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-  .modal-close {
-      float: right;
-      background: #333;
-      color: #fff;
-      border: none;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-    }
-  .loading { text-align: center; color: #D4AF37; padding: 40px; }
+    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
+    .container { max-width: 1200px; margin: 20px auto; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 30px; font-size: 28px; letter-spacing: 1px; }
+    .section { background: #0a0a0a; border: 2px solid #D4AF37; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
+    .section h2 { color: #D4AF37; font-size: 20px; margin-bottom: 15px; }
+    .pipeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+    .pipeline-col { background: #111; border: 1px solid #333; border-radius: 6px; padding: 15px; min-height: 200px; }
+    .pipeline-col h3 { color: #D4AF37; font-size: 16px; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+    .deal-card { background: #1a1a1a; border: 1px solid #444; border-radius: 4px; padding: 10px; margin-bottom: 10px; cursor: pointer; }
+    .deal-card:hover { border-color: #D4AF37; }
+    .deal-addr { color: #D4AF37; font-weight: bold; font-size: 14px; }
+    .deal-price { color: #fff; font-size: 13px; }
+    .deal-meta { color: #888; font-size: 11px; margin-top: 4px; }
+    .state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .state-card { background: #111; border: 2px solid #333; border-radius: 6px; padding: 15px; text-align: center; cursor: pointer; }
+    .state-card:hover { border-color: #D4AF37; }
+    .state-name { color: #D4AF37; font-weight: bold; font-size: 14px; }
+    .buyer-count { color: #aaa; font-size: 12px; margin-top: 5px; }
+    .hidden { display: none; }
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-content { background: #0a0a0a; border: 2px solid #D4AF37; border-radius: 8px; padding: 30px; max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #888; font-size: 24px; cursor: pointer; }
+    .modal h3 { color: #D4AF37; margin-bottom: 15px; }
+    .buyer-list { max-height: 300px; overflow-y: auto; border: 1px solid #333; border-radius: 4px; padding: 10px; }
+    .buyer-item { padding: 8px; border-bottom: 1px solid #222; font-size: 13px; }
+    .buyer-item:last-child { border-bottom: none; }
+    .btn { padding: 12px 20px; background: #D4AF37; color: #000; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+    .btn:hover { background: #e5c158; }
+    textarea { width: 100%; min-height: 200px; background: #111; border: 1px solid #333; border-radius: 4px; color: #fff; padding: 12px; font-family: monospace; font-size: 13px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
     <h1>DEAL CONTROL CENTER</h1>
-    <div id="loading" class="loading">LOADING DEALS FROM DATABASE...</div>
     
-    <div id="main-content" class="hidden">
-      <!-- STATE CARDS -->
-      <h2>BUYER COVERAGE BY STATE</h2>
-      <div class="states-grid" id="states-grid"></div>
-      
-      <!-- BUYER LIST -->
-      <div id="buyer-list-container" class="hidden">
-        <h2 id="selected-state-title">SELECT A STATE</h2>
-        <div class="buyer-list" id="buyer-list"></div>
-      </div>
-      
-      <!-- DEAL PIPELINE -->
-      <h2>DEAL PIPELINE - LIVE FROM DATABASE</h2>
+    <div class="section">
+      <h2>DEAL PIPELINE</h2>
       <div class="pipeline">
         <div class="pipeline-col">
-          <h4>ACTIVE (<span id="active-count">0</span>)</h4>
+          <h3>ACTIVE</h3>
           <div id="active-deals"></div>
         </div>
         <div class="pipeline-col">
-          <h4>CLAIMED (<span id="claimed-count">0</span>)</h4>
+          <h3>CLAIMED</h3>
           <div id="claimed-deals"></div>
         </div>
         <div class="pipeline-col">
-          <h4>CLOSED/DEAD (<span id="closed-count">0</span>)</h4>
+          <h3>CLOSED</h3>
           <div id="closed-deals"></div>
         </div>
       </div>
-      
-      <!-- BLAST BUILDER -->
-      <h2>DEAL BLAST BUILDER</h2>
-      <div class="blast-builder">
-        <div class="mode-toggle">
-          <button class="mode-btn active" onclick="setMode('blast')">BLAST MODE</button>
-          <button class="mode-btn" onclick="setMode('single')">SINGLE EMAIL</button>
-        </div>
-        
-        <input type="text" id="deal-address" placeholder="Property Address">
-        <input type="text" id="deal-city" placeholder="City, State">
-        <input type="text" id="deal-price" placeholder="Asking Price">
-        <input type="text" id="deal-arv" placeholder="ARV">
-        <input type="text" id="deal-repairs" placeholder="Repairs">
-        <input type="text" id="deal-type" placeholder="Property Type">
-        <input type="text" id="deal-access" placeholder="Access Info">
-        <input type="text" id="deal-expires" placeholder="Contract Expires">
-        <textarea id="deal-notes" rows="3" placeholder="Seller notes, motivation, etc"></textarea>
-        
-        <div id="single-email-field" class="hidden">
-          <input type="email" id="buyer-email" placeholder="Buyer Email - Send to 1 buyer only">
-          <input type="tel" id="buyer-phone" placeholder="Buyer Phone - For SMS">
-        </div>
-        
-        <button onclick="generateBlast()">GENERATE DEAL EMAIL</button>
-        <div id="blast-output"></div>
-      </div>
-      
-      <!-- TOOLS -->
-      <h2>TOOLS</h2>
-      <div class="tools-row">
-        <button onclick="showAddBuyerModal()">+ ADD BUYER</button>
-        <button onclick="exportBuyers()" class="btn-secondary">EXPORT BUYERS</button>
-        <button onclick="document.getElementById('import-file').click()" class="btn-secondary">IMPORT BUYERS</button>
-        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBuyers(event)">
-        <button onclick="refreshDeals()">🔄 REFRESH DEALS</button>
-      </div>
-      
-      <div style="text-align:center;margin-top:40px;font-size:11px;color:#666;">
-        VaultForge Admin v4.0 | Connected to vault-forge-deals DB | Real-time sync
-      </div>
+    </div>
+
+    <div class="section">
+      <h2>BUYER NETWORK BY STATE</h2>
+      <div class="state-grid" id="state-grid"></div>
     </div>
   </div>
 
-  <!-- ADD BUYER MODAL -->
-  <div id="add-buyer-modal" class="modal hidden">
+  <div id="deal-modal" class="modal hidden">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('add-buyer-modal')">×</button>
-      <h3>ADD NEW BUYER</h3>
-      <input type="text" id="new-buyer-name" placeholder="Full Name">
-      <input type="email" id="new-buyer-email" placeholder="Email">
-      <input type="tel" id="new-buyer-phone" placeholder="Phone">
-      <input type="text" id="new-buyer-states" placeholder="States: GA, TN, AL, FL, NC, SC, TX">
-      <label style="margin-top:15px;color:#D4AF37;font-size:14px;">Property Types:</label>
-      <div style="display:flex;gap:10px;margin:10px 0;">
-        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-res"> Residential</label>
-        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-com"> Commercial</label>
-        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-land"> Land</label>
-      </div>
-      <input type="number" id="new-buyer-budget" placeholder="Max Budget">
-      <button onclick="saveBuyer()">SAVE BUYER</button>
+      <button class="modal-close" onclick="closeModal('deal-modal')">×</button>
+      <div id="deal-modal-body"></div>
+    </div>
+  </div>
+
+  <div id="buyer-modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('buyer-modal')">×</button>
+      <h3 id="buyer-modal-title"></h3>
+      <div class="buyer-list" id="buyer-list"></div>
     </div>
   </div>
 
 <script>
-let currentMode = 'blast';
-let selectedState = null;
-let buyers = JSON.parse(localStorage.getItem('vf_buyers') || '[]');
-let deals = [];
+let allDeals = [];
+let allBuyers = [];
+const STATES = ['GEORGIA','TENNESSEE','ALABAMA','FLORIDA','NORTH CAROLINA','SOUTH CAROLINA','TEXAS'];
 
-const STATES = ['GEORGIA', 'TENNESSEE', 'ALABAMA', 'FLORIDA', 'NORTH CAROLINA', 'SOUTH CAROLINA', 'TEXAS'];
-
-// INIT - Load deals from database
-init();
-
-async function init() {
-  await loadDealsFromDB();
-  renderStates();
-  renderDeals();
-  document.getElementById('loading').classList.add('hidden');
-  document.getElementById('main-content').classList.remove('hidden');
-}
-
-// LOAD DEALS FROM VAULT-FORGE-DEALS DATABASE
-async function loadDealsFromDB() {
-  try {
-    const res = await fetch('/api/get-deals');
-    if (res.ok) {
-      deals = await res.json();
-    } else {
-      console.error('Failed to load deals');
-      deals = [];
-    }
-  } catch (e) {
-    console.error('DB connection error:', e);
-    deals = [];
-  }
-}
-
-// REFRESH DEALS
-async function refreshDeals() {
-  document.getElementById('loading').classList.remove('hidden');
-  document.getElementById('main-content').classList.add('hidden');
-  await loadDealsFromDB();
+async function loadData() {
+  const [dealsRes, buyersRes] = await Promise.all([
+    fetch('/api/get-deals').then(r => r.json()),
+    fetch('/api/get-buyers').then(r => r.json())
+  ]);
+  allDeals = dealsRes || [];
+  allBuyers = buyersRes || [];
   renderDeals();
   renderStates();
-  document.getElementById('loading').classList.add('hidden');
-  document.getElementById('main-content').classList.remove('hidden');
 }
 
-// RENDER STATE CARDS
+function renderDeals() {
+  const cols = { new: 'active-deals', claimed: 'claimed-deals', closed: 'closed-deals' };
+  Object.values(cols).forEach(id => document.getElementById(id).innerHTML = '');
+  allDeals.forEach(deal => {
+    const col = cols[deal.status] || 'active-deals';
+    const card = document.createElement('div');
+    card.className = 'deal-card';
+    card.innerHTML = `
+      <div class="deal-addr">${deal.property_address}</div>
+      <div class="deal-price">$${parseInt(deal.asking_price).toLocaleString()}</div>
+      <div class="deal-meta">${deal.city_state}</div>
+    `;
+    card.onclick = () => openDealModal(deal);
+    document.getElementById(col).appendChild(card);
+  });
+}
+
 function renderStates() {
-  const grid = document.getElementById('states-grid');
+  const grid = document.getElementById('state-grid');
   grid.innerHTML = '';
-  
   STATES.forEach(state => {
-    const stateBuyers = buyers.filter(b => b.states.includes(state));
-    const newDeals = deals.filter(d => d.status === 'new' || d.status === 'active').filter(d => {
-      const dealState = d.city_state ? d.city_state.split(',').pop().trim().toUpperCase() : d.state;
-      return dealState === state;
-    }).length;
-    
+    const count = allBuyers.filter(b => b.target_states && b.target_states.includes(state)).length;
     const card = document.createElement('div');
     card.className = 'state-card';
-    if (newDeals > 0) card.classList.add('pulse');
-    if (selectedState === state) card.classList.add('active');
-    
-    card.innerHTML = `
-      ${newDeals > 0? `<div class="state-badge">${newDeals}</div>` : ''}
-      <div class="state-name">${state}</div>
-      <div class="state-count">${stateBuyers.length} Buyers</div>
-    `;
-    card.onclick = () => selectState(state);
+    card.innerHTML = `<div class="state-name">${state}</div><div class="buyer-count">${count} Buyers</div>`;
+    card.onclick = () => openBuyerModal(state);
     grid.appendChild(card);
   });
 }
 
-// SELECT STATE
-function selectState(state) {
-  selectedState = state;
-  renderStates();
-  renderBuyerList();
-  document.getElementById('buyer-list-container').classList.remove('hidden');
-  document.getElementById('selected-state-title').textContent = `${state} - ${buyers.filter(b => b.states.includes(state)).length} BUYERS`;
+function openDealModal(deal) {
+  const buyersInState = allBuyers.filter(b => b.target_states && b.target_states.includes(deal.city_state.split(',')[1]?.trim().toUpperCase()));
+  document.getElementById('deal-modal-body').innerHTML = `
+    <h3>${deal.property_address}</h3>
+    <p><strong>Asking:</strong> $${parseInt(deal.asking_price).toLocaleString()}</p>
+    <p><strong>City:</strong> ${deal.city_state}</p>
+    <p><strong>Type:</strong> ${deal.property_types}</p>
+    <p><strong>Seller:</strong> ${deal.full_name} - ${deal.phone}</p>
+    <p><strong>Buyers in this state:</strong> ${buyersInState.length}</p>
+    <textarea id="blast-text">SUBJECT: OFF-MARKET DEAL - ${deal.city_state} - $${parseInt(deal.asking_price).toLocaleString()}
+
+${deal.property_types} Deal Available
+
+Address: ${deal.property_address}
+Asking: $${parseInt(deal.asking_price).toLocaleString()}
+Type: ${deal.deal_type}
+
+Reply CLAIM + Your Name to lock it in.
+First response wins. 48hr performance.
+
+-VaultForge
+</textarea>
+    <button class="btn" onclick="copyBlast()">COPY BLAST EMAIL</button>
+    <button class="btn" onclick="updateStatus('${deal.id}','claimed')">MARK CLAIMED</button>
+    <button class="btn" onclick="updateStatus('${deal.id}','closed')">MARK CLOSED</button>
+  `;
+  document.getElementById('deal-modal').classList.remove('hidden');
 }
 
-// RENDER BUYER LIST
-function renderBuyerList() {
-  if (!selectedState) return;
-  const list = document.getElementById('buyer-list');
-  const stateBuyers = buyers.filter(b => b.states.includes(selectedState));
-  
-  if (stateBuyers.length === 0) {
-    list.innerHTML = '<p style="text-align:center;color:#666;padding:20px;">No buyers in this state yet. Click + ADD BUYER.</p>';
-    return;
-  }
-  
-  list.innerHTML = stateBuyers.map(b => `
+function openBuyerModal(state) {
+  const buyers = allBuyers.filter(b => b.target_states && b.target_states.includes(state));
+  document.getElementById('buyer-modal-title').textContent = `${state} - ${buyers.length} Buyers`;
+  document.getElementById('buyer-list').innerHTML = buyers.map(b => `
     <div class="buyer-item">
-      <div class="buyer-info">
-        <div class="buyer-name">${b.name}</div>
-        <div class="buyer-meta">${b.types.join(' + ')} | Up to $${b.budget.toLocaleString()}</div>
-        <div class="buyer-meta">${b.email} | ${b.phone || 'No phone'}</div>
-      </div>
-      <div class="buyer-actions">
-        <button class="btn-small" onclick="emailBuyer('${b.email}')">EMAIL</button>
-        ${b.phone? `<button class="btn-small btn-secondary" onclick="smsBuyer('${b.phone}')">SMS</button>` : ''}
-        <button class="btn-small btn-danger" onclick="deleteBuyer('${b.id}')">DEL</button>
-      </div>
+      <strong>${b.full_name}</strong><br>
+      ${b.email} | ${b.phone}<br>
+      Max: $${parseInt(b.max_price_res||0).toLocaleString()} Res / $${parseInt(b.max_price_com||0).toLocaleString()} Com
     </div>
   `).join('');
-}
-
-// ADD BUYER
-function showAddBuyerModal() {
-  document.getElementById('add-buyer-modal').classList.remove('hidden');
+  document.getElementById('buyer-modal').classList.remove('hidden');
 }
 
 function closeModal(id) {
   document.getElementById(id).classList.add('hidden');
 }
 
-function saveBuyer() {
-  const name = document.getElementById('new-buyer-name').value;
-  const email = document.getElementById('new-buyer-email').value;
-  const phone = document.getElementById('new-buyer-phone').value;
-  const states = document.getElementById('new-buyer-states').value.split(',').map(s => s.trim().toUpperCase());
-  const types = [];
-  if (document.getElementById('new-buyer-res').checked) types.push('Residential');
-  if (document.getElementById('new-buyer-com').checked) types.push('Commercial');
-  if (document.getElementById('new-buyer-land').checked) types.push('Land');
-  const budget = parseInt(document.getElementById('new-buyer-budget').value) || 0;
-  
-  if (!name ||!email || states.length === 0 || types.length === 0) {
-    alert('Name, Email, States, and Property Types required');
-    return;
-  }
-  
-  buyers.push({
-    id: Date.now().toString(),
-    name, email, phone, states, types, budget
-  });
-  
-  localStorage.setItem('vf_buyers', JSON.stringify(buyers));
-  closeModal('add-buyer-modal');
-  renderStates();
-  if (selectedState) renderBuyerList();
-  
-  // Clear form
-  document.getElementById('new-buyer-name').value = '';
-  document.getElementById('new-buyer-email').value = '';
-  document.getElementById('new-buyer-phone').value = '';
-  document.getElementById('new-buyer-states').value = '';
-  document.getElementById('new-buyer-budget').value = '';
-}
-
-// DELETE BUYER
-function deleteBuyer(id) {
-  if (!confirm('Delete this buyer?')) return;
-  buyers = buyers.filter(b => b.id!== id);
-  localStorage.setItem('vf_buyers', JSON.stringify(buyers));
-  renderStates();
-  renderBuyerList();
-}
-
-// EMAIL/SMS BUYER
-function emailBuyer(email) {
-  window.location.href = `mailto:${email}`;
-}
-
-function smsBuyer(phone) {
-  window.location.href = `sms:${phone}`;
-}
-
-// EXPORT/IMPORT
-function exportBuyers() {
-  const data = JSON.stringify(buyers, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `vaultforge-buyers-${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-}
-
-function importBuyers(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const imported = JSON.parse(e.target.result);
-      buyers = imported;
-      localStorage.setItem('vf_buyers', JSON.stringify(buyers));
-      renderStates();
-      alert(`Imported ${buyers.length} buyers`);
-    } catch (err) {
-      alert('Invalid file');
-    }
-  };
-  reader.readAsText(file);
-}
-
-// DEAL MANAGEMENT - NOW UPDATES DATABASE
-function renderDeals() {
-  const active = deals.filter(d => d.status === 'new' || d.status === 'active');
-  const claimed = deals.filter(d => d.status === 'claimed');
-  const closed = deals.filter(d => d.status === 'closed' || d.status === 'dead');
-  
-  document.getElementById('active-count').textContent = active.length;
-  document.getElementById('claimed-count').textContent = claimed.length;
-  document.getElementById('closed-count').textContent = closed.length;
-  
-  document.getElementById('active-deals').innerHTML = active.map(d => `
-    <div class="deal-card">
-      <div class="deal-address">${d.property_address || d.address}</div>
-      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.city_state || d.city || ''}</div>
-      <div class="deal-meta">Seller: ${d.full_name || 'Unknown'} | ${new Date(d.submitted_at).toLocaleDateString()}</div>
-      <div class="deal-actions">
-        <button class="btn-small" onclick="markDeal('${d.id}', 'claimed')">CLAIM</button>
-        <button class="btn-small btn-secondary" onclick="markDeal('${d.id}', 'dead')">DEAD</button>
-        <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
-      </div>
-    </div>
-  `).join('') || '<p style="color:#666;text-align:center;font-size:12px;">No active deals</p>';
-  
-  document.getElementById('claimed-deals').innerHTML = claimed.map(d => `
-    <div class="deal-card">
-      <div class="deal-address">${d.property_address || d.address}</div>
-      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.city_state || d.city || ''}</div>
-      <div class="deal-meta">Seller: ${d.full_name || 'Unknown'}</div>
-      <div class="deal-actions">
-        <button class="btn-small" onclick="markDeal('${d.id}', 'closed')">CLOSED</button>
-        <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
-      </div>
-    </div>
-  `).join('') || '<p style="color:#666;text-align:center;font-size:12px;">No claimed deals</p>';
-  
-  document.getElementById('closed-deals').innerHTML = closed.map(d => `
-    <div class="deal-card">
-      <div class="deal-address">${d.property_address || d.address}</div>
-      <div class="deal-price">$${parseInt(d.asking_price || 0).toLocaleString()} | ${d.status.toUpperCase()}</div>
-      <div class="deal-actions">
-        <button class="btn-small btn-danger" onclick="deleteDeal('${d.id}')">DEL</button>
-      </div>
-    </div>
-  `).join('') || '<p style="color:#666;text-align:center;font-size:12px;">No closed deals</p>';
-}
-
-async function markDeal(id, status) {
-  try {
-    await fetch('/api/update-deal', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, status })
-    });
-    await refreshDeals();
-  } catch (e) {
-    alert('Failed to update deal');
-  }
-}
-
-async function deleteDeal(id) {
-  if (!confirm('Permanently delete this deal from database?')) return;
-  try {
-    await fetch('/api/delete-deal', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    });
-    await refreshDeals();
-  } catch (e) {
-    alert('Failed to delete deal');
-  }
-}
-
-// BLAST BUILDER
-function setMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  
-  if (mode === 'single') {
-    document.getElementById('single-email-field').classList.remove('hidden');
-  } else {
-    document.getElementById('single-email-field').classList.add('hidden');
-  }
-}
-
-function generateBlast() {
-  const address = document.getElementById('deal-address').value;
-  const city = document.getElementById('deal-city').value;
-  const price = document.getElementById('deal-price').value;
-  const arv = document.getElementById('deal-arv').value;
-  const repairs = document.getElementById('deal-repairs').value;
-  const type = document.getElementById('deal-type').value;
-  const access = document.getElementById('deal-access').value;
-  const expires = document.getElementById('deal-expires').value;
-  const notes = document.getElementById('deal-notes').value;
-  const buyerEmail = document.getElementById('buyer-email').value;
-  const buyerPhone = document.getElementById('buyer-phone').value;
-
-  if (!address ||!price) {
-    alert('Address and Price required');
-    return;
-  }
-
-  if (currentMode === 'single' &&!buyerEmail) {
-    alert('Enter buyer email for Single Email mode');
-    return;
-  }
-
-  const subject = currentMode === 'single' 
-  ? `Private Deal: ${address} - ${price}` 
-    : `🔥 VAULTFORGE DEAL ALERT: ${address} - ${price}`;
-
-  const blastText = `${currentMode === 'blast'? '🔥 VAULTFORGE PRIVATE DEAL ALERT 🔥\n\n' : 'Private Off-Market Deal\n\n'}${address}
-${city}
-
-💰 Asking: ${price}
-📊 ARV: ${arv || 'TBD'}
-🔧 Repairs: ${repairs || 'TBD'}
-🏠 Type: ${type || 'Residential'}
-🔑 Access: ${access || 'Contact for details'}
-⏰ Contract Expires: ${expires || 'ASAP'}
-
-${currentMode === 'blast'? '48HR CLAIM WINDOW. First qualified buyer with EMD gets it.' : 'You have first look. 48hrs to claim before we open to network.'}
-
-${notes? 'Notes: ' + notes + '\n\n' : ''}Reply CLAIM + your LLC to lock it in.
-
-VaultForge Private Network
-Direct to Seller. No Daisy Chains.
-
----
-VaultForge network fee = 1% of purchase price, paid by buyer at close.
-EMD per title company requirements due within 24hrs of CLAIM.`;
-
-  const mailtoLink = `mailto:${buyerEmail || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(blastText)}`;
-  const smsLink = buyerPhone? `sms:${buyerPhone}?body=${encodeURIComponent(blastText.substring(0, 160))}` : '';
-
-  document.getElementById('blast-output').innerHTML = `
-    <div class="blast-template">
-      <h3>📧 ${currentMode === 'single'? 'SINGLE EMAIL READY' : 'BLAST EMAIL READY'}</h3>
-      <p style="color:#aaa;margin-bottom:10px;font-size:13px;">Subject: ${subject}</p>
-      <textarea id="blast-text" rows="18" style="width:100%;background:#000;border:1px solid #333;color:#fff;padding:15px;font-family:monospace;font-size:12px;">${blastText}</textarea>
-      <div class="button-row">
-        <button onclick="copyBlast()">COPY TEXT</button>
-        <button onclick="window.location.href='${mailtoLink}'" class="btn-secondary">OPEN EMAIL</button>
-        ${smsLink? `<button onclick="window.location.href='${smsLink}'" class="btn-secondary">OPEN SMS</button>` : ''}
-      </div>
-      <div id="copy-alert" class="copy-alert hidden">✓ COPIED!</div>
-    </div>
-  `;
-}
-
 function copyBlast() {
-  const text = document.getElementById('blast-text');
-  text.select();
-  document.execCommand('copy');
-  document.getElementById('copy-alert').classList.remove('hidden');
-  setTimeout(() => {
-    document.getElementById('copy-alert').classList.add('hidden');
-  }, 2000);
+  const text = document.getElementById('blast-text').value;
+  navigator.clipboard.writeText(text);
+  alert('Blast copied to clipboard');
 }
+
+async function updateStatus(id, status) {
+  await fetch('/api/update-deal', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, status })
+  });
+  closeModal('deal-modal');
+  loadData();
+}
+
+loadData();
 </script>
 </body>
 </html>
