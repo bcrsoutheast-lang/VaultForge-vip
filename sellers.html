@@ -120,7 +120,7 @@
     button:hover { background: #e5c158; }
     button:disabled { background: #555; cursor: not-allowed; }
     .footer { text-align: center; font-size: 11px; color: #666; margin-top: 25px; line-height: 1.6; }
-    .success-msg { text-align: center; padding: 40px 20px; }
+    .success-msg { text-align: center; padding: 20px; }
     .success-msg img { max-width: 120px; margin: 0 auto 20px auto; display: block; }
     .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
     .success-msg p { color: #ccc; font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
@@ -137,6 +137,42 @@
       font-weight: bold;
     }
     .exit-btn:hover { background: #222; }
+    .analysis-box {
+      background: #0d0d0d;
+      border: 2px solid #D4AF37;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .analysis-box h3 {
+      color: #D4AF37;
+      font-size: 18px;
+      margin-bottom: 15px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .analysis-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #222;
+      font-size: 14px;
+    }
+    .analysis-row:last-child { border-bottom: none; }
+    .analysis-label { color: #aaa; }
+    .analysis-value { color: #D4AF37; font-weight: 600; }
+    .ai-badge {
+      background: #D4AF37;
+      color: #000;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 8px;
+      font-weight: bold;
+    }
+    .loading { text-align: center; padding: 30px; }
+    .loading-dots { color: #D4AF37; font-size: 24px; }
   </style>
 </head>
 <body>
@@ -174,10 +210,10 @@
       <input type="hidden" name="property_types" id="property_types">
 
       <label>Property Address *</label>
-      <input type="text" name="property_address" required placeholder="123 Main St">
+      <input type="text" name="property_address" id="address" required placeholder="123 Main St">
       
       <label>City, State *</label>
-      <input type="text" name="city_state" required placeholder="Atlanta, GA">
+      <input type="text" name="city_state" id="city_state" required placeholder="Atlanta, GA">
       
       <label>Deal Type *</label>
       <select name="deal_type" required>
@@ -192,14 +228,18 @@
       </select>
 
       <label>Asking Price *</label>
-      <input type="text" name="asking_price" required placeholder="$175,000">
+      <input type="number" name="asking_price" id="asking_price" required placeholder="175000">
 
       <!-- RESIDENTIAL FIELDS -->
       <div id="residential-fields" class="hidden">
-        <label>ARV + Repair Estimate</label>
-        <input type="text" name="arv_repair" placeholder="ARV $250k, Repairs $30k">
+        <label>ARV - After Repair Value</label>
+        <input type="number" name="arv" id="arv" placeholder="250000">
+        <label>Estimated Repairs</label>
+        <input type="number" name="repairs" id="repairs" placeholder="30000">
         <label>Beds / Baths</label>
         <input type="text" name="beds_baths" placeholder="3 Bed / 2 Bath">
+        <label>Square Footage</label>
+        <input type="number" name="sqft_res" id="sqft_res" placeholder="1800">
       </div>
 
       <!-- COMMERCIAL FIELDS -->
@@ -214,22 +254,22 @@
           <option>Mixed Use</option>
           <option>Other</option>
         </select>
-        <label>NOI / Cap Rate</label>
-        <input type="text" name="noi_cap" placeholder="NOI $50k, 7% Cap">
+        <label>NOI - Net Operating Income</label>
+        <input type="number" name="noi" id="noi" placeholder="50000">
         <label>Square Footage</label>
-        <input type="text" name="sqft" placeholder="10,000 SF">
+        <input type="number" name="sqft_com" id="sqft_com" placeholder="10000">
       </div>
 
       <!-- LAND FIELDS -->
       <div id="land-fields" class="hidden">
         <label>Acreage</label>
-        <input type="text" name="acreage" placeholder="5.2 Acres">
+        <input type="number" name="acreage" id="acreage" step="0.01" placeholder="5.2">
         <label>Zoning</label>
         <input type="text" name="zoning" placeholder="Residential R-1, Commercial, etc">
       </div>
 
       <label>Your Expected Spread/Fee</label>
-      <input type="text" name="expected_fee" placeholder="$10,000">
+      <input type="number" name="expected_fee" id="expected_fee" placeholder="10000">
 
       <label>Contract Expiration Date *</label>
       <input type="date" name="contract_expires" required>
@@ -256,7 +296,7 @@
       <label>Additional Details</label>
       <textarea name="message" rows="4" placeholder="Liens, occupancy, motivation, timeline, anything we should know..."></textarea>
       
-      <button type="submit" id="submit-btn">SUBMIT DEAL</button>
+      <button type="submit" id="submit-btn">SUBMIT DEAL + RUN ANALYSIS</button>
     </form>
 
     <div class="footer">
@@ -284,6 +324,92 @@ document.querySelectorAll('.type-btn').forEach(btn => {
   });
 });
 
+// Calculate AI Analysis
+function calculateAnalysis() {
+  const ask = parseFloat(document.getElementById('asking_price').value) || 0;
+  const arv = parseFloat(document.getElementById('arv').value) || 0;
+  const repairs = parseFloat(document.getElementById('repairs').value) || 0;
+  const noi = parseFloat(document.getElementById('noi').value) || 0;
+  const sqftRes = parseFloat(document.getElementById('sqft_res').value) || 0;
+  const sqftCom = parseFloat(document.getElementById('sqft_com').value) || 0;
+  const acres = parseFloat(document.getElementById('acreage').value) || 0;
+  const fee = parseFloat(document.getElementById('expected_fee').value) || 0;
+  const address = document.getElementById('address').value;
+  const city = document.getElementById('city_state').value;
+  
+  let html = '<div class="analysis-box"><h3>VAULTFORGE AI DEAL ANALYSIS <span class="ai-badge">BETA</span></h3>';
+  
+  // Universal calcs
+  if (ask > 0) {
+    html += `<div class="analysis-row"><span class="analysis-label">Asking Price</span><span class="analysis-value">$${ask.toLocaleString()}</span></div>`;
+  }
+  
+  // Residential calcs
+  if (selectedTypes.has('residential') && arv > 0) {
+    const maxAllowable = (arv * 0.70) - repairs;
+    const spread = ask - maxAllowable;
+    const profit = arv - ask - repairs - fee;
+    const roi = ask > 0 ? ((profit / ask) * 100).toFixed(1) : 0;
+    
+    html += `<div class="analysis-row"><span class="analysis-label">ARV</span><span class="analysis-value">$${arv.toLocaleString()}</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Repairs</span><span class="analysis-value">$${repairs.toLocaleString()}</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">70% Rule MAO</span><span class="analysis-value">$${maxAllowable.toLocaleString()}</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Ask vs MAO</span><span class="analysis-value" style="color:${spread > 0 ? '#ff4444' : '#44ff44'}">${spread > 0 ? '+' : ''}$${spread.toLocaleString()}</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Est. Profit After Fees</span><span class="analysis-value">$${profit.toLocaleString()}</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Projected ROI</span><span class="analysis-value">${roi}%</span></div>`;
+    
+    if (sqftRes > 0) {
+      const ppsqft = (ask / sqftRes).toFixed(0);
+      html += `<div class="analysis-row"><span class="analysis-label">Price/SqFt</span><span class="analysis-value">$${ppsqft}</span></div>`;
+    }
+  }
+  
+  // Commercial calcs
+  if (selectedTypes.has('commercial') && noi > 0 && ask > 0) {
+    const capRate = ((noi / ask) * 100).toFixed(2);
+    html += `<div class="analysis-row"><span class="analysis-label">NOI</span><span class="analysis-value">$${noi.toLocaleString()}/yr</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Cap Rate at Ask</span><span class="analysis-value">${capRate}%</span></div>`;
+    
+    if (sqftCom > 0) {
+      const ppsqft = (ask / sqftCom).toFixed(0);
+      html += `<div class="analysis-row"><span class="analysis-label">Price/SqFt</span><span class="analysis-value">$${ppsqft}</span></div>`;
+    }
+  }
+  
+  // Land calcs
+  if (selectedTypes.has('land') && acres > 0 && ask > 0) {
+    const pricePerAcre = (ask / acres).toFixed(0);
+    html += `<div class="analysis-row"><span class="analysis-label">Acreage</span><span class="analysis-value">${acres} Acres</span></div>`;
+    html += `<div class="analysis-row"><span class="analysis-label">Price/Acre</span><span class="analysis-value">$${parseInt(pricePerAcre).toLocaleString()}</span></div>`;
+  }
+  
+  // Deal score
+  let score = 50;
+  if (selectedTypes.has('residential') && arv > 0) {
+    const maxAllowable = (arv * 0.70) - repairs;
+    if (ask <= maxAllowable) score += 30;
+    else if (ask <= maxAllowable * 1.1) score += 15;
+    else score -= 20;
+  }
+  if (selectedTypes.has('commercial') && noi > 0 && ask > 0) {
+    const capRate = (noi / ask) * 100;
+    if (capRate >= 8) score += 30;
+    else if (capRate >= 6) score += 15;
+    else score -= 10;
+  }
+  
+  let grade = 'C';
+  let gradeColor = '#ffaa00';
+  if (score >= 80) { grade = 'A'; gradeColor = '#44ff44'; }
+  else if (score >= 65) { grade = 'B'; gradeColor = '#aaff44'; }
+  else if (score < 40) { grade = 'D'; gradeColor = '#ff4444'; }
+  
+  html += `<div class="analysis-row" style="margin-top:10px;padding-top:10px;border-top:2px solid #D4AF37;"><span class="analysis-label">VaultForge Deal Score</span><span class="analysis-value" style="color:${gradeColor};font-size:18px">${grade}</span></div>`;
+  html += '</div>';
+  
+  return html;
+}
+
 // Form Submit
 document.getElementById('seller-form').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -294,36 +420,42 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
   const form = e.target;
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
-  btn.textContent = 'SUBMITTING...';
+  btn.textContent = 'ANALYZING DEAL...';
   
-  fetch(form.action, {
-    method: 'POST',
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
-  }).then(response => {
-    if (response.ok) {
-      document.getElementById('form-container').innerHTML = `
-        <div class="success-msg">
-          <img src="IMG_4751.png" alt="VaultForge Logo">
-          <h1>DEAL RECEIVED</h1>
-          <p class="gold">We have private buyers with funds ready to go.</p>
-          <p>Your deal is under review.</p>
-          <p>Submission does not guarantee we take the deal.</p>
-          <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
-          <p>No daisy chains. 48hr performance only.</p>
-          <a href="/" class="exit-btn">CLOSE</a>
-        </div>
-      `;
-    } else {
-      alert('Error submitting. Please try again or refresh the page.');
+  // Show loading + analysis
+  setTimeout(() => {
+    const analysisHTML = calculateAnalysis();
+    
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        document.getElementById('form-container').innerHTML = `
+          <div class="success-msg">
+            <img src="IMG_4751.png" alt="VaultForge Logo">
+            <h1>DEAL RECEIVED</h1>
+            ${analysisHTML}
+            <p class="gold">We have private buyers with funds ready to go.</p>
+            <p>Your deal is under review by our acquisitions team.</p>
+            <p>Submission does not guarantee we take the deal.</p>
+            <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
+            <p>No daisy chains. 48hr performance only.</p>
+            <a href="/" class="exit-btn">CLOSE</a>
+          </div>
+        `;
+      } else {
+        alert('Error submitting. Please try again or refresh the page.');
+        btn.disabled = false;
+        btn.textContent = 'SUBMIT DEAL + RUN ANALYSIS';
+      }
+    }).catch(error => {
+      alert('Network error. Check connection and try again.');
       btn.disabled = false;
-      btn.textContent = 'SUBMIT DEAL';
-    }
-  }).catch(error => {
-    alert('Network error. Check connection and try again.');
-    btn.disabled = false;
-    btn.textContent = 'SUBMIT DEAL';
-  });
+      btn.textContent = 'SUBMIT DEAL + RUN ANALYSIS';
+    });
+  }, 1500); // 1.5s fake "AI thinking" for effect
 });
 </script>
 </body>
