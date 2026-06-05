@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultForge Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    .login-container, .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #0a0a0a;
+      border: 2px solid #D4AF37;
+      border-radius: 8px;
+      padding: 30px;
+    }
+    .hidden { display: none; }
+    .logo { display: block; margin: 0 auto 20px auto; max-width: 120px; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 20px; font-size: 24px; }
+    h3 { color: #D4AF37; margin-bottom: 15px; font-size: 18px; }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #D4AF37; }
+    button {
+      padding: 12px 20px;
+      background: #D4AF37;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    button:hover { background: #e5c158; }
+    .btn-secondary { background: #333; color: #D4AF37; }
+    .btn-secondary:hover { background: #444; }
+    .button-row { display: flex; gap: 10px; margin-top: 15px; }
+    .button-row button { flex: 1; }
+    .blast-template {
+      background: #111;
+      border: 1px solid #D4AF37;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .copy-alert {
+      background: #D4AF37;
+      color: #000;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .mode-toggle {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      background: #111;
+      border: 2px solid #333;
+      color: #aaa;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: #D4AF37;
+      border-color: #D4AF37;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN SCREEN -->
+  <div class="login-container" id="login-screen">
+    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
+    <h1>VAULTFORGE ADMIN</h1>
+    <input type="password" id="password" placeholder="Enter Access Code">
+    <button onclick="checkPassword()">ENTER</button>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div class="container hidden" id="admin-screen">
+    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
+    <h1>DEAL BLAST CENTER</h1>
+    
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="setMode('blast')">BLAST MODE</button>
+      <button class="mode-btn" onclick="setMode('single')">SINGLE EMAIL</button>
+    </div>
+
+    <!-- DEAL BUILDER -->
+    <div style="background:#111;padding:20px;border-radius:6px;margin-bottom:30px;">
+      <h3>DEAL DETAILS</h3>
+      <input type="text" id="input-address" placeholder="Property Address">
+      <input type="text" id="input-city" placeholder="City, State">
+      <input type="text" id="input-price" placeholder="Asking Price">
+      <input type="text" id="input-arv" placeholder="ARV">
+      <input type="text" id="input-repairs" placeholder="Repairs">
+      <input type="text" id="input-type" placeholder="Property Type">
+      <input type="text" id="input-access" placeholder="Access Info">
+      <input type="text" id="input-expires" placeholder="Contract Expires">
+      <textarea id="input-notes" rows="3" placeholder="Seller notes, motivation, etc"></textarea>
+      
+      <!-- SINGLE EMAIL FIELD -->
+      <div id="single-email-field" class="hidden">
+        <input type="email" id="buyer-email" placeholder="Buyer Email - Send to 1 buyer only">
+      </div>
+
+      <button onclick="generateBlast()">GENERATE DEAL EMAIL</button>
+    </div>
+
+    <!-- BLAST OUTPUT -->
+    <div id="blast-output" class="hidden"></div>
+
+    <div style="text-align:center;margin-top:40px;font-size:12px;color:#666;">
+      VaultForge Admin v2.0 | Single Email + Blast Mode
+    </div>
+  </div>
+
+<script>
+const ADMIN_PASS = "vault2026";
+let currentMode = 'blast';
+
+function checkPassword() {
+  const pass = document.getElementById('password').value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('admin-screen').classList.remove('hidden');
+  } else {
+    alert('Invalid code');
+  }
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (mode === 'single') {
+    document.getElementById('single-email-field').classList.remove('hidden');
+  } else {
+    document.getElementById('single-email-field').classList.add('hidden');
+  }
+}
+
+function generateBlast() {
+  const address = document.getElementById('input-address').value;
+  const city = document.getElementById('input-city').value;
+  const price = document.getElementById('input-price').value;
+  const arv = document.getElementById('input-arv').value;
+  const repairs = document.getElementById('input-repairs').value;
+  const type = document.getElementById('input-type').value;
+  const access = document.getElementById('input-access').value;
+  const expires = document.getElementById('input-expires').value;
+  const notes = document.getElementById('input-notes').value;
+  const buyerEmail = document.getElementById('buyer-email').value;
+
+  if (!address || !price) {
+    alert('Address and Price required');
+    return;
+  }
+
+  if (currentMode === 'single' && !buyerEmail) {
+    alert('Enter buyer email for Single Email mode');
+    return;
+  }
+
+  const subject = currentMode === 'single' 
+    ? `Private Deal: ${address} - ${price}` 
+    : `🔥 VAULTFORGE DEAL ALERT: ${address} - ${price}`;
+
+  const blastText = `${currentMode === 'blast' ? '🔥 VAULTFORGE PRIVATE DEAL ALERT 🔥\n\n' : 'Private Off-Market Deal\n\n'}${address}
+${city}
+
+💰 Asking: ${price}
+📊 ARV: ${arv || 'TBD'}
+🔧 Repairs: ${repairs || 'TBD'}
+🏠 Type: ${type || 'Residential'}
+🔑 Access: ${access || 'Contact for details'}
+⏰ Contract Expires: ${expires || 'ASAP'}
+
+${currentMode === 'blast' ? '48HR CLAIM WINDOW. First qualified buyer with EMD gets it.' : 'You have first look. 48hrs to claim before we open to network.'}
+
+${notes ? 'Notes: ' + notes + '\n\n' : ''}Reply CLAIM + your LLC to lock it in.
+
+VaultForge Private Network
+Direct to Seller. No Daisy Chains.
+
+---
+VaultForge network fee = 1% of purchase price, paid by buyer at close.
+EMD per title company requirements due within 24hrs of CLAIM.`;
+
+  const mailtoLink = `mailto:${buyerEmail || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(blastText)}`;
+
+  document.getElementById('blast-output').innerHTML = `
+    <div class="blast-template">
+      <h3>📧 ${currentMode === 'single' ? 'SINGLE EMAIL READY' : 'BLAST EMAIL READY'}</h3>
+      <p style="color:#aaa;margin-bottom:10px;">Subject: ${subject}</p>
+      <textarea id="blast-text" rows="18" style="width:100%;background:#000;border:1px solid #333;color:#fff;padding:15px;font-family:monospace;font-size:13px;">${blastText}</textarea>
+      <div class="button-row">
+        <button onclick="copyBlast()">COPY TEXT</button>
+        <button onclick="window.location.href='${mailtoLink}'" class="btn-secondary">OPEN IN EMAIL</button>
+      </div>
+      <div id="copy-alert" class="copy-alert hidden">✓ COPIED!</div>
+    </div>
+  `;
+  document.getElementById('blast-output').classList.remove('hidden');
+}
+
+function copyBlast() {
+  const text = document.getElementById('blast-text');
+  text.select();
+  document.execCommand('copy');
+  document.getElementById('copy-alert').classList.remove('hidden');
+  setTimeout(() => {
+    document.getElementById('copy-alert').classList.add('hidden');
+  }, 2000);
+}
+
+document.getElementById('password').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+</script>
+</body>
+</html>
