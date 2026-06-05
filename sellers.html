@@ -66,12 +66,14 @@
     .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
     .type-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin: 20px 0;
+      flex-wrap: wrap;
     }
     .type-btn {
       flex: 1;
-      padding: 14px;
+      min-width: 100px;
+      padding: 12px 8px;
       background: #111;
       border: 2px solid #333;
       color: #aaa;
@@ -79,7 +81,7 @@
       font-weight: bold;
       cursor: pointer;
       text-transform: uppercase;
-      font-size: 13px;
+      font-size: 12px;
     }
     .type-btn.active {
       background: #D4AF37;
@@ -202,6 +204,16 @@
 
       <!-- COMMERCIAL FIELDS -->
       <div id="commercial-fields" class="hidden">
+        <label>Commercial Type *</label>
+        <select name="commercial_type">
+          <option value="">Select Type...</option>
+          <option>Multi-Family 5+</option>
+          <option>Retail</option>
+          <option>Office</option>
+          <option>Industrial</option>
+          <option>Mixed Use</option>
+          <option>Other</option>
+        </select>
         <label>NOI / Cap Rate</label>
         <input type="text" name="noi_cap" placeholder="NOI $50k, 7% Cap">
         <label>Square Footage</label>
