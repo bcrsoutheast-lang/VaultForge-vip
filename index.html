@@ -16,12 +16,12 @@
       max-width: 500px;
       margin: 40px auto;
       background: #0a0a0a;
-      border: 1px solid #D4AF37;
+      border: 2px solid #D4AF37;
       border-radius: 8px;
       padding: 30px;
     }
-    img { display: block; margin: 0 auto 20px auto; max-width: 120px; }
-    h1 { color: #D4AF37; text-align: center; margin-bottom: 10px; font-size: 28px; }
+    img { display: block; margin: 0 auto 20px auto; max-width: 150px; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 10px; font-size: 28px; letter-spacing: 1px; }
     p { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 14px; }
     label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin-bottom: 5px; }
     input, select, textarea {
@@ -49,6 +49,7 @@
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
+      text-transform: uppercase;
     }
     button:hover { background: #e5c158; }
   </style>
@@ -78,17 +79,20 @@
         <option>$0 - $100K</option>
         <option>$100K - $500K</option>
         <option>$500K - $1M</option>
-        <option>$1M+</option>
+        <option>$1M - $5M</option>
+        <option>$5M+</option>
       </select>
       
       <label>Primary Threat Concern</label>
       <select name="threat" required>
         <option value="">Select...</option>
-        <option>Lawsuits</option>
+        <option>Lawsuits & Litigation</option>
         <option>IRS/Tax Issues</option>
-        <option>Divorce</option>
-        <option>Business Partners</option>
-        <option>Asset Protection</option>
+        <option>Divorce/Asset Division</option>
+        <option>Business Partners/Shareholders</option>
+        <option>Creditors/Debt</option>
+        <option>General Asset Protection</option>
+        <option>Other</option>
       </select>
       
       <label>Additional Details</label>
