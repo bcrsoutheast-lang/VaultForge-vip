@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge VIP Access</title>
+  <title>VaultForge Private Buyer Network</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -13,21 +13,41 @@
       padding: 20px;
     }
     .container {
-      max-width: 500px;
-      margin: 40px auto;
+      max-width: 600px;
+      margin: 20px auto;
       background: #0a0a0a;
       border: 2px solid #D4AF37;
       border-radius: 8px;
       padding: 30px;
     }
-    img { display: block; margin: 0 auto 20px auto; max-width: 150px; }
-    h1 { color: #D4AF37; text-align: center; margin-bottom: 10px; font-size: 28px; letter-spacing: 1px; }
-    p { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 14px; }
-    label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin-bottom: 5px; }
+    .logo { display: block; margin: 0 auto 20px auto; max-width: 150px; }
+    h1 { color: #D4AF37; text-align: center; margin-bottom: 8px; font-size: 26px; letter-spacing: 1px; }
+    .tagline { text-align: center; color: #aaa; margin-bottom: 20px; font-size: 14px; }
+    .vetting-box {
+      background: #111;
+      border: 1px solid #D4AF37;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .vetting-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 8px; }
+    .vetting-box p { color: #ccc; font-size: 13px; line-height: 1.5; }
+    .terms-box {
+      background: #111;
+      border: 1px solid #333;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 25px 0;
+    }
+    .terms-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 12px; }
+    .terms-box ul { list-style: none; }
+    .terms-box li { color: #aaa; font-size: 13px; margin-bottom: 8px; padding-left: 16px; position: relative; }
+    .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
+    label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin: 16px 0 6px 0; }
     input, select, textarea {
       width: 100%;
       padding: 12px;
-      margin-bottom: 16px;
       background: #111;
       border: 1px solid #333;
       border-radius: 4px;
@@ -38,9 +58,19 @@
       outline: none;
       border-color: #D4AF37;
     }
+    .checkbox-group {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .checkbox-item { display: flex; align-items: center; margin: 8px 0; }
+    .checkbox-item input { width: auto; margin-right: 10px; }
+    .checkbox-item label { margin: 0; font-weight: 400; color: #ddd; font-size: 15px; }
+    .note { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 16px; }
     button {
       width: 100%;
-      padding: 15px;
+      padding: 16px;
       background: #D4AF37;
       color: #000;
       border: none;
@@ -48,58 +78,103 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 20px;
       text-transform: uppercase;
     }
     button:hover { background: #e5c158; }
+    .footer { text-align: center; font-size: 11px; color: #666; margin-top: 25px; line-height: 1.6; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="IMG_4751.png" alt="VaultForge Logo">
-    <h1>VAULTFORGE VIP</h1>
-    <p>Elite Protection. Request Access.</p>
+    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
+    <h1>VAULTFORGE PRIVATE BUYERS</h1>
+    <p class="tagline">Off-Market Deals. 48-Hour Close. Invitation Only.</p>
+    
+    <div class="vetting-box">
+      <h3>PRIVATE NETWORK - VETTED BUYERS ONLY</h3>
+      <p>We have private sellers. We need private buyers with funds ready to go. No tire kickers. Submission does not guarantee approval. If more info is needed, VaultForge will contact you directly. POF required within 24hrs of claim.</p>
+    </div>
+
+    <div class="terms-box">
+      <h3>⚡ BUYER TERMS</h3>
+      <ul>
+        <li>Private 48hr deals only. Direct to seller.</li>
+        <li>1% VaultForge fee paid at close. $0 to browse.</li>
+        <li>$2k EMD to title within 24hrs of CLAIM or deal releases.</li>
+        <li>48hr clock starts at CLAIM. No close = deal dies. No extensions.</li>
+        <li>Split assignment 50/50 with wholesaler on closed deals.</li>
+      </ul>
+    </div>
     
     <form action="https://formspree.io/f/maqznpra" method="POST">
-      <label>Full Name</label>
-      <input type="text" name="name" required>
+      <label>Full Name *</label>
+      <input type="text" name="full_name" required>
       
-      <label>Email</label>
-      <input type="email" name="email" required>
-      
-      <label>Phone</label>
+      <label>Phone *</label>
       <input type="tel" name="phone" required>
       
-      <label>Business Name</label>
-      <input type="text" name="business">
+      <label>Email *</label>
+      <input type="email" name="email" required>
       
-      <label>Revenue Range</label>
-      <select name="revenue" required>
-        <option value="">Select...</option>
-        <option>$0 - $100K</option>
-        <option>$100K - $500K</option>
+      <label>Company / LLC</label>
+      <input type="text" name="company">
+
+      <label>Investment States - Select All That Apply *</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="Georgia" id="ga"><label for="ga">Georgia</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="Tennessee" id="tn"><label for="tn">Tennessee</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="Alabama" id="al"><label for="al">Alabama</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="Florida" id="fl"><label for="fl">Florida</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="North Carolina" id="nc"><label for="nc">North Carolina</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="South Carolina" id="sc"><label for="sc">South Carolina</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="states[]" value="Texas" id="tx"><label for="tx">Texas</label></div>
+      </div>
+
+      <label>Deal Size Range *</label>
+      <select name="deal_size" required>
+        <option value="">Select Range...</option>
+        <option><$50K</option>
+        <option>$50K - $100K</option>
+        <option>$100K - $250K</option>
+        <option>$250K - $500K</option>
         <option>$500K - $1M</option>
-        <option>$1M - $5M</option>
-        <option>$5M+</option>
+        <option>$1M+</option>
       </select>
-      
-      <label>Primary Threat Concern</label>
-      <select name="threat" required>
+
+      <label>Buy Box - Select All That Apply *</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Single Family" id="sf"><label for="sf">Single Family</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Multi-Family 2-4" id="mf24"><label for="mf24">Multi-Family 2-4</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Multi-Family 5+" id="mf5"><label for="mf5">Multi-Family 5+</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Land" id="land"><label for="land">Land</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Commercial" id="comm"><label for="comm">Commercial</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Mobile Home" id="mh"><label for="mh">Mobile Home</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Condos" id="condo"><label for="condo">Condos</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Fix & Flip" id="flip"><label for="flip">Fix & Flip</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Buy & Hold" id="hold"><label for="hold">Buy & Hold</label></div>
+        <div class="checkbox-item"><input type="checkbox" name="buybox[]" value="Wholesale" id="whole"><label for="whole">Wholesale</label></div>
+      </div>
+
+      <label>Proof of Funds Status *</label>
+      <select name="pof_status" required>
         <option value="">Select...</option>
-        <option>Lawsuits & Litigation</option>
-        <option>IRS/Tax Issues</option>
-        <option>Divorce/Asset Division</option>
-        <option>Business Partners/Shareholders</option>
-        <option>Creditors/Debt</option>
-        <option>General Asset Protection</option>
-        <option>Other</option>
+        <option>Cash Ready - Can Close Immediately</option>
+        <option>Funds Liquid in 24-48hrs</option>
+        <option>Pre-Approved Lender</option>
+        <option>Private Money Lined Up</option>
       </select>
+      <p class="note">No file upload needed. If approved, VaultForge will contact you for POF verification before deals are sent.</p>
       
-      <label>Additional Details</label>
-      <textarea name="message" rows="4" placeholder="Tell us about your situation..."></textarea>
+      <label>Additional Details / Timeline</label>
+      <textarea name="message" rows="4" placeholder="Buying criteria, timeline, anything we should know..."></textarea>
       
-      <button type="submit">REQUEST ELITE ACCESS</button>
+      <button type="submit">REQUEST ACCESS</button>
     </form>
+
+    <div class="footer">
+      VaultForge is not a broker. We connect vetted buyers with off-market opportunities. All deals subject to verification. EMD forfeited if you fail to perform. Your info is encrypted & never sold.
+    </div>
   </div>
 </body>
 </html>
