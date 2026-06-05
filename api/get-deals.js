@@ -9,7 +9,12 @@ export default async function handler(req, res) {
       dealIds.map(id => kv.hgetall(`deals:${id}`))
     );
     
-    return res.status(200).json(deals.filter(Boolean));
+    // Filter out nulls and sort newest first
+    const validDeals = deals.filter(Boolean).sort((a, b) => 
+      new Date(b.submitted_at) - new Date(a.submitted_at)
+    );
+    
+    return res.status(200).json(validDeals);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch deals' });
   }
