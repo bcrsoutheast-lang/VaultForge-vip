@@ -64,6 +64,14 @@
     .terms-box ul { list-style: none; }
     .terms-box li { color: #aaa; font-size: 13px; margin-bottom: 8px; padding-left: 16px; position: relative; }
     .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
+    .title-upsell {
+      background: #0d0d0d;
+      border: 2px solid #D4AF37;
+      padding: 16px;
+      border-radius: 6px;
+      margin: 25px 0;
+    }
+    .title-upsell h3 { color: #D4AF37; font-size: 16px; margin-bottom: 12px; }
     .type-buttons {
       display: flex;
       gap: 8px;
@@ -103,6 +111,9 @@
       outline: none;
       border-color: #D4AF37;
     }
+    .checkbox-item { display: flex; align-items: center; margin: 8px 0; }
+    .checkbox-item input { width: auto; margin-right: 10px; }
+    .checkbox-item label { margin: 0; font-weight: 400; color: #ddd; font-size: 15px; }
     .note { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 16px; }
     button {
       width: 100%;
@@ -171,8 +182,6 @@
       margin-left: 8px;
       font-weight: bold;
     }
-    .loading { text-align: center; padding: 30px; }
-    .loading-dots { color: #D4AF37; font-size: 24px; }
   </style>
 </head>
 <body>
@@ -196,6 +205,21 @@
         <li>VaultForge network fee = 1% of purchase price, paid by buyer at close.</li>
         <li>48hr performance. We close or release it.</li>
       </ul>
+    </div>
+
+    <div class="title-upsell">
+      <h3>💎 TITLE CONCIERGE SERVICE - $500</h3>
+      <ul>
+        <li>We open title + run lien search within 24hrs</li>
+        <li>Handle probate, tax liens, code violations</li>
+        <li>Guarantee clean title before buyer blast</li>
+        <li>7-day close possible vs 30-day</li>
+      </ul>
+      <div class="checkbox-item" style="margin-top:15px;">
+        <input type="checkbox" name="title_concierge" value="Yes - $500" id="title-upgrade">
+        <label for="title-upgrade" style="color:#D4AF37;font-weight:bold;">YES, ADD TITLE CONCIERGE - $500</label>
+      </div>
+      <p class="note">Check box = VaultForge emails you Stripe link. Service starts after payment clears.</p>
     </div>
     
     <form id="seller-form" action="https://formspree.io/f/mqeoeeqe" method="POST">
@@ -296,7 +320,7 @@
       <label>Additional Details</label>
       <textarea name="message" rows="4" placeholder="Liens, occupancy, motivation, timeline, anything we should know..."></textarea>
       
-      <button type="submit" id="submit-btn">SUBMIT DEAL + RUN ANALYSIS</button>
+      <button type="submit" id="submit-btn">SUBMIT DEAL + RUN AI ANALYSIS</button>
     </form>
 
     <div class="footer">
@@ -334,14 +358,18 @@ function calculateAnalysis() {
   const sqftCom = parseFloat(document.getElementById('sqft_com').value) || 0;
   const acres = parseFloat(document.getElementById('acreage').value) || 0;
   const fee = parseFloat(document.getElementById('expected_fee').value) || 0;
-  const address = document.getElementById('address').value;
-  const city = document.getElementById('city_state').value;
+  const titleConcierge = document.getElementById('title-upgrade').checked;
   
   let html = '<div class="analysis-box"><h3>VAULTFORGE AI DEAL ANALYSIS <span class="ai-badge">BETA</span></h3>';
   
   // Universal calcs
   if (ask > 0) {
     html += `<div class="analysis-row"><span class="analysis-label">Asking Price</span><span class="analysis-value">$${ask.toLocaleString()}</span></div>`;
+  }
+  
+  // Title Concierge
+  if (titleConcierge) {
+    html += `<div class="analysis-row"><span class="analysis-label">Title Concierge</span><span class="analysis-value">$500 - ACTIVATED</span></div>`;
   }
   
   // Residential calcs
@@ -397,6 +425,7 @@ function calculateAnalysis() {
     else if (capRate >= 6) score += 15;
     else score -= 10;
   }
+  if (titleConcierge) score += 10;
   
   let grade = 'C';
   let gradeColor = '#ffaa00';
@@ -425,6 +454,7 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
   // Show loading + analysis
   setTimeout(() => {
     const analysisHTML = calculateAnalysis();
+    const titleConcierge = document.getElementById('title-upgrade').checked;
     
     fetch(form.action, {
       method: 'POST',
@@ -439,6 +469,7 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
             ${analysisHTML}
             <p class="gold">We have private buyers with funds ready to go.</p>
             <p>Your deal is under review by our acquisitions team.</p>
+            ${titleConcierge ? '<p class="gold">✓ Title Concierge Activated - Check email for $500 payment link.</p>' : ''}
             <p>Submission does not guarantee we take the deal.</p>
             <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
             <p>No daisy chains. 48hr performance only.</p>
@@ -448,14 +479,14 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
       } else {
         alert('Error submitting. Please try again or refresh the page.');
         btn.disabled = false;
-        btn.textContent = 'SUBMIT DEAL + RUN ANALYSIS';
+        btn.textContent = 'SUBMIT DEAL + RUN AI ANALYSIS';
       }
     }).catch(error => {
       alert('Network error. Check connection and try again.');
       btn.disabled = false;
-      btn.textContent = 'SUBMIT DEAL + RUN ANALYSIS';
+      btn.textContent = 'SUBMIT DEAL + RUN AI ANALYSIS';
     });
-  }, 1500); // 1.5s fake "AI thinking" for effect
+  }, 1500);
 });
 </script>
 </body>
