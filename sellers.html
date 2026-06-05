@@ -165,13 +165,13 @@
     <form id="seller-form" action="https://formspree.io/f/mqeoeeqe" method="POST">
       <input type="text" name="_gotcha" style="display:none">
       
-      <label>Property Type *</label>
+      <label>Property Type - Select All That Apply *</label>
       <div class="type-buttons">
-        <button type="button" class="type-btn active" data-type="residential">RESIDENTIAL</button>
+        <button type="button" class="type-btn" data-type="residential">RESIDENTIAL</button>
         <button type="button" class="type-btn" data-type="commercial">COMMERCIAL</button>
         <button type="button" class="type-btn" data-type="land">LAND</button>
       </div>
-      <input type="hidden" name="property_type" id="property_type" value="Residential">
+      <input type="hidden" name="property_types" id="property_types">
 
       <label>Property Address *</label>
       <input type="text" name="property_address" required placeholder="123 Main St">
@@ -195,7 +195,7 @@
       <input type="text" name="asking_price" required placeholder="$175,000">
 
       <!-- RESIDENTIAL FIELDS -->
-      <div id="residential-fields">
+      <div id="residential-fields" class="hidden">
         <label>ARV + Repair Estimate</label>
         <input type="text" name="arv_repair" placeholder="ARV $250k, Repairs $30k">
         <label>Beds / Baths</label>
@@ -266,24 +266,31 @@
   </div>
 
 <script>
-// Property Type Toggle
+// Multi-select Property Type Toggle
+const selectedTypes = new Set();
 document.querySelectorAll('.type-btn').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
     const type = this.dataset.type;
-    document.getElementById('property_type').value = type.charAt(0).toUpperCase() + type.slice(1);
-    
-    document.getElementById('residential-fields').classList.add('hidden');
-    document.getElementById('commercial-fields').classList.add('hidden');
-    document.getElementById('land-fields').classList.add('hidden');
-    document.getElementById(type + '-fields').classList.remove('hidden');
+    if (this.classList.contains('active')) {
+      this.classList.remove('active');
+      selectedTypes.delete(type);
+      document.getElementById(type + '-fields').classList.add('hidden');
+    } else {
+      this.classList.add('active');
+      selectedTypes.add(type);
+      document.getElementById(type + '-fields').classList.remove('hidden');
+    }
+    document.getElementById('property_types').value = Array.from(selectedTypes).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
   });
 });
 
 // Form Submit
 document.getElementById('seller-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  if (selectedTypes.size === 0) {
+    alert('Please select at least one Property Type');
+    return;
+  }
   const form = e.target;
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
