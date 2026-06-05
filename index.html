@@ -82,11 +82,17 @@
       text-transform: uppercase;
     }
     button:hover { background: #e5c158; }
+    button:disabled { background: #555; cursor: not-allowed; }
     .footer { text-align: center; font-size: 11px; color: #666; margin-top: 25px; line-height: 1.6; }
+    .success-msg { text-align: center; padding: 40px 20px; }
+    .success-msg img { max-width: 120px; margin: 0 auto 20px auto; display: block; }
+    .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
+    .success-msg p { color: #ccc; font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
+    .gold { color: #D4AF37; font-weight: 600; }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="form-container">
     <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
     <h1>VAULTFORGE PRIVATE BUYERS</h1>
     <p class="tagline">Off-Market Deals. 48-Hour Close. Invitation Only.</p>
@@ -107,7 +113,9 @@
       </ul>
     </div>
     
-    <form action="https://formspree.io/f/maqznpra" method="POST">
+    <form id="buyer-form" action="https://formspree.io/f/maqznpra" method="POST">
+      <input type="text" name="_gotcha" style="display:none">
+      
       <label>Full Name *</label>
       <input type="text" name="full_name" required>
       
@@ -169,12 +177,50 @@
       <label>Additional Details / Timeline</label>
       <textarea name="message" rows="4" placeholder="Buying criteria, timeline, anything we should know..."></textarea>
       
-      <button type="submit">REQUEST ACCESS</button>
+      <button type="submit" id="submit-btn">REQUEST ACCESS</button>
     </form>
 
     <div class="footer">
       VaultForge is not a broker. We connect vetted buyers with off-market opportunities. All deals subject to verification. EMD forfeited if you fail to perform. Your info is encrypted & never sold.
     </div>
   </div>
+
+<script>
+document.getElementById('buyer-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'SUBMITTING...';
+  
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      document.getElementById('form-container').innerHTML = `
+        <div class="success-msg">
+          <img src="IMG_4751.png" alt="VaultForge Logo">
+          <h1>APPLICATION RECEIVED</h1>
+          <p class="gold">We have private sellers. We need buyers with funds ready to go.</p>
+          <p>Your application to the VaultForge Private Buyer Network is under review.</p>
+          <p>Submission does not guarantee approval. All members are vetted.</p>
+          <p>If your criteria matches active inventory, <span class="gold">VaultForge will contact you within 24hrs</span> for POF and ID verification.</p>
+          <p>No tire kickers. 48hr deals only.</p>
+        </div>
+      `;
+    } else {
+      alert('Error submitting. Please try again or refresh the page.');
+      btn.disabled = false;
+      btn.textContent = 'REQUEST ACCESS';
+    }
+  }).catch(error => {
+    alert('Network error. Check connection and try again.');
+    btn.disabled = false;
+    btn.textContent = 'REQUEST ACCESS';
+  });
+});
+</script>
 </body>
 </html>
