@@ -1,14 +1,11 @@
 import { kv } from '@vercel/kv';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
     const deal = req.body;
     const id = `deal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
     deal.id = id;
     deal.submitted_at = new Date().toISOString();
     deal.status = 'new';
