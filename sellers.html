@@ -439,7 +439,7 @@ function calculateAnalysis() {
   return html;
 }
 
-// Form Submit
+// Form Submit - UPDATED TO SAVE TO VAULT-FORGE-DEALS DATABASE
 document.getElementById('seller-form').addEventListener('submit', function(e) {
   e.preventDefault();
   if (selectedTypes.size === 0) {
@@ -451,15 +451,25 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
   btn.disabled = true;
   btn.textContent = 'ANALYZING DEAL...';
   
-  // Show loading + analysis
   setTimeout(() => {
     const analysisHTML = calculateAnalysis();
     const titleConcierge = document.getElementById('title-upgrade').checked;
+    const formData = new FormData(form);
+    const dealData = Object.fromEntries(formData.entries());
+    dealData.property_types = Array.from(selectedTypes).join(', ');
     
-    fetch(form.action, {
+    // 1. Save to vault-forge-deals database first
+    fetch('/api/save-deal', {
       method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dealData)
+    }).then(() => {
+      // 2. Then send to Formspree for email notification
+      return fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
     }).then(response => {
       if (response.ok) {
         document.getElementById('form-container').innerHTML = `
@@ -490,4 +500,4 @@ document.getElementById('seller-form').addEventListener('submit', function(e) {
 });
 </script>
 </body>
-</html>p
+</html>
