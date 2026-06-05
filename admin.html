@@ -12,16 +12,16 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       padding: 20px;
     }
-   .login-container,.container {
+  .container {
       max-width: 1200px;
-      margin: 40px auto;
+      margin: 20px auto;
       background: #0a0a0a;
       border: 2px solid #D4AF37;
       border-radius: 8px;
       padding: 30px;
     }
-   .hidden { display: none; }
-   .logo { display: block; margin: 0 auto 20px auto; max-width: 120px; }
+  .hidden { display: none; }
+  .logo { display: block; margin: 0 auto 20px auto; max-width: 120px; }
     h1 { color: #D4AF37; text-align: center; margin-bottom: 20px; font-size: 24px; letter-spacing: 1px; }
     h2 { color: #D4AF37; font-size: 18px; margin: 30px 0 15px 0; border-bottom: 1px solid #333; padding-bottom: 8px; }
     h3 { color: #D4AF37; margin-bottom: 15px; font-size: 16px; }
@@ -48,22 +48,22 @@
       text-transform: uppercase;
     }
     button:hover { background: #e5c158; }
-   .btn-secondary { background: #333; color: #D4AF37; }
-   .btn-secondary:hover { background: #444; }
-   .btn-danger { background: #ff4444; color: #fff; }
-   .btn-danger:hover { background: #ff6666; }
-   .btn-small { padding: 6px 12px; font-size: 12px; }
-   .button-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-   .button-row button { flex: 1; min-width: 120px; }
+  .btn-secondary { background: #333; color: #D4AF37; }
+  .btn-secondary:hover { background: #444; }
+  .btn-danger { background: #ff4444; color: #fff; }
+  .btn-danger:hover { background: #ff6666; }
+  .btn-small { padding: 6px 12px; font-size: 12px; }
+  .button-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+  .button-row button { flex: 1; min-width: 120px; }
     
     /* State Cards */
-   .states-grid {
+  .states-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       margin: 20px 0;
     }
-   .state-card {
+  .state-card {
       background: #111;
       border: 2px solid #333;
       border-radius: 8px;
@@ -73,9 +73,9 @@
       transition: all 0.3s;
       position: relative;
     }
-   .state-card:hover { border-color: #D4AF37; background: #1a1a1a; }
-   .state-card.active { border-color: #D4AF37; background: #1a1a1a; }
-   .state-card.pulse {
+  .state-card:hover { border-color: #D4AF37; background: #1a1a1a; }
+  .state-card.active { border-color: #D4AF37; background: #1a1a1a; }
+  .state-card.pulse {
       border-color: #D4AF37;
       animation: pulse 2s infinite;
     }
@@ -83,9 +83,9 @@
       0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
       50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
     }
-   .state-name { color: #D4AF37; font-weight: bold; font-size: 16px; margin-bottom: 8px; }
-   .state-count { color: #aaa; font-size: 13px; }
-   .state-badge {
+  .state-name { color: #D4AF37; font-weight: bold; font-size: 16px; margin-bottom: 8px; }
+  .state-count { color: #aaa; font-size: 13px; }
+  .state-badge {
       position: absolute;
       top: -8px;
       right: -8px;
@@ -102,7 +102,7 @@
     }
     
     /* Buyer List */
-   .buyer-list {
+  .buyer-list {
       background: #111;
       border: 1px solid #333;
       border-radius: 6px;
@@ -111,7 +111,7 @@
       max-height: 400px;
       overflow-y: auto;
     }
-   .buyer-item {
+  .buyer-item {
       background: #0a0a0a;
       border: 1px solid #222;
       border-radius: 4px;
@@ -121,27 +121,27 @@
       justify-content: space-between;
       align-items: center;
     }
-   .buyer-info { flex: 1; }
-   .buyer-name { color: #D4AF37; font-weight: bold; font-size: 14px; }
-   .buyer-meta { color: #aaa; font-size: 12px; margin-top: 4px; }
-   .buyer-actions { display: flex; gap: 6px; }
+  .buyer-info { flex: 1; }
+  .buyer-name { color: #D4AF37; font-weight: bold; font-size: 14px; }
+  .buyer-meta { color: #aaa; font-size: 12px; margin-top: 4px; }
+  .buyer-actions { display: flex; gap: 6px; }
     
     /* Deal Pipeline */
-   .pipeline {
+  .pipeline {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       margin: 20px 0;
     }
-   .pipeline-col {
+  .pipeline-col {
       background: #111;
       border: 1px solid #333;
       border-radius: 6px;
       padding: 15px;
       min-height: 200px;
     }
-   .pipeline-col h4 { color: #D4AF37; font-size: 14px; margin-bottom: 12px; text-align: center; }
-   .deal-card {
+  .pipeline-col h4 { color: #D4AF37; font-size: 14px; margin-bottom: 12px; text-align: center; }
+  .deal-card {
       background: #0a0a0a;
       border: 1px solid #222;
       border-radius: 4px;
@@ -149,25 +149,25 @@
       margin-bottom: 10px;
       font-size: 12px;
     }
-   .deal-address { color: #D4AF37; font-weight: bold; margin-bottom: 6px; }
-   .deal-price { color: #fff; margin-bottom: 8px; }
-   .deal-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-   .deal-actions button { padding: 4px 8px; font-size: 10px; }
+  .deal-address { color: #D4AF37; font-weight: bold; margin-bottom: 6px; }
+  .deal-price { color: #fff; margin-bottom: 8px; }
+  .deal-actions { display: flex; gap: 4px; flex-wrap: wrap; }
+  .deal-actions button { padding: 4px 8px; font-size: 10px; }
     
     /* Blast Builder */
-   .blast-builder {
+  .blast-builder {
       background: #111;
       border: 1px solid #333;
       border-radius: 6px;
       padding: 20px;
       margin: 20px 0;
     }
-   .mode-toggle {
+  .mode-toggle {
       display: flex;
       gap: 10px;
       margin-bottom: 20px;
     }
-   .mode-btn {
+  .mode-btn {
       flex: 1;
       padding: 12px;
       background: #111;
@@ -177,19 +177,19 @@
       font-weight: bold;
       cursor: pointer;
     }
-   .mode-btn.active {
+  .mode-btn.active {
       background: #D4AF37;
       border-color: #D4AF37;
       color: #000;
     }
-   .blast-template {
+  .blast-template {
       background: #000;
       border: 1px solid #D4AF37;
       border-radius: 6px;
       padding: 15px;
       margin-top: 15px;
     }
-   .copy-alert {
+  .copy-alert {
       background: #D4AF37;
       color: #000;
       padding: 10px;
@@ -201,16 +201,16 @@
     }
     
     /* Tools */
-   .tools-row {
+  .tools-row {
       display: flex;
       gap: 10px;
       margin: 20px 0;
       flex-wrap: wrap;
     }
-   .tools-row button { flex: 1; min-width: 150px; }
+  .tools-row button { flex: 1; min-width: 150px; }
     
     /* Modal */
-   .modal {
+  .modal {
       position: fixed;
       top: 0;
       left: 0;
@@ -222,7 +222,7 @@
       justify-content: center;
       z-index: 1000;
     }
-   .modal-content {
+  .modal-content {
       background: #0a0a0a;
       border: 2px solid #D4AF37;
       border-radius: 8px;
@@ -232,7 +232,7 @@
       max-height: 80vh;
       overflow-y: auto;
     }
-   .modal-close {
+  .modal-close {
       float: right;
       background: #333;
       color: #fff;
@@ -246,16 +246,7 @@
   </style>
 </head>
 <body>
-  <!-- LOGIN SCREEN -->
-  <div class="login-container" id="login-screen">
-    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
-    <h1>VAULTFORGE ADMIN</h1>
-    <input type="password" id="password" placeholder="Enter Access Code">
-    <button onclick="checkPassword()">ENTER</button>
-  </div>
-
-  <!-- ADMIN DASHBOARD -->
-  <div class="container hidden" id="admin-screen">
+  <div class="container">
     <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
     <h1>DEAL CONTROL CENTER</h1>
     
@@ -324,7 +315,7 @@
     </div>
     
     <div style="text-align:center;margin-top:40px;font-size:11px;color:#666;">
-      VaultForge Admin v3.0 | Password: vaultforge0212 | Data saved locally
+      VaultForge Admin v3.0 | No Login Required | Data saved locally
     </div>
   </div>
 
@@ -337,11 +328,11 @@
       <input type="email" id="new-buyer-email" placeholder="Email">
       <input type="tel" id="new-buyer-phone" placeholder="Phone">
       <input type="text" id="new-buyer-states" placeholder="States: GA, TN, AL, FL, NC, SC, TX">
-      <label style="margin-top:15px;">Property Types:</label>
+      <label style="margin-top:15px;color:#D4AF37;font-size:14px;">Property Types:</label>
       <div style="display:flex;gap:10px;margin:10px 0;">
-        <label style="font-weight:400;"><input type="checkbox" id="new-buyer-res"> Residential</label>
-        <label style="font-weight:400;"><input type="checkbox" id="new-buyer-com"> Commercial</label>
-        <label style="font-weight:400;"><input type="checkbox" id="new-buyer-land"> Land</label>
+        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-res"> Residential</label>
+        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-com"> Commercial</label>
+        <label style="font-weight:400;color:#ddd;font-size:14px;"><input type="checkbox" id="new-buyer-land"> Land</label>
       </div>
       <input type="number" id="new-buyer-budget" placeholder="Max Budget">
       <button onclick="saveBuyer()">SAVE BUYER</button>
@@ -362,31 +353,19 @@
   </div>
 
 <script>
-const ADMIN_PASS = "vaultforge0212";
 let currentMode = 'blast';
 let selectedState = null;
 let buyers = JSON.parse(localStorage.getItem('vf_buyers') || '[]');
 let deals = JSON.parse(localStorage.getItem('vf_deals') || '[]');
 
-// STATE CONFIG
 const STATES = ['GEORGIA', 'TENNESSEE', 'ALABAMA', 'FLORIDA', 'NORTH CAROLINA', 'SOUTH CAROLINA', 'TEXAS'];
 
-// INIT
+// INIT - No login, straight to dashboard
+init();
+
 function init() {
   renderStates();
   renderDeals();
-}
-
-// PASSWORD CHECK
-function checkPassword() {
-  const pass = document.getElementById('password').value;
-  if (pass === ADMIN_PASS) {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('admin-screen').classList.remove('hidden');
-    init();
-  } else {
-    alert('Invalid code');
-  }
 }
 
 // RENDER STATE CARDS
@@ -675,7 +654,7 @@ function generateBlast() {
   }
 
   const subject = currentMode === 'single' 
-   ? `Private Deal: ${address} - ${price}` 
+  ? `Private Deal: ${address} - ${price}` 
     : `🔥 VAULTFORGE DEAL ALERT: ${address} - ${price}`;
 
   const blastText = `${currentMode === 'blast'? '🔥 VAULTFORGE PRIVATE DEAL ALERT 🔥\n\n' : 'Private Off-Market Deal\n\n'}${address}
@@ -726,11 +705,6 @@ function copyBlast() {
     document.getElementById('copy-alert').classList.add('hidden');
   }, 2000);
 }
-
-// ENTER KEY LOGIN
-document.getElementById('password').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') checkPassword();
-});
 </script>
 </body>
 </html>
