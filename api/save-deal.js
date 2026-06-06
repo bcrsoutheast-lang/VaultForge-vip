@@ -1,91 +1,106 @@
 import { kv } from '@vercel/kv';
+import { put } from '@vercel/blob';
+
+export const config = { api: { bodyParser: false } };
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  try {
-    const data = req.body;
-    
-    if (!data.address || !data.state || !data.asking_price || !data.arv || !data.property_type) {
-      return res.status(400).json({ error: 'Missing required fields' });
+  if (req.method!== 'POST') return res.status(405).end();
+  
+  const formData = await req.formData();
+  const dealId = Date.now();
+  
+  // Upload photos to Vercel Blob
+  const photoUrls = [];
+  const photos = formData.getAll('photos');
+  for (const photo of photos.slice(0,10)) {
+    if (photo.size > 0) {
+      const blob = await put(`${dealId}/${photo.name}`, photo, { access: 'public' });
+      photoUrls.push(blob.url);
     }
-
-    const deals = await kv.get('deals') || [];
-    
-    const deal = {
-      id: Date.now(),
-      address: data.address,
-      state: data.state,
-      property_type: data.property_type,
-      asking_price: parseInt(data.asking_price),
-      arv: parseInt(data.arv),
-      repairs: parseInt(data.repairs) || 0,
-      seller_name: data.seller_name,
-      seller_phone: data.seller_phone,
-      seller_email: data.seller_email,
-      analysis: data.analysis || null,
-      status: 'New Lead',
-      created: new Date().toISOString(),
-      last_updated: new Date().toISOString(),
-      title_concierge: data.title_concierge === true ? 'unpaid' : 'none',
-      title_concierge_data: data.title_concierge === true ? {
-        payoff_amount: data.payoff_amount || '',
-        has_liens: data.has_liens || 'No',
-        lien_details: data.lien_details || '',
-        closing_date: data.closing_date || '',
-        has_title_company: data.has_title_company || 'No',
-        title_company: data.title_company || ''
-      } : null,
-      photos: data.photos || []
-    };
-    
-    deals.push(deal);
-    await kv.set('deals', deals);
-
-    // FORMSPREE EMAIL TO YOU
-    await fetch('https://formspree.io/f/maqznpra', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        _subject: `NEW DEAL: ${deal.address} - Score ${deal.analysis?.score}`,
-        _replyto: deal.seller_email,
-        deal_id: deal.id,
-        address: deal.address,
-        state: deal.state,
-        property_type: deal.property_type,
-        asking_price: '$' + deal.asking_price.toLocaleString(),
-        arv: '$' + deal.arv.toLocaleString(),
-        repairs: '$' + deal.repairs.toLocaleString(),
-        score: deal.analysis?.score || 'N/A',
-        roi: deal.analysis?.roi + '%' || 'N/A',
-        mao: '$' + deal.analysis?.mao?.toLocaleString() || 'N/A',
-        title_concierge: deal.title_concierge,
-        payoff_amount: deal.title_concierge_data?.payoff_amount || 'N/A',
-        has_liens: deal.title_concierge_data?.has_liens || 'N/A',
-        lien_details: deal.title_concierge_data?.lien_details || 'None',
-        closing_date: deal.title_concierge_data?.closing_date || 'N/A',
-        has_title_company: deal.title_concierge_data?.has_title_company || 'No',
-        title_company: deal.title_concierge_data?.title_company || 'None',
-        seller_name: deal.seller_name,
-        seller_phone: deal.seller_phone,
-        seller_email: deal.seller_email
-      })
-    });
-
-    let stripe_url = null;
-    if (data.title_concierge === true) {
-      stripe_url = `https://buy.stripe.com/bJefZg56ocj93Apama4ow03?client_reference_id=${deal.id}`;
-    }
-
-    return res.status(200).json({ 
-      success: true, 
-      message: 'Deal saved',
-      deal_id: deal.id,
-      stripe_url: stripe_url
-    });
-
-  } catch (error) {
-    console.error('Save deal error:', error);
-    return res.status(500).json({ error: 'Failed to save deal' });
   }
+  
+  // Build deal object
+  const deal = {
+    id: dealId,
+    created_at: new Date().toISOString(),
+    status: "New Lead",
+    property_type: formData.get('property_type'),
+    
+    // Conditional fields
+    bed: formData.get('bed') || null,
+    bath: formData.get('bath') || null,
+    sqft: formData.get('sqft') || formData.get('com_sqft') || null,
+    units: formData.get('units') || null,
+    acres: formData.get('acres') || formData.get('com_acres') || null,
+    road_frontage: formData.get('road_frontage') || null,
+    frontage_feet: formData.get('frontage_feet') || null,
+    power: formData.get('power') || null,
+    water_sewer: formData.get('water_sewer') || null,
+    topography: formData.get('topography') || null,
+    zoning: formData.get('zoning') || formData.get('land_zoning') || null,
+    cap_rate: formData.get('cap_rate') || null,
+    
+    // Core
+    address: formData.get('address'),
+    state: formData.get('state'),
+    asking_price: parseFloat(formData.get('asking_price')),
+    arv: parseFloat(formData.get('arv')),
+    repairs: parseFloat(formData.get('repairs')),
+    
+    // Analysis + Comps
+    analysis: JSON.parse(formData.get('analysis') || '{}'),
+    comps: formData.getAll('comp_address[]').map((addr, i) => ({
+      address: addr,
+      price: parseFloat(formData.getAll('comp_price[]')[i]) || 0,
+      sold_date: formData.getAll('comp_date[]')[i] || '',
+      sqft: parseInt(formData.getAll('comp_sqft[]')[i]) || 0
+    })).filter(c => c.address),
+    
+    photos: photoUrls,
+    
+    // Title Concierge
+    title_concierge: formData.get('title_concierge') === 'on'? 'pending' : 'none',
+    payoff_amount: formData.get('payoff_amount') || null,
+    liens: formData.get('liens') || null,
+    lien_details: formData.get('lien_details') || null,
+    closing_date: formData.get('closing_date') || null,
+    has_title_co: formData.get('has_title_co') || null,
+    title_co_name: formData.get('title_co_name') || null,
+    
+    // Seller
+    seller_name: formData.get('seller_name'),
+    seller_phone: formData.get('seller_phone'),
+    seller_email: formData.get('seller_email'),
+  };
+  
+  // Save to KV
+  await kv.hset(`deal:${dealId}`, deal);
+  await kv.lpush('deals:all', dealId);
+  
+  // Formspree email - replace YOUR_FORMSPREE_ID
+  await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      subject: `New Deal: ${deal.address}`,
+      message: JSON.stringify(deal, null, 2)
+    })
+  });
+  
+  // Stripe checkout if Title Concierge
+  if (deal.title_concierge === 'pending') {
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [{ price: 'price_TITLE_CONCIERGE_ID', quantity: 1 }],
+      mode: 'payment',
+      success_url: `${process.env.NEXT_PUBLIC_URL}/success?deal=${dealId}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL}/sellers`,
+      client_reference_id: dealId.toString(),
+      customer_email: deal.seller_email,
+    });
+    return res.status(200).json({ stripe_url: session.url });
+  }
+  
+  res.status(200).json({ success: true, dealId });
 }
