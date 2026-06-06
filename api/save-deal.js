@@ -42,8 +42,8 @@ export default async function handler(req, res) {
     deals.push(deal);
     await kv.set('deals', deals);
 
-    // FORMSPREE EMAIL TO YOU - REPLACE WITH YOUR URL
-    await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+    // FORMSPREE EMAIL TO YOU
+    await fetch('https://formspree.io/f/maqznpra', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -52,8 +52,10 @@ export default async function handler(req, res) {
         deal_id: deal.id,
         address: deal.address,
         state: deal.state,
+        property_type: deal.property_type,
         asking_price: '$' + deal.asking_price.toLocaleString(),
         arv: '$' + deal.arv.toLocaleString(),
+        repairs: '$' + deal.repairs.toLocaleString(),
         score: deal.analysis?.score || 'N/A',
         roi: deal.analysis?.roi + '%' || 'N/A',
         mao: '$' + deal.analysis?.mao?.toLocaleString() || 'N/A',
@@ -62,6 +64,7 @@ export default async function handler(req, res) {
         has_liens: deal.title_concierge_data?.has_liens || 'N/A',
         lien_details: deal.title_concierge_data?.lien_details || 'None',
         closing_date: deal.title_concierge_data?.closing_date || 'N/A',
+        has_title_company: deal.title_concierge_data?.has_title_company || 'No',
         title_company: deal.title_concierge_data?.title_company || 'None',
         seller_name: deal.seller_name,
         seller_phone: deal.seller_phone,
