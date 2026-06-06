@@ -6,67 +6,27 @@
     <title>VaultForge VIP - Buyer Network</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a; 
-            color: #fff; 
-            line-height: 1.6;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; }
        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
        .header { text-align: center; margin-bottom: 30px; }
-       .header h1 { color: #d4af37; font-size: 32px; margin-bottom: 8px; letter-spacing: 2px; }
-       .header p { color: #888; }
-       .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
-       .card-label { color: #d4af37; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 1px; }
+       .header h1 { color: #d4af37; font-size: 32px; margin-bottom: 8px; }
+       .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; position: relative; }
+       .card-label { color: #d4af37; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; }
        .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; font-size: 14px; }
-        input, select, textarea { 
-            width: 100%; padding: 14px; background: #0a0a0a; border: 1px solid #333; 
-            border-radius: 6px; color: #fff; font-size: 16px;
-        }
-        input:focus, select:focus { border-color: #d4af37; outline: none; }
+        input, select { width: 100%; padding: 14px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 16px; }
        .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-       .checkbox-item { 
-            background: #0a0a0a; border: 1px solid #333; border-radius: 6px; 
-            padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer;
-        }
+       .checkbox-item { background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
        .checkbox-item input { width: 20px; height: 20px; margin: 0; accent-color: #d4af37; }
        .checkbox-item.checked { border-color: #d4af37; background: #1f1a00; }
-       .property-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-       .tab { flex: 1; padding: 12px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; 
-               text-align: center; cursor: pointer; font-weight: 600; }
-       .tab.active { background: #d4af37; color: #000; border-color: #d4af37; }
-       .hidden { display: none; }
-        button { 
-            width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8941f); 
-            color: #000; border: none; border-radius: 6px; font-size: 18px; 
-            font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-        }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-       .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px;
-        }
+        button { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #000; border: none; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+       .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
        .modal.show { display: flex; }
-       .modal-content { 
-            background: #1a1a1a; border: 2px solid #d4af37; border-radius: 8px; 
-            padding: 40px; max-width: 500px; text-align: center; position: relative;
-        }
-       .modal-close-x { 
-            position: absolute; top: 15px; right: 15px; background: none; border: none; 
-            color: #888; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px;
-        }
-       .modal-close-x:hover { color: #d4af37; }
-       .modal-content h2 { color: #d4af37; margin-bottom: 16px; font-size: 28px; }
-       .modal-content p { margin-bottom: 12px; color: #ccc; }
+       .modal-content { background: #1a1a1a; border: 2px solid #d4af37; border-radius: 8px; padding: 40px; max-width: 500px; text-align: center; position: relative; }
+       .modal-close-x { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; padding: 0; width: 30px; height: 30px; line-height: 30px; }
+       .modal-btn { margin-top: 24px; padding: 14px 40px; background: transparent; border: 1px solid #d4af37; color: #d4af37; width: auto; }
        .gold { color: #d4af37; font-weight: 600; }
-       .modal-btn { 
-            margin-top: 24px; padding: 14px 40px; background: transparent; 
-            border: 1px solid #d4af37; color: #d4af37; width: auto;
-        }
-       .file-upload { border: 2px dashed #333; border-radius: 6px; padding: 20px; text-align: center; cursor: pointer; }
-       .file-upload:hover { border-color: #d4af37; }
-        @media (max-width: 600px) {.checkbox-grid { grid-template-columns: 1fr; }.property-tabs { flex-direction: column; } }
+        @media (max-width: 600px) {.checkbox-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -79,22 +39,10 @@
         <form id="buyerForm">
             <div class="card">
                 <div class="card-label">Contact Information</div>
-                <div class="form-group">
-                    <label>Your Name *</label>
-                    <input type="text" name="buyer_name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone *</label>
-                    <input type="tel" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label>LLC / Entity Name</label>
-                    <input type="text" name="entity_name" placeholder="Optional">
-                </div>
+                <div class="form-group"><label>Your Name *</label><input type="text" name="buyer_name" required></div>
+                <div class="form-group"><label>Email *</label><input type="email" name="email" required></div>
+                <div class="form-group"><label>Phone *</label><input type="tel" name="phone" required></div>
+                <div class="form-group"><label>LLC / Entity Name</label><input type="text" name="entity_name" placeholder="Optional"></div>
             </div>
 
             <div class="card">
@@ -111,95 +59,48 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Property Types *</label>
-                    <div class="property-tabs">
-                        <div class="tab active" data-type="residential">RESIDENTIAL</div>
-                        <div class="tab" data-type="commercial">COMMERCIAL</div>
-                        <div class="tab" data-type="land">LAND</div>
+                    <label>Property Types - Select All That Apply *</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item"><input type="checkbox" name="property_types" value="Residential"> RESIDENTIAL</label>
+                        <label class="checkbox-item"><input type="checkbox" name="property_types" value="Commercial"> COMMERCIAL</label>
+                        <label class="checkbox-item"><input type="checkbox" name="property_types" value="Land"> LAND</label>
                     </div>
                 </div>
 
-                <div id="residential-fields">
-                    <div class="form-group">
-                        <label>Residential Buy Box</label>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="SFR Fix & Flip"> SFR Fix & Flip</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Buy & Hold"> Buy & Hold</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="BRRRR"> BRRRR</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Vacant Land"> Vacant Land</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Max Purchase Price - Residential</label>
-                        <select name="max_price_res">
-                            <option value="">Select Max...</option>
-                            <option value="100000">$100,000</option>
-                            <option value="250000">$250,000</option>
-                            <option value="500000">$500,000</option>
-                            <option value="1000000">$1,000,000</option>
-                            <option value="9999999">$1M+</option>
-                        </select>
+                <div class="form-group" id="res-buybox">
+                    <label>Residential Buy Box</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="SFR Fix & Flip"> SFR Fix & Flip</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Buy & Hold"> Buy & Hold</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="BRRRR"> BRRRR</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Vacant Land"> Vacant Land</label>
                     </div>
                 </div>
 
-                <div id="commercial-fields" class="hidden">
-                    <div class="form-group">
-                        <label>Commercial Buy Box</label>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Multi-Family 5+"> Multi-Family 5+</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Retail"> Retail</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Office"> Office</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Industrial"> Industrial</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Max Purchase Price - Commercial</label>
-                        <select name="max_price_com">
-                            <option value="">Select Max...</option>
-                            <option value="500000">$500,000</option>
-                            <option value="1000000">$1,000,000</option>
-                            <option value="5000000">$5,000,000</option>
-                            <option value="10000000">$10,000,000+</option>
-                        </select>
+                <div class="form-group" id="com-buybox">
+                    <label>Commercial Buy Box</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Multi-Family 5+"> Multi-Family 5+</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Retail"> Retail</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Office"> Office</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Industrial"> Industrial</label>
                     </div>
                 </div>
 
-                <div id="land-fields" class="hidden">
-                    <div class="form-group">
-                        <label>Land Buy Box</label>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Residential Lots"> Residential Lots</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Development"> Development</label>
-                            <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Agricultural"> Agricultural</label>
-                        </div>
+                <div class="form-group" id="land-buybox">
+                    <label>Land Buy Box</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Residential Lots"> Residential Lots</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Development"> Development</label>
+                        <label class="checkbox-item"><input type="checkbox" name="buybox_land" value="Agricultural"> Agricultural</label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top:12px;">
                         <label>Min Acreage</label>
                         <select name="min_acres">
-                            <option value="">Any Size</option>
-                            <option value="0.25">0.25+ Acres</option>
-                            <option value="1">1+ Acres</option>
-                            <option value="5">5+ Acres</option>
-                            <option value="10">10+ Acres</option>
+                            <option value="">Any Size</option><option value="0.25">0.25+ Acres</option><option value="1">1+ Acres</option>
+                            <option value="5">5+ Acres</option><option value="10">10+ Acres</option>
                         </select>
                     </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-label">Proof of Funds</div>
-                <div class="form-group">
-                    <div class="file-upload" onclick="document.getElementById('pof').click()">
-                        <p class="gold">UPLOAD PROOF OF FUNDS</p>
-                        <p style="color: #888; font-size: 14px;">Bank statement or letter. Speeds approval.</p>
-                        <input type="file" id="pof" name="pof" accept=".pdf,.jpg,.png" style="display:none;">
-                        <p id="pof-name" style="color: #d4af37; margin-top: 10px;"></p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="pof_later"> I'll send proof of funds later
-                    </label>
                 </div>
             </div>
 
@@ -212,87 +113,46 @@
             <button class="modal-close-x" onclick="closeModal()">×</button>
             <h2>PROFILE SUBMITTED</h2>
             <p class="gold">Your profile is under review.</p>
-            <p>You'll only get deals for:</p>
-            <p class="gold" id="selectedStates"></p>
+            <p>You'll only get deals for:</p><p class="gold" id="selectedStates"></p>
             <p>Approval email sent within 24 hours if qualified.</p>
-            <p>No dashboard. No login. Just off-market deals.</p>
             <button class="modal-btn" onclick="closeModal()">CLOSE</button>
         </div>
     </div>
 
     <script>
-        // Property type tabs
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                const type = this.dataset.type;
-                document.getElementById('residential-fields').classList.toggle('hidden', type!== 'residential');
-                document.getElementById('commercial-fields').classList.toggle('hidden', type!== 'commercial');
-                document.getElementById('land-fields').classList.toggle('hidden', type!== 'land');
-            });
-        });
-
-        // Checkbox styling
         document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', function() {
                 this.parentElement.classList.toggle('checked', this.checked);
             });
         });
 
-        // POF upload
-        document.getElementById('pof').addEventListener('change', function(e) {
-            document.getElementById('pof-name').textContent = e.target.files[0]?.name || '';
-        });
-
-        // Form submit
         document.getElementById('buyerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'SUBMITTING...';
-            
+            btn.disabled = true; btn.textContent = 'SUBMITTING...';
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
             data.states = formData.getAll('states');
+            data.property_types = formData.getAll('property_types');
             data.buybox_res = formData.getAll('buybox_res');
             data.buybox_com = formData.getAll('buybox_com');
             data.buybox_land = formData.getAll('buybox_land');
-            data.form_type = 'buyer';
-            data.status = 'pending';
-            data.created = new Date().toISOString();
+            data.form_type = 'buyer'; data.status = 'pending'; data.created = new Date().toISOString();
             
             try {
-                const res = await fetch('/api/save-buyer', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                
+                const res = await fetch('/api/save-buyer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 if (res.ok) {
                     document.getElementById('selectedStates').textContent = data.states.join(', ');
                     document.getElementById('successModal').classList.add('show');
-                } else {
-                    alert('Error saving. Try again.');
-                    btn.disabled = false;
-                    btn.textContent = 'JOIN BUYER NETWORK';
-                }
-            } catch (err) {
-                alert('Network error. Check connection.');
-                btn.disabled = false;
-                btn.textContent = 'JOIN BUYER NETWORK';
-            }
+                } else { alert('Error saving. Try again.'); btn.disabled = false; btn.textContent = 'JOIN BUYER NETWORK'; }
+            } catch (err) { alert('Network error.'); btn.disabled = false; btn.textContent = 'JOIN BUYER NETWORK'; }
         });
 
         function closeModal() {
             document.getElementById('successModal').classList.remove('show');
             window.location.href = '/';
         }
-
-        // ESC key closes modal
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeModal();
-        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
     </script>
 </body>
 </html>
