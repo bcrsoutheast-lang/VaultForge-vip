@@ -1,319 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Submit Deal - VaultForge</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
-   .container { max-width: 600px; margin: 20px auto; background: #0a0a0a; border: 2px solid #D4AF37; border-radius: 8px; padding: 30px; position: relative; }
-   .close-btn { position: absolute; top: 15px; right: 15px; background: #111; border: 1px solid #333; color: #888; width: 30px; height: 30px; border-radius: 50%; font-size: 18px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1; }
-   .close-btn:hover { background: #222; color: #D4AF37; }
-   .logo { display: block; margin: 0 auto 20px auto; max-width: 150px; }
-    h1 { color: #D4AF37; text-align: center; margin-bottom: 8px; font-size: 26px; letter-spacing: 1px; }
-   .tagline { text-align: center; color: #aaa; margin-bottom: 20px; font-size: 14px; }
-   .vetting-box { background: #111; border: 1px solid #D4AF37; padding: 16px; border-radius: 6px; margin-bottom: 25px; text-align: center; }
-   .vetting-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 8px; }
-   .vetting-box p { color: #ccc; font-size: 13px; line-height: 1.5; }
-   .terms-box { background: #111; border: 1px solid #333; padding: 16px; border-radius: 6px; margin: 25px 0; }
-   .terms-box h3 { color: #D4AF37; font-size: 16px; margin-bottom: 12px; }
-   .terms-box ul { list-style: none; }
-   .terms-box li { color: #aaa; font-size: 13px; margin-bottom: 8px; padding-left: 16px; position: relative; }
-   .terms-box li:before { content: "▸"; color: #D4AF37; position: absolute; left: 0; }
-   .title-upsell { background: #0d0d0d; border: 2px solid #D4AF37; padding: 16px; border-radius: 6px; margin: 25px 0; }
-   .title-upsell h3 { color: #D4AF37; font-size: 16px; margin-bottom: 12px; }
-   .type-buttons { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
-   .type-btn { flex: 1; min-width: 100px; padding: 12px 8px; background: #111; border: 2px solid #333; color: #aaa; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
-   .type-btn.active { background: #D4AF37; border-color: #D4AF37; color: #000; }
-   .hidden { display: none; }
-    label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin: 16px 0 6px 0; }
-    input, select, textarea { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 16px; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #D4AF37; }
-   .checkbox-item { display: flex; align-items: center; margin: 8px 0; }
-   .checkbox-item input { width: auto; margin-right: 10px; }
-   .checkbox-item label { margin: 0; font-weight: 400; color: #ddd; font-size: 15px; }
-   .note { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 16px; }
-    button { width: 100%; padding: 16px; background: #D4AF37; color: #000; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
-    button:hover { background: #e5c158; }
-    button:disabled { background: #555; cursor: not-allowed; }
-   .footer { text-align: center; font-size: 11px; color: #666; margin-top: 25px; line-height: 1.6; }
-   .success-msg { text-align: center; padding: 20px; }
-   .success-msg img { max-width: 120px; margin: 0 auto 20px auto; display: block; }
-   .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
-   .success-msg p { color: #ccc; font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
-   .gold { color: #D4AF37; font-weight: 600; }
-   .exit-btn { display: inline-block; margin-top: 20px; padding: 12px 30px; background: #111; border: 1px solid #D4AF37; color: #D4AF37; text-decoration: none; border-radius: 4px; font-weight: bold; }
-   .exit-btn:hover { background: #222; }
-   .analysis-box { background: #0d0d0d; border: 2px solid #D4AF37; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: left; }
-   .analysis-box h3 { color: #D4AF37; font-size: 18px; margin-bottom: 15px; text-align: center; letter-spacing: 1px; }
-   .analysis-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 14px; }
-   .analysis-row:last-child { border-bottom: none; }
-   .analysis-label { color: #aaa; }
-   .analysis-value { color: #D4AF37; font-weight: 600; }
-   .ai-badge { background: #D4AF37; color: #000; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultForge VIP - Submit Your Deal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a; 
+            color: #fff; 
+            line-height: 1.6;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #d4af37; font-size: 28px; margin-bottom: 8px; }
+        .header p { color: #888; font-size: 16px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            color: #fff; 
+            font-size: 16px;
+        }
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: #d4af37; 
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+        .checkbox-group { 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            padding: 16px; 
+            margin-bottom: 20px;
+        }
+        .checkbox-label { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 12px; 
+            cursor: pointer;
+            color: #fff;
+            font-weight: normal;
+        }
+        .checkbox-label input[type="checkbox"] { 
+            width: 20px; 
+            height: 20px; 
+            margin: 0;
+            cursor: pointer;
+        }
+        .checkbox-text { flex: 1; }
+        .checkbox-title { color: #d4af37; font-weight: 600; display: block; margin-bottom: 4px; }
+        .checkbox-desc { color: #888; font-size: 14px; }
+        .title-fields { 
+            display: none; 
+            margin-top: 16px; 
+            padding-top: 16px; 
+            border-top: 1px solid #333;
+        }
+        .title-fields.show { display: block; }
+        .conditional-field { display: none; margin-top: 12px; }
+        .conditional-field.show { display: block; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: linear-gradient(135deg, #d4af37, #b8941f); 
+            color: #000; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button:hover { opacity: 0.9; }
+        .success { 
+            display: none; 
+            background: #1a4d1a; 
+            border: 1px solid #2d7d2d; 
+            color: #4ade80; 
+            padding: 20px; 
+            border-radius: 6px; 
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-  <div class="container" id="form-container">
-    <a href="/" class="close-btn">×</a>
-    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
-    <h1>SUBMIT YOUR OFF-MARKET DEAL</h1>
-    <p class="tagline">Private Buyers. 48-Hour Performance. No Daisy Chains.</p>
-    <div class="vetting-box">
-      <h3>PRIVATE NETWORK - SERIOUS DEALS ONLY</h3>
-      <p>We have private buyers with funds ready to go. If your number works, we claim in 48hrs and wire EMD. No window shoppers. Submission does not guarantee we take the deal. If more info is needed, VaultForge will contact you.</p>
+    <div class="container">
+        <div class="header">
+            <h1>VAULTFORGE VIP</h1>
+            <p>Submit your deal to our buyer network</p>
+        </div>
+
+        <form id="sellerForm">
+            <div class="form-group">
+                <label>Property Address *</label>
+                <input type="text" name="address" required placeholder="123 Main St">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" name="city" required placeholder="Atlanta">
+                </div>
+                <div class="form-group">
+                    <label>State *</label>
+                    <select name="state" required>
+                        <option value="">Select State</option>
+                        <option value="GA">Georgia</option>
+                        <option value="FL">Florida</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="AL">Alabama</option>
+                        <option value="SC">South Carolina</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Asking Price *</label>
+                    <input type="number" name="asking_price" required placeholder="150000">
+                </div>
+                <div class="form-group">
+                    <label>ARV</label>
+                    <input type="number" name="arv" placeholder="200000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Estimated Repairs</label>
+                <input type="number" name="repairs" placeholder="25000">
+            </div>
+
+            <div class="form-group">
+                <label>Deal Type *</label>
+                <select name="deal_type" required>
+                    <option value="">Select Type</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Double Close">Double Close</option>
+                    <option value="Subject To">Subject To</option>
+                    <option value="Seller Finance">Seller Finance</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Expected Assignment Fee</label>
+                <input type="number" name="expected_fee" placeholder="10000">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" name="seller_name" required placeholder="John Smith">
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" name="phone" required placeholder="404-555-1234">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required placeholder="john@email.com">
+            </div>
+
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="title_concierge" id="titleConcierge">
+                    <div class="checkbox-text">
+                        <span class="checkbox-title">Add Title Concierge - $500</span>
+                        <span class="checkbox-desc">We handle title, payoffs, liens, and closing coordination so you don't have to chase anyone</span>
+                    </div>
+                </label>
+
+                <div class="title-fields" id="titleFields">
+                    <div class="form-group">
+                        <label>Is there a mortgage on the property? *</label>
+                        <select name="has_mortgage" id="hasMortgage">
+                            <option value="">Select</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="conditional-field" id="mortgageFields">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Lender Name *</label>
+                                <input type="text" name="lender_name" placeholder="Wells Fargo">
+                            </div>
+                            <div class="form-group">
+                                <label>Approx Payoff Balance *</label>
+                                <input type="number" name="payoff_balance" placeholder="85000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Any known title issues? Liens, judgments, divorce, probate, heirship? *</label>
+                        <select name="has_title_issues" id="hasTitleIssues">
+                            <option value="">Select</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="conditional-field" id="titleIssueField">
+                        <div class="form-group">
+                            <label>Explain briefly *</label>
+                            <textarea name="title_issue_details" rows="3" placeholder="Divorce decree needed, 2021 IRS lien, etc"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Exact name as it appears on deed *</label>
+                        <input type="text" name="deed_name" placeholder="John A. Smith Revocable Trust">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Submit Deal to Network</button>
+        </form>
+
+        <div class="success" id="successMsg">
+            <h3>Deal Submitted!</h3>
+            <p>Check your email for next steps. If you selected Title Concierge, you'll be redirected to payment.</p>
+        </div>
     </div>
-    <div class="terms-box">
-      <h3>⚡ SELLER TERMS</h3>
-      <ul>
-        <li>Submit deals with clean title + access. We verify before blast.</li>
-        <li>VaultForge or buyer wires EMD to title within 24hrs of CLAIM.</li>
-        <li>Split assignment 50/50 with wholesaler on closed deals.</li>
-        <li>VaultForge network fee = 1% of purchase price, paid by buyer at close.</li>
-        <li>48hr performance. We close or release it.</li>
-      </ul>
-    </div>
-    <div class="title-upsell">
-      <h3>💎 TITLE CONCIERGE SERVICE - $500</h3>
-      <ul>
-        <li>We open title + run lien search within 24hrs</li>
-        <li>Handle probate, tax liens, code violations</li>
-        <li>Guarantee clean title before buyer blast</li>
-        <li>7-day close possible vs 30-day</li>
-      </ul>
-      <div class="checkbox-item" style="margin-top:15px;">
-        <input type="checkbox" name="title_concierge" value="Yes - $500" id="title-upgrade">
-        <label for="title-upgrade" style="color:#D4AF37;font-weight:bold;">YES, ADD TITLE CONCIERGE - $500</label>
-      </div>
-      <p class="note">Check box = VaultForge emails you Stripe link. Service starts after payment clears.</p>
-    </div>
-    <form id="seller-form" action="https://formspree.io/f/mqeoeeqe" method="POST">
-      <input type="text" name="_gotcha" style="display:none">
-      <label>Property Type - Select All That Apply *</label>
-      <div class="type-buttons">
-        <button type="button" class="type-btn" data-type="residential">RESIDENTIAL</button>
-        <button type="button" class="type-btn" data-type="commercial">COMMERCIAL</button>
-        <button type="button" class="type-btn" data-type="land">LAND</button>
-      </div>
-      <input type="hidden" name="property_types" id="property_types">
-      <label>Property Address *</label>
-      <input type="text" name="property_address" id="address" required placeholder="123 Main St">
-      <label>City, State *</label>
-      <input type="text" name="city_state" id="city_state" required placeholder="Atlanta, GA">
-      <label>Deal Type *</label>
-      <select name="deal_type" required>
-        <option value="">Select...</option>
-        <option>Wholesale Contract</option>
-        <option>Pocket Listing</option>
-        <option>Pre-Foreclosure</option>
-        <option>Probate/Inherited</option>
-        <option>Vacant/Fire Damaged</option>
-        <option>Owner Finance</option>
-        <option>Other</option>
-      </select>
-      <label>Asking Price *</label>
-      <input type="text" inputmode="decimal" name="asking_price" id="asking_price" required placeholder="175000">
-      <div id="residential-fields" class="hidden">
-        <label>ARV - After Repair Value</label>
-        <input type="text" inputmode="decimal" name="arv" id="arv" placeholder="250000">
-        <label>Estimated Repairs</label>
-        <input type="text" inputmode="decimal" name="repairs" id="repairs" placeholder="30000">
-        <label>Beds / Baths</label>
-        <input type="text" name="beds_baths" placeholder="3 Bed / 2 Bath">
-        <label>Square Footage</label>
-        <input type="text" inputmode="decimal" name="sqft_res" id="sqft_res" placeholder="1800">
-      </div>
-      <div id="commercial-fields" class="hidden">
-        <label>Commercial Type *</label>
-        <select name="commercial_type">
-          <option value="">Select Type...</option>
-          <option>Multi-Family 5+</option>
-          <option>Retail</option>
-          <option>Office</option>
-          <option>Industrial</option>
-          <option>Mixed Use</option>
-          <option>Other</option>
-        </select>
-        <label>NOI - Net Operating Income</label>
-        <input type="text" inputmode="decimal" name="noi" id="noi" placeholder="50000">
-        <label>Square Footage</label>
-        <input type="text" inputmode="decimal" name="sqft_com" id="sqft_com" placeholder="10000">
-      </div>
-      <div id="land-fields" class="hidden">
-        <label>Acreage</label>
-        <input type="text" inputmode="decimal" name="acreage" id="acreage" placeholder="5.2">
-        <label>Zoning</label>
-        <input type="text" name="zoning" placeholder="Residential R-1, Commercial, etc">
-      </div>
-      <label>Your Expected Spread/Fee</label>
-      <input type="text" inputmode="decimal" name="expected_fee" id="expected_fee" placeholder="10000">
-      <label>Contract Expiration Date *</label>
-      <input type="date" name="contract_expires" required>
-      <label>Property Access *</label>
-      <select name="access" required>
-        <option value="">Select...</option>
-        <option>Vacant - Lockbox</option>
-        <option>Vacant - Code</option>
-        <option>Occupied - Appointment Only</option>
-        <option>Tenant Occupied</option>
-      </select>
-      <label>Your Name *</label>
-      <input type="text" name="full_name" required>
-      <label>Phone *</label>
-      <input type="tel" name="phone" required>
-      <label>Email *</label>
-      <input type="email" name="email" required>
-      <p class="note">No file upload needed. If approved, VaultForge will contact you for contract + photos before blast.</p>
-      <label>Additional Details</label>
-      <textarea name="message" rows="4" placeholder="Liens, occupancy, motivation, timeline, anything we should know..."></textarea>
-      <button type="submit" id="submit-btn">SUBMIT DEAL + RUN AI ANALYSIS</button>
-    </form>
-    <div class="footer">
-      VaultForge is not a broker. We connect vetted buyers with off-market opportunities. 
-      All deals subject to verification. Your info is encrypted & never sold.
-    </div>
-  </div>
-<script>
-const selectedTypes = new Set();
-document.querySelectorAll('.type-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const type = this.dataset.type;
-    if (this.classList.contains('active')) {
-      this.classList.remove('active');
-      selectedTypes.delete(type);
-      document.getElementById(type + '-fields').classList.add('hidden');
-    } else {
-      this.classList.add('active');
-      selectedTypes.add(type);
-      document.getElementById(type + '-fields').classList.remove('hidden');
-    }
-    document.getElementById('property_types').value = Array.from(selectedTypes).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
-  });
-});
-function calculateAnalysis() {
-  const ask = parseFloat(document.getElementById('asking_price').value.replace(/[$,]/g, '')) || 0;
-  const arv = parseFloat(document.getElementById('arv').value.replace(/[$,]/g, '')) || 0;
-  const repairs = parseFloat(document.getElementById('repairs').value.replace(/[$,]/g, '')) || 0;
-  const noi = parseFloat(document.getElementById('noi').value.replace(/[$,]/g, '')) || 0;
-  const sqftRes = parseFloat(document.getElementById('sqft_res').value.replace(/[$,]/g, '')) || 0;
-  const sqftCom = parseFloat(document.getElementById('sqft_com').value.replace(/[$,]/g, '')) || 0;
-  const acres = parseFloat(document.getElementById('acreage').value.replace(/[$,]/g, '')) || 0;
-  const fee = parseFloat(document.getElementById('expected_fee').value.replace(/[$,]/g, '')) || 0;
-  const titleConcierge = document.getElementById('title-upgrade').checked;
-  let html = '<div class="analysis-box"><h3>VAULTFORGE AI DEAL ANALYSIS <span class="ai-badge">BETA</span></h3>';
-  if (ask > 0) html += `<div class="analysis-row"><span class="analysis-label">Asking Price</span><span class="analysis-value">$${ask.toLocaleString()}</span></div>`;
-  if (titleConcierge) html += `<div class="analysis-row"><span class="analysis-label">Title Concierge</span><span class="analysis-value">$500 - ACTIVATED</span></div>`;
-  if (selectedTypes.has('residential') && arv > 0) {
-    const maxAllowable = (arv * 0.70) - repairs;
-    const spread = ask - maxAllowable;
-    const profit = arv - ask - repairs - fee;
-    const roi = ask > 0? ((profit / ask) * 100).toFixed(1) : 0;
-    html += `<div class="analysis-row"><span class="analysis-label">ARV</span><span class="analysis-value">$${arv.toLocaleString()}</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Repairs</span><span class="analysis-value">$${repairs.toLocaleString()}</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">70% Rule MAO</span><span class="analysis-value">$${maxAllowable.toLocaleString()}</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Ask vs MAO</span><span class="analysis-value" style="color:${spread > 0? '#ff4444' : '#44ff44'}">${spread > 0? '+' : ''}$${spread.toLocaleString()}</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Est. Profit After Fees</span><span class="analysis-value">$${profit.toLocaleString()}</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Projected ROI</span><span class="analysis-value">${roi}%</span></div>`;
-    if (sqftRes > 0) {
-      const ppsqft = (ask / sqftRes).toFixed(0);
-      html += `<div class="analysis-row"><span class="analysis-label">Price/SqFt</span><span class="analysis-value">$${ppsqft}</span></div>`;
-    }
-  }
-  if (selectedTypes.has('commercial') && noi > 0 && ask > 0) {
-    const capRate = ((noi / ask) * 100).toFixed(2);
-    html += `<div class="analysis-row"><span class="analysis-label">NOI</span><span class="analysis-value">$${noi.toLocaleString()}/yr</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Cap Rate at Ask</span><span class="analysis-value">${capRate}%</span></div>`;
-    if (sqftCom > 0) {
-      const ppsqft = (ask / sqftCom).toFixed(0);
-      html += `<div class="analysis-row"><span class="analysis-label">Price/SqFt</span><span class="analysis-value">$${ppsqft}</span></div>`;
-    }
-  }
-  if (selectedTypes.has('land') && acres > 0 && ask > 0) {
-    const pricePerAcre = (ask / acres).toFixed(0);
-    html += `<div class="analysis-row"><span class="analysis-label">Acreage</span><span class="analysis-value">${acres} Acres</span></div>`;
-    html += `<div class="analysis-row"><span class="analysis-label">Price/Acre</span><span class="analysis-value">$${parseInt(pricePerAcre).toLocaleString()}</span></div>`;
-  }
-  let score = 50;
-  if (selectedTypes.has('residential') && arv > 0) {
-    const maxAllowable = (arv * 0.70) - repairs;
-    if (ask <= maxAllowable) score += 30;
-    else if (ask <= maxAllowable * 1.1) score += 15;
-    else score -= 20;
-  }
-  if (selectedTypes.has('commercial') && noi > 0 && ask > 0) {
-    const capRate = (noi / ask) * 100;
-    if (capRate >= 8) score += 30;
-    else if (capRate >= 6) score += 15;
-    else score -= 10;
-  }
-  if (titleConcierge) score += 10;
-  let grade = 'C';
-  let gradeColor = '#ffaa00';
-  if (score >= 80) { grade = 'A'; gradeColor = '#44ff44'; }
-  else if (score >= 65) { grade = 'B'; gradeColor = '#aaff44'; }
-  else if (score < 40) { grade = 'D'; gradeColor = '#ff4444'; }
-  html += `<div class="analysis-row" style="margin-top:10px;padding-top:10px;border-top:2px solid #D4AF37;"><span class="analysis-label">VaultForge Deal Score</span><span class="analysis-value" style="color:${gradeColor};font-size:18px">${grade}</span></div>`;
-  html += '</div>';
-  return html;
-}
-document.getElementById('seller-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (selectedTypes.size === 0) {
-    alert('Please select at least one Property Type');
-    return;
-  }
-  const form = e.target;
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'ANALYZING DEAL...';
-  setTimeout(() => {
-    const analysisHTML = calculateAnalysis();
-    const titleConcierge = document.getElementById('title-upgrade').checked;
-    const formData = new FormData(form);
-    const dealData = Object.fromEntries(formData.entries());
-    dealData.property_types = Array.from(selectedTypes).join(', ');
-    ['asking_price', 'arv', 'repairs', 'expected_fee', 'sqft_res', 'sqft_com', 'noi', 'acreage'].forEach(field => {
-      if (dealData[field]) dealData[field] = dealData[field].replace(/[$,]/g, '');
-    });
-    fetch('/api/save-deal', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dealData)
-    }).then(() => {
-      return fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-    }).then(response => {
-      if (response.ok) {
-        document.getElementById('form-container').innerHTML = `
-          <div class="success-msg">
-            <img src="IMG_4751.png" alt="VaultForge Logo">
-            <h1>DEAL RECEIVED</h1>
-            ${analysisHTML}
-            <p class="gold">We have private buyers with funds ready to go.</p>
-            <p>Your deal is under review by our acquisitions team.</p>
-            ${titleConcierge? '<p class="gold">✓ Title Concierge Activated - Check email for $500 payment link.</p>' : ''}
-            <p>Submission does not guarantee we take the deal.</p>
-            <p>If your number works, <span class="gold">VaultForge will contact you within 24hrs</span> for contract + photos.</p>
-            <p>No daisy chains. 48hr performance only.</p>
-            <a href="/" class="exit-btn">CLOSE</a>
-          </div>
-        `;
-      } else {
-        alert('Error submitting. Please try again or refresh the page.');
-        btn.disabled = false;
-        btn.textContent = 'SUBMIT DEAL + RUN AI ANALYSIS';
-      }
-    }).catch(error => {
-      alert('Network error. Check connection and try again.');
-      btn.disabled = false;
-      btn.textContent = 'SUBMIT DEAL + RUN AI ANALYSIS';
-    });
-  }, 1500);
-});
-</script>
+
+    <script>
+        const titleConcierge = document.getElementById('titleConcierge');
+        const titleFields = document.getElementById('titleFields');
+        const hasMortgage = document.getElementById('hasMortgage');
+        const mortgageFields = document.getElementById('mortgageFields');
+        const hasTitleIssues = document.getElementById('hasTitleIssues');
+        const titleIssueField = document.getElementById('titleIssueField');
+        const form = document.getElementById('sellerForm');
+        const successMsg = document.getElementById('successMsg');
+
+        titleConcierge.addEventListener('change', function() {
+            titleFields.classList.toggle('show', this.checked);
+            if (!this.checked) {
+                document.querySelectorAll('#titleFields input, #titleFields select, #titleFields textarea').forEach(el => {
+                    el.required = false;
+                    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+                    else el.value = '';
+                });
+                mortgageFields.classList.remove('show');
+                titleIssueField.classList.remove('show');
+            } else {
+                document.querySelector('#hasMortgage').required = true;
+                document.querySelector('#hasTitleIssues').required = true;
+                document.querySelector('input[name="deed_name"]').required = true;
+            }
+        });
+
+        hasMortgage.addEventListener('change', function() {
+            const show = this.value === 'Yes';
+            mortgageFields.classList.toggle('show', show);
+            mortgageFields.querySelectorAll('input').forEach(el => el.required = show);
+        });
+
+        hasTitleIssues.addEventListener('change', function() {
+            const show = this.value === 'Yes';
+            titleIssueField.classList.toggle('show', show);
+            titleIssueField.querySelector('textarea').required = show;
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            data.title_concierge = titleConcierge.checked;
+            
+            try {
+                const res = await fetch('/api/save-deal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                if (res.ok) {
+                    const result = await res.json();
+                    if (data.title_concierge && result.stripe_url) {
+                        window.location.href = result.stripe_url;
+                    } else {
+                        form.style.display = 'none';
+                        successMsg.style.display = 'block';
+                    }
+                } else {
+                    alert('Error submitting deal. Please try again.');
+                }
+            } catch (err) {
+                alert('Error submitting deal. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
