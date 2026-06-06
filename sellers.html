@@ -1,253 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultForge - Submit Deal</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 32px; }
-        .header h1 { color: #FFD700; font-size: 32px; letter-spacing: 2px; }
-        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
-        .card-label { color: #FFD700; font-size: 12px; letter-spacing: 1px; margin-bottom: 16px; text-transform: uppercase; }
-        .form-group { margin-bottom: 16px; }
-        .form-label { display: block; color: #ccc; font-size: 14px; margin-bottom: 8px; }
-        .form-input, .form-select { width: 100%; padding: 12px; background: #000; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 16px; }
-        .form-input:focus, .form-select:focus { outline: none; border-color: #FFD700; }
-        .radio-group { display: flex; gap: 16px; }
-        .radio-item { display: flex; align-items: center; gap: 8px; }
-        .btn { width: 100%; padding: 16px; background: #FFD700; color: #000; border: none; border-radius: 4px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; text-transform: uppercase; }
-        .btn:hover { background: #FFC700; }
-        .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
-        .checkbox-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: #000; border: 1px solid #333; border-radius: 4px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: #1a1a1a; border: 1px solid #FFD700; border-radius: 8px; padding: 32px; max-width: 500px; width: 90%; position: relative; }
-        .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #FFD700; font-size: 24px; cursor: pointer; }
-        .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-        .score-box { text-align: center; padding: 16px; background: #000; border: 1px solid #333; border-radius: 4px; }
-        .score-label { color: #888; font-size: 12px; margin-bottom: 8px; }
-        .score-value { color: #FFD700; font-size: 28px; font-weight: 700; }
-        .hidden { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultForge - Submit Your Deal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+   .hidden { display: none; }
+   .thumbnail { width: 80px; height: 80px; object-fit: cover; }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>VAULTFORGE</h1>
-            <p style="color: #888; margin-top: 8px;">Submit Your Off-Market Deal</p>
+<body class="bg-zinc-900 text-white">
+  <div class="max-w-4xl mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6">Submit Your Deal to VaultForge</h1>
+    
+    <form id="sellerForm" class="space-y-6">
+      <!-- PROPERTY TYPE -->
+      <div class="bg-zinc-800 p-4 rounded">
+        <label class="block text-sm font-bold mb-2">Property Type *</label>
+        <select id="property_type" name="property_type" required class="w-full p-2 bg-zinc-700 rounded">
+          <option value="">Select Type</option>
+          <option value="Residential">Residential</option>
+          <option value="Commercial">Commercial</option>
+          <option value="Land">Land</option>
+        </select>
+      </div>
+
+      <!-- RESIDENTIAL FIELDS -->
+      <div id="residential_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
+        <div>
+          <label class="block text-sm font-bold mb-2">Sub-Type</label>
+          <select name="res_subtype" class="w-full p-2 bg-zinc-700 rounded">
+            <option>Single Family</option>
+            <option>Multi-Family</option>
+            <option>Condo/Townhome</option>
+            <option>Mobile Home</option>
+          </select>
         </div>
-
-        <form id="dealForm">
-            <div class="card">
-                <div class="card-label">Property Details</div>
-                <div class="form-group">
-                    <label class="form-label">Property Type</label>
-                    <div class="radio-group">
-                        <div class="radio-item">
-                            <input type="radio" id="res" name="property_type" value="residential" checked>
-                            <label for="res">Residential</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="com" name="property_type" value="commercial">
-                            <label for="com">Commercial</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="land" name="property_type" value="land">
-                            <label for="land">Land</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Property Address</label>
-                    <input type="text" id="address" name="address" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">State</label>
-                    <select id="state" name="state" class="form-select" required>
-                        <option value="">Select State</option>
-                        <option>GA</option><option>FL</option><option>TN</option><option>AL</option><option>SC</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-label">Deal Numbers</div>
-                <div class="form-group">
-                    <label class="form-label">Asking Price</label>
-                    <input type="number" id="asking_price" name="asking_price" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">After Repair Value (ARV)</label>
-                    <input type="number" id="arv" name="arv" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Estimated Repairs</label>
-                    <input type="number" id="repairs" name="repairs" class="form-input" value="0">
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-label">Services</div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="title_concierge" name="title_concierge">
-                    <label for="title_concierge">Add Title Concierge - $500</label>
-                </div>
-                
-                <div id="title-questions" class="hidden" style="margin-top:16px; padding:16px; border:1px solid #FFD700; border-radius:8px;">
-                    <div class="form-group">
-                        <label class="form-label">Current Mortgage Payoff Amount</label>
-                        <input type="text" id="payoff_amount" name="payoff_amount" class="form-input" placeholder="$0 if free & clear">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Any liens, judgments, HOA, or back taxes?</label>
-                        <select id="has_liens" name="has_liens" class="form-select">
-                            <option>No</option><option>Yes</option>
-                        </select>
-                        <input type="text" id="lien_details" name="lien_details" class="form-input" placeholder="Describe if yes" style="margin-top:8px; display:none;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Preferred closing date</label>
-                        <input type="date" id="closing_date" name="closing_date" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Do you have a title company?</label>
-                        <select id="has_title_company" name="has_title_company" class="form-select">
-                            <option>No</option><option>Yes</option>
-                        </select>
-                        <input type="text" id="title_company" name="title_company" class="form-input" placeholder="Company name" style="margin-top:8px; display:none;">
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-label">Contact Info</div>
-                <div class="form-group">
-                    <label class="form-label">Your Name</label>
-                    <input type="text" id="seller_name" name="seller_name" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Phone</label>
-                    <input type="tel" id="seller_phone" name="seller_phone" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="seller_email" name="seller_email" class="form-input" required>
-                </div>
-            </div>
-
-            <button type="button" id="analyzeBtn" class="btn">ANALYZE DEAL</button>
-        </form>
-    </div>
-
-    <div id="analysisModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 style="color: #FFD700; text-align: center; margin-bottom: 24px;">DEAL ANALYSIS</h2>
-            <div class="score-grid">
-                <div class="score-box">
-                    <div class="score-label">SCORE</div>
-                    <div class="score-value" id="modalScore">-</div>
-                </div>
-                <div class="score-box">
-                    <div class="score-label">ROI</div>
-                    <div class="score-value" id="modalRoi">-</div>
-                </div>
-                <div class="score-box">
-                    <div class="score-label">MAO</div>
-                    <div class="score-value" id="modalMao">-</div>
-                </div>
-            </div>
-            <button type="button" id="submitDealBtn" class="btn">SUBMIT TO NETWORK</button>
+        <div class="grid grid-cols-3 gap-4">
+          <div><label class="block text-sm mb-1">Beds *</label><input type="number" name="bed" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Baths *</label><input type="number" step="0.5" name="bath" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">SQFT</label><input type="number" name="sqft" class="w-full p-2 bg-zinc-700 rounded"></div>
         </div>
+        <div><label class="block text-sm mb-1">Year Built</label><input type="number" name="year_built" class="w-full p-2 bg-zinc-700 rounded"></div>
+      </div>
+
+      <!-- COMMERCIAL FIELDS -->
+      <div id="commercial_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
+        <div>
+          <label class="block text-sm font-bold mb-2">Sub-Type</label>
+          <select name="com_subtype" class="w-full p-2 bg-zinc-700 rounded">
+            <option>Office</option>
+            <option>Retail</option>
+            <option>Industrial</option>
+            <option>Warehouse</option>
+            <option>Mixed Use</option>
+            <option>Multi-Family 5+</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div><label class="block text-sm mb-1">SQFT *</label><input type="number" name="com_sqft" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Units</label><input type="number" name="units" class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Acres</label><input type="number" step="0.01" name="com_acres" class="w-full p-2 bg-zinc-700 rounded"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block text-sm mb-1">Zoning</label><input type="text" name="zoning" class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Cap Rate %</label><input type="number" step="0.1" name="cap_rate" class="w-full p-2 bg-zinc-700 rounded"></div>
+        </div>
+      </div>
+
+      <!-- LAND FIELDS -->
+      <div id="land_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
+        <div>
+          <label class="block text-sm font-bold mb-2">Sub-Type</label>
+          <select name="land_subtype" class="w-full p-2 bg-zinc-700 rounded">
+            <option>Residential Lot</option>
+            <option>Commercial Lot</option>
+            <option>Agricultural</option>
+            <option>Recreational</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block text-sm mb-1">Acres *</label><input type="number" step="0.01" name="acres" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Road Frontage</label>
+            <select name="road_frontage" class="w-full p-2 bg-zinc-700 rounded">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+            <input type="number" name="frontage_feet" placeholder="Feet" class="w-full p-2 bg-zinc-700 rounded mt-2 hidden">
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div><label class="block text-sm mb-1">Power</label>
+            <select name="power" class="w-full p-2 bg-zinc-700 rounded">
+              <option>None</option><option>At Street</option><option>On Property</option>
+            </select>
+          </div>
+          <div><label class="block text-sm mb-1">Water/Sewer</label>
+            <select name="water_sewer" class="w-full p-2 bg-zinc-700 rounded">
+              <option>None</option><option>City</option><option>Well/Septic</option>
+            </select>
+          </div>
+          <div><label class="block text-sm mb-1">Topography</label>
+            <select name="topography" class="w-full p-2 bg-zinc-700 rounded">
+              <option>Flat</option><option>Hilly</option><option>Wooded</option><option>Cleared</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="block text-sm mb-1">Zoning</label><input type="text" name="land_zoning" class="w-full p-2 bg-zinc-700 rounded"></div>
+      </div>
+
+      <!-- CORE DEAL INFO -->
+      <div class="bg-zinc-800 p-4 rounded space-y-4">
+        <div><label class="block text-sm font-bold mb-1">Property Address *</label><input type="text" name="address" required class="w-full p-2 bg-zinc-700 rounded"></div>
+        <div><label class="block text-sm font-bold mb-1">State *</label><input type="text" name="state" required maxlength="2" class="w-full p-2 bg-zinc-700 rounded"></div>
+        <div class="grid grid-cols-3 gap-4">
+          <div><label class="block text-sm mb-1">Asking Price *</label><input type="number" name="asking_price" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">ARV *</label><input type="number" name="arv" required class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Repairs *</label><input type="number" name="repairs" required class="w-full p-2 bg-zinc-700 rounded"></div>
+        </div>
+      </div>
+
+      <!-- PHOTO UPLOAD -->
+      <div class="bg-zinc-800 p-4 rounded">
+        <label class="block text-sm font-bold mb-2">Upload Photos (Max 10)</label>
+        <input type="file" id="photos" name="photos" multiple accept="image/*" class="w-full p-2 bg-zinc-700 rounded">
+        <div id="photo_preview" class="flex flex-wrap gap-2 mt-4"></div>
+      </div>
+
+      <!-- COMPS -->
+      <div class="bg-zinc-800 p-4 rounded">
+        <label class="block text-sm font-bold mb-2">Comparable Sales (Optional)</label>
+        <div id="comps_container" class="space-y-2">
+          <div class="comp-row grid grid-cols-4 gap-2">
+            <input type="text" name="comp_address[]" placeholder="Address" class="p-2 bg-zinc-700 rounded">
+            <input type="number" name="comp_price[]" placeholder="Sale Price" class="p-2 bg-zinc-700 rounded">
+            <input type="date" name="comp_date[]" class="p-2 bg-zinc-700 rounded">
+            <input type="number" name="comp_sqft[]" placeholder="SQFT" class="p-2 bg-zinc-700 rounded">
+          </div>
+        </div>
+        <button type="button" id="add_comp" class="mt-2 text-sm text-blue-400">+ Add Another Comp</button>
+      </div>
+
+      <!-- TITLE CONCIERGE -->
+      <div class="bg-zinc-800 p-4 rounded">
+        <label class="flex items-center space-x-2 mb-4">
+          <input type="checkbox" id="title_concierge" name="title_concierge" class="w-5 h-5">
+          <span class="font-bold">Title Concierge - $500 (We handle title + closing)</span>
+        </label>
+        <div id="title_questions" class="hidden space-y-4">
+          <div><label class="block text-sm mb-1">Payoff Amount *</label><input type="number" name="payoff_amount" class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Any Liens/Judgments? *</label>
+            <select name="liens" class="w-full p-2 bg-zinc-700 rounded"><option>No</option><option>Yes</option></select>
+            <input type="text" name="lien_details" placeholder="If yes, describe" class="w-full p-2 bg-zinc-700 rounded mt-2 hidden">
+          </div>
+          <div><label class="block text-sm mb-1">Desired Closing Date *</label><input type="date" name="closing_date" class="w-full p-2 bg-zinc-700 rounded"></div>
+          <div><label class="block text-sm mb-1">Do you have a Title Company? *</label>
+            <select name="has_title_co" class="w-full p-2 bg-zinc-700 rounded"><option>No</option><option>Yes</option></select>
+            <input type="text" name="title_co_name" placeholder="If yes, name" class="w-full p-2 bg-zinc-700 rounded mt-2 hidden">
+          </div>
+        </div>
+      </div>
+
+      <!-- SELLER INFO -->
+      <div class="bg-zinc-800 p-4 rounded space-y-4">
+        <div><label class="block text-sm font-bold mb-1">Your Name *</label><input type="text" name="seller_name" required class="w-full p-2 bg-zinc-700 rounded"></div>
+        <div><label class="block text-sm font-bold mb-1">Phone *</label><input type="tel" name="seller_phone" required class="w-full p-2 bg-zinc-700 rounded"></div>
+        <div><label class="block text-sm font-bold mb-1">Email *</label><input type="email" name="seller_email" required class="w-full p-2 bg-zinc-700 rounded"></div>
+      </div>
+
+      <div class="flex gap-4">
+        <button type="button" id="analyzeBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 p-4 rounded font-bold">ANALYZE DEAL</button>
+        <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 p-4 rounded font-bold">SUBMIT TO NETWORK</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ANALYSIS MODAL -->
+  <div id="analysisModal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4">
+    <div class="bg-zinc-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button id="closeModal" class="absolute top-4 right-4 text-2xl">✕</button>
+      <h2 class="text-2xl font-bold mb-4">Deal Analysis</h2>
+      <div id="analysis_content"></div>
     </div>
+  </div>
 
-    <script>
-        let currentDeal = {};
-        
-        document.getElementById('title_concierge').addEventListener('change', function(e) {
-            document.getElementById('title-questions').style.display = e.target.checked ? 'block' : 'none';
-        });
+<script>
+// Property type toggle
+document.getElementById('property_type').addEventListener('change', (e) => {
+  document.querySelectorAll('#residential_fields, #commercial_fields, #land_fields').forEach(el => el.classList.add('hidden'));
+  if (e.target.value === 'Residential') document.getElementById('residential_fields').classList.remove('hidden');
+  if (e.target.value === 'Commercial') document.getElementById('commercial_fields').classList.remove('hidden');
+  if (e.target.value === 'Land') document.getElementById('land_fields').classList.remove('hidden');
+});
 
-        document.getElementById('has_liens').addEventListener('change', e => {
-            document.getElementById('lien_details').style.display = e.target.value === 'Yes' ? 'block' : 'none';
-        });
-        
-        document.getElementById('has_title_company').addEventListener('change', e => {
-            document.getElementById('title_company').style.display = e.target.value === 'Yes' ? 'block' : 'none';
-        });
+// Title concierge toggle
+document.getElementById('title_concierge').addEventListener('change', (e) => {
+  document.getElementById('title_questions').classList.toggle('hidden',!e.target.checked);
+});
 
-        document.getElementById('analyzeBtn').addEventListener('click', async function() {
-            const form = document.getElementById('dealForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+// Photo preview
+document.getElementById('photos').addEventListener('change', (e) => {
+  const preview = document.getElementById('photo_preview');
+  preview.innerHTML = '';
+  [...e.target.files].slice(0,10).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.className = 'thumbnail rounded';
+      preview.appendChild(img);
+    }
+    reader.readAsDataURL(file);
+  });
+});
 
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            data.title_concierge = document.getElementById('title_concierge').checked;
-            
-            this.disabled = true;
-            this.textContent = 'ANALYZING...';
+// Add comp row
+document.getElementById('add_comp').addEventListener('click', () => {
+  const container = document.getElementById('comps_container');
+  const row = container.querySelector('.comp-row').cloneNode(true);
+  row.querySelectorAll('input').forEach(input => input.value = '');
+  container.appendChild(row);
+});
 
-            try {
-                const res = await fetch('/api/analyze-deal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                const json = await res.json();
-                
-                currentDeal = { ...data, analysis: json };
-                document.getElementById('modalScore').textContent = json.score;
-                document.getElementById('modalRoi').textContent = json.roi + '%';
-                document.getElementById('modalMao').textContent = '$' + json.mao.toLocaleString();
-                document.getElementById('analysisModal').style.display = 'flex';
-            } catch (err) {
-                alert('Analysis failed. Try again.');
-            } finally {
-                this.disabled = false;
-                this.textContent = 'ANALYZE DEAL';
-            }
-        });
+// Conditional fields
+document.querySelector('[name="road_frontage"]').addEventListener('change', (e) => {
+  document.querySelector('[name="frontage_feet"]').classList.toggle('hidden', e.target.value!== 'Yes');
+});
+document.querySelector('[name="liens"]').addEventListener('change', (e) => {
+  document.querySelector('[name="lien_details"]').classList.toggle('hidden', e.target.value!== 'Yes');
+});
+document.querySelector('[name="has_title_co"]').addEventListener('change', (e) => {
+  document.querySelector('[name="title_co_name"]').classList.toggle('hidden', e.target.value!== 'Yes');
+});
 
-        document.getElementById('submitDealBtn').addEventListener('click', async function() {
-            this.disabled = true;
-            this.textContent = 'SUBMITTING...';
+let currentAnalysis = null;
 
-            try {
-                const res = await fetch('/api/save-deal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(currentDeal)
-                });
-                const json = await res.json();
-                
-                if (json.success && json.stripe_url) {
-                    window.open(json.stripe_url, '_blank');
-                }
-                
-                alert('Deal submitted to network!');
-                closeModal();
-                document.getElementById('dealForm').reset();
-                document.getElementById('title-questions').style.display = 'none';
-            } catch (err) {
-                alert('Submit failed. Try again.');
-            } finally {
-                this.disabled = false;
-                this.textContent = 'SUBMIT TO NETWORK';
-            }
-        });
+// ANALYZE
+document.getElementById('analyzeBtn').addEventListener('click', async () => {
+  const formData = new FormData(document.getElementById('sellerForm'));
+  const data = Object.fromEntries(formData);
+  
+  const res = await fetch('/api/analyze-deal', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  currentAnalysis = await res.json();
+  
+  const modal = document.getElementById('analysisModal');
+  const content = document.getElementById('analysis_content');
+  content.innerHTML = `
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-zinc-700 p-4 rounded text-center">
+        <div class="text-3xl font-bold">${currentAnalysis.score}</div>
+        <div class="text-sm">Deal Score</div>
+      </div>
+      <div class="bg-zinc-700 p-4 rounded text-center">
+        <div class="text-3xl font-bold">${currentAnalysis.roi}%</div>
+        <div class="text-sm">ROI</div>
+      </div>
+      <div class="bg-zinc-700 p-4 rounded text-center">
+        <div class="text-3xl font-bold">$${currentAnalysis.mao.toLocaleString()}</div>
+        <div class="text-sm">MAO</div>
+      </div>
+    </div>
+    <h3 class="font-bold mb-2">Comparable Sales</h3>
+    <table class="w-full text-sm mb-4">
+      <thead><tr class="border-b border-zinc-600"><th class="text-left p-2">Address</th><th>Price</th><th>Sold Date</th><th>SQFT</th></tr></thead>
+      <tbody>
+        ${currentAnalysis.comps.map(c => `<tr class="border-b border-zinc-700"><td class="p-2">${c.address}</td><td>$${c.price.toLocaleString()}</td><td>${c.sold_date}</td><td>${c.sqft}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <button type="button" id="submitFromModal" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded font-bold">SUBMIT THIS DEAL TO NETWORK</button>
+  `;
+  modal.classList.remove('hidden');
+  
+  document.getElementById('submitFromModal').onclick = () => {
+    document.getElementById('sellerForm').requestSubmit();
+    modal.classList.add('hidden');
+  };
+});
 
-        function closeModal() {
-            document.getElementById('analysisModal').style.display = 'none';
-        }
+// CLOSE MODAL
+document.getElementById('closeModal').addEventListener('click', () => {
+  document.getElementById('analysisModal').classList.add('hidden');
+});
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeModal();
-        });
-    </script>
+// SUBMIT
+document.getElementById('sellerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  if (currentAnalysis) formData.append('analysis', JSON.stringify(currentAnalysis));
+  
+  const res = await fetch('/api/save-deal', { method: 'POST', body: formData });
+  const data = await res.json();
+  
+  if (data.stripe_url) {
+    window.location.href = data.stripe_url;
+  } else {
+    alert('Deal submitted! We will contact you within 24 hours.');
+    e.target.reset();
+    document.getElementById('photo_preview').innerHTML = '';
+  }
+});
+</script>
 </body>
 </html>
