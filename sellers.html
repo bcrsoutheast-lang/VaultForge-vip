@@ -3,305 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultForge VIP - Submit Your Deal</title>
+    <title>VaultForge VIP - Submit Deal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a; 
-            color: #fff; 
-            line-height: 1.6;
-        }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { color: #d4af37; font-size: 28px; margin-bottom: 8px; }
-        .header p { color: #888; font-size: 16px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; }
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px; 
-            background: #1a1a1a; 
-            border: 1px solid #333; 
-            border-radius: 6px; 
-            color: #fff; 
-            font-size: 16px;
-        }
-        input:focus, select:focus, textarea:focus { 
-            outline: none; 
-            border-color: #d4af37; 
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-        }
-        .checkbox-group { 
-            background: #1a1a1a; 
-            border: 1px solid #333; 
-            border-radius: 6px; 
-            padding: 16px; 
-            margin-bottom: 20px;
-        }
-        .checkbox-label { 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 12px; 
-            cursor: pointer;
-            color: #fff;
-            font-weight: normal;
-        }
-        .checkbox-label input[type="checkbox"] { 
-            width: 20px; 
-            height: 20px; 
-            margin: 0;
-            cursor: pointer;
-        }
-        .checkbox-text { flex: 1; }
-        .checkbox-title { color: #d4af37; font-weight: 600; display: block; margin-bottom: 4px; }
-        .checkbox-desc { color: #888; font-size: 14px; }
-        .title-fields { 
-            display: none; 
-            margin-top: 16px; 
-            padding-top: 16px; 
-            border-top: 1px solid #333;
-        }
-        .title-fields.show { display: block; }
-        .conditional-field { display: none; margin-top: 12px; }
-        .conditional-field.show { display: block; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            background: linear-gradient(135deg, #d4af37, #b8941f); 
-            color: #000; 
-            border: none; 
-            border-radius: 6px; 
-            font-size: 18px; 
-            font-weight: 700; 
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-        button:hover { opacity: 0.9; }
-        .success { 
-            display: none; 
-            background: #1a4d1a; 
-            border: 1px solid #2d7d2d; 
-            color: #4ade80; 
-            padding: 20px; 
-            border-radius: 6px; 
-            text-align: center;
-            margin-top: 20px;
-        }
-        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; }
+       .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+       .header { text-align: center; margin-bottom: 30px; }
+       .header h1 { color: #d4af37; font-size: 32px; margin-bottom: 8px; }
+       .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+       .card-label { color: #d4af37; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; }
+       .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; font-size: 14px; }
+        input, select { width: 100%; padding: 14px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 16px; }
+       .radio-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+       .radio-item { background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; font-weight: 600; }
+       .radio-item input { display: none; }
+       .radio-item.active { border-color: #d4af37; background: #d4af37; color: #000; }
+       .hidden { display: none; }
+        button { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #000; border: none; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+       .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+       .modal.show { display: flex; }
+       .modal-content { background: #1a1a1a; border: 2px solid #d4af37; border-radius: 8px; padding: 30px; max-width: 500px; width: 100%; position: relative; }
+       .modal-close-x { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; }
+       .modal h2 { color: #d4af37; margin-bottom: 20px; text-align: center; }
+       .analysis-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333; }
+       .analysis-row:last-child { border: none; }
+       .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+       .btn-cancel { background: transparent; border: 1px solid #666; color: #888; }
+       .gold { color: #d4af37; font-weight: 600; }
+       .checkbox-item { background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+       .checkbox-item input { width: 20px; height: 20px; margin: 0; accent-color: #d4af37; }
+        @media (max-width: 600px) {.radio-grid { grid-template-columns: 1fr; } .modal-btns { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>VAULTFORGE VIP</h1>
-            <p>Submit your deal to our buyer network</p>
+            <h1>SUBMIT DEAL</h1>
+            <p>Get your deal analyzed + in front of cash buyers</p>
         </div>
 
         <form id="sellerForm">
-            <div class="form-group">
-                <label>Property Address *</label>
-                <input type="text" name="address" required placeholder="123 Main St">
+            <div class="card">
+                <div class="card-label">Property Type</div>
+                <div class="radio-grid">
+                    <label class="radio-item active"><input type="radio" name="property_type" value="Residential" checked> RESIDENTIAL</label>
+                    <label class="radio-item"><input type="radio" name="property_type" value="Commercial"> COMMERCIAL</label>
+                    <label class="radio-item"><input type="radio" name="property_type" value="Land"> LAND</label>
+                </div>
             </div>
 
-            <div class="row">
-                <div class="form-group">
-                    <label>City *</label>
-                    <input type="text" name="city" required placeholder="Atlanta">
-                </div>
-                <div class="form-group">
-                    <label>State *</label>
+            <div class="card">
+                <div class="card-label">Property Details</div>
+                <div class="form-group"><label>Address *</label><input type="text" name="address" required></div>
+                <div class="form-group"><label>State *</label>
                     <select name="state" required>
                         <option value="">Select State</option>
-                        <option value="GA">Georgia</option>
-                        <option value="FL">Florida</option>
-                        <option value="TN">Tennessee</option>
-                        <option value="AL">Alabama</option>
-                        <option value="SC">South Carolina</option>
+                        <option value="GA">GEORGIA</option><option value="FL">FLORIDA</option>
+                        <option value="TN">TENNESSEE</option><option value="AL">ALABAMA</option>
+                        <option value="SC">SOUTH CAROLINA</option>
                     </select>
                 </div>
+                <div class="form-group"><label>Asking Price *</label><input type="number" name="asking_price" required></div>
+                <div class="form-group"><label>ARV *</label><input type="number" name="arv" required></div>
+                <div class="form-group"><label>Repair Estimate</label><input type="number" name="repairs" value="0"></div>
+
+                <!-- RESIDENTIAL FIELDS -->
+                <div id="res-fields">
+                    <div class="form-group"><label>Beds</label><input type="number" name="beds"></div>
+                    <div class="form-group"><label>Baths</label><input type="number" name="baths" step="0.5"></div>
+                    <div class="form-group"><label>SqFt</label><input type="number" name="sqft"></div>
+                    <div class="form-group"><label>Year Built</label><input type="number" name="year_built"></div>
+                </div>
+
+                <!-- COMMERCIAL FIELDS -->
+                <div id="com-fields" class="hidden">
+                    <div class="form-group"><label>SqFt</label><input type="number" name="com_sqft"></div>
+                    <div class="form-group"><label>Unit Count</label><input type="number" name="units"></div>
+                    <div class="form-group"><label>Cap Rate %</label><input type="number" name="cap_rate" step="0.1"></div>
+                    <div class="form-group"><label>NOI Annual</label><input type="number" name="noi"></div>
+                </div>
+
+                <!-- LAND FIELDS -->
+                <div id="land-fields" class="hidden">
+                    <div class="form-group"><label>Acreage *</label><input type="number" name="acres" step="0.01"></div>
+                    <div class="form-group"><label>Zoning</label><input type="text" name="zoning"></div>
+                    <div class="form-group"><label>Utilities</label><input type="text" name="utilities" placeholder="Water, Sewer, Electric"></div>
+                    <div class="form-group"><label>Road Frontage</label><input type="text" name="road_frontage"></div>
+                </div>
             </div>
 
-            <div class="row">
+            <div class="card">
+                <div class="card-label">Contact + Options</div>
+                <div class="form-group"><label>Your Name *</label><input type="text" name="seller_name" required></div>
+                <div class="form-group"><label>Phone *</label><input type="tel" name="phone" required></div>
+                <div class="form-group"><label>Email *</label><input type="email" name="email" required></div>
                 <div class="form-group">
-                    <label>Asking Price *</label>
-                    <input type="number" name="asking_price" required placeholder="150000">
-                </div>
-                <div class="form-group">
-                    <label>ARV</label>
-                    <input type="number" name="arv" placeholder="200000">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="title_concierge"> Add Title Concierge - $500
+                    </label>
+                    <p style="color: #888; font-size: 13px; margin-top: 8px;">We handle title, payoffs, liens, closing coordination</p>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Estimated Repairs</label>
-                <input type="number" name="repairs" placeholder="25000">
-            </div>
-
-            <div class="form-group">
-                <label>Deal Type *</label>
-                <select name="deal_type" required>
-                    <option value="">Select Type</option>
-                    <option value="Assignment">Assignment</option>
-                    <option value="Double Close">Double Close</option>
-                    <option value="Subject To">Subject To</option>
-                    <option value="Seller Finance">Seller Finance</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Expected Assignment Fee</label>
-                <input type="number" name="expected_fee" placeholder="10000">
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <label>Your Name *</label>
-                    <input type="text" name="seller_name" required placeholder="John Smith">
-                </div>
-                <div class="form-group">
-                    <label>Phone *</label>
-                    <input type="tel" name="phone" required placeholder="404-555-1234">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Email *</label>
-                <input type="email" name="email" required placeholder="john@email.com">
-            </div>
-
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="title_concierge" id="titleConcierge">
-                    <div class="checkbox-text">
-                        <span class="checkbox-title">Add Title Concierge - $500</span>
-                        <span class="checkbox-desc">We handle title, payoffs, liens, and closing coordination so you don't have to chase anyone</span>
-                    </div>
-                </label>
-
-                <div class="title-fields" id="titleFields">
-                    <div class="form-group">
-                        <label>Is there a mortgage on the property? *</label>
-                        <select name="has_mortgage" id="hasMortgage">
-                            <option value="">Select</option>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
-                        </select>
-                    </div>
-
-                    <div class="conditional-field" id="mortgageFields">
-                        <div class="row">
-                            <div class="form-group">
-                                <label>Lender Name *</label>
-                                <input type="text" name="lender_name" placeholder="Wells Fargo">
-                            </div>
-                            <div class="form-group">
-                                <label>Approx Payoff Balance *</label>
-                                <input type="number" name="payoff_balance" placeholder="85000">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Any known title issues? Liens, judgments, divorce, probate, heirship? *</label>
-                        <select name="has_title_issues" id="hasTitleIssues">
-                            <option value="">Select</option>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
-                        </select>
-                    </div>
-
-                    <div class="conditional-field" id="titleIssueField">
-                        <div class="form-group">
-                            <label>Explain briefly *</label>
-                            <textarea name="title_issue_details" rows="3" placeholder="Divorce decree needed, 2021 IRS lien, etc"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Exact name as it appears on deed *</label>
-                        <input type="text" name="deed_name" placeholder="John A. Smith Revocable Trust">
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit">Submit Deal to Network</button>
+            <button type="button" id="analyzeBtn">ANALYZE DEAL</button>
         </form>
+    </div>
 
-        <div class="success" id="successMsg">
-            <h3>Deal Submitted!</h3>
-            <p>Check your email for next steps. If you selected Title Concierge, you'll be redirected to payment.</p>
+    <div class="modal" id="analysisModal">
+        <div class="modal-content">
+            <button class="modal-close-x" onclick="closeAnalysis()">×</button>
+            <h2>DEAL ANALYSIS</h2>
+            <div id="analysisBody"></div>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeAnalysis()">CANCEL</button>
+                <button id="submitDealBtn">SUBMIT TO NETWORK</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const titleConcierge = document.getElementById('titleConcierge');
-        const titleFields = document.getElementById('titleFields');
-        const hasMortgage = document.getElementById('hasMortgage');
-        const mortgageFields = document.getElementById('mortgageFields');
-        const hasTitleIssues = document.getElementById('hasTitleIssues');
-        const titleIssueField = document.getElementById('titleIssueField');
-        const form = document.getElementById('sellerForm');
-        const successMsg = document.getElementById('successMsg');
-
-        titleConcierge.addEventListener('change', function() {
-            titleFields.classList.toggle('show', this.checked);
-            if (!this.checked) {
-                document.querySelectorAll('#titleFields input, #titleFields select, #titleFields textarea').forEach(el => {
-                    el.required = false;
-                    if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
-                    else el.value = '';
-                });
-                mortgageFields.classList.remove('show');
-                titleIssueField.classList.remove('show');
-            } else {
-                document.querySelector('#hasMortgage').required = true;
-                document.querySelector('#hasTitleIssues').required = true;
-                document.querySelector('input[name="deed_name"]').required = true;
-            }
+        let currentDeal = {};
+        
+        // Property type toggle
+        document.querySelectorAll('.radio-item input').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
+                this.parentElement.classList.add('active');
+                const type = this.value;
+                document.getElementById('res-fields').classList.toggle('hidden', type !== 'Residential');
+                document.getElementById('com-fields').classList.toggle('hidden', type !== 'Commercial');
+                document.getElementById('land-fields').classList.toggle('hidden', type !== 'Land');
+            });
         });
 
-        hasMortgage.addEventListener('change', function() {
-            const show = this.value === 'Yes';
-            mortgageFields.classList.toggle('show', show);
-            mortgageFields.querySelectorAll('input').forEach(el => el.required = show);
-        });
-
-        hasTitleIssues.addEventListener('change', function() {
-            const show = this.value === 'Yes';
-            titleIssueField.classList.toggle('show', show);
-            titleIssueField.querySelector('textarea').required = show;
-        });
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Analyze button
+        document.getElementById('analyzeBtn').addEventListener('click', function() {
+            const form = document.getElementById('sellerForm');
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            data.title_concierge = titleConcierge.checked;
+            
+            const ask = parseInt(data.asking_price) || 0;
+            const arv = parseInt(data.arv) || 0;
+            const repairs = parseInt(data.repairs) || 0;
+            const mao = (arv * 0.7) - repairs;
+            const profit = arv - ask - repairs - 15000;
+            const roi = ask > 0 ? ((profit / ask) * 100).toFixed(1) : 0;
+            const score = roi > 30 ? 'A' : roi > 20 ? 'B' : roi > 10 ? 'C' : 'D';
+            
+            currentDeal = { ...data, analysis: { mao, roi: roi + '%', profit, score, ask_vs_mao: ask - mao } };
+            
+            document.getElementById('analysisBody').innerHTML = `
+                <div class="analysis-row"><span>Asking Price</span><span class="gold">$${ask.toLocaleString()}</span></div>
+                <div class="analysis-row"><span>ARV</span><span class="gold">$${arv.toLocaleString()}</span></div>
+                <div class="analysis-row"><span>Repairs</span><span class="gold">$${repairs.toLocaleString()}</span></div>
+                <div class="analysis-row"><span>70% MAO</span><span class="gold">$${mao.toLocaleString()}</span></div>
+                <div class="analysis-row"><span>Ask vs MAO</span><span class="gold" style="color:${ask > mao ? '#f87171' : '#4ade80'}">${ask > mao ? '+' : ''}$${(ask - mao).toLocaleString()}</span></div>
+                <div class="analysis-row"><span>Est. Profit</span><span class="gold">$${profit.toLocaleString()}</span></div>
+                <div class="analysis-row"><span>Projected ROI</span><span class="gold">${roi}%</span></div>
+                <div class="analysis-row"><span>Deal Score</span><span class="gold" style="font-size:24px">${score}</span></div>
+            `;
+            
+            document.getElementById('analysisModal').classList.add('show');
+        });
+
+        // Submit deal
+        document.getElementById('submitDealBtn').addEventListener('click', async function() {
+            this.disabled = true; this.textContent = 'SUBMITTING...';
+            currentDeal.form_type = 'seller'; currentDeal.created = new Date().toISOString();
             
             try {
                 const res = await fetch('/api/save-deal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(currentDeal)
                 });
+                const json = await res.json();
                 
-                if (res.ok) {
-                    const result = await res.json();
-                    if (data.title_concierge && result.stripe_url) {
-                        window.location.href = result.stripe_url;
-                    } else {
-                        form.style.display = 'none';
-                        successMsg.style.display = 'block';
-                    }
+                if (json.success) {
+                    closeAnalysis();
+                    if (json.stripe_url) { window.open(json.stripe_url, '_blank'); }
+                    alert('Deal submitted to network!');
+                    window.location.href = '/';
                 } else {
-                    alert('Error submitting deal. Please try again.');
+                    alert('Error submitting. Try again.');
+                    this.disabled = false; this.textContent = 'SUBMIT TO NETWORK';
                 }
             } catch (err) {
-                alert('Error submitting deal. Please try again.');
+                alert('Network error.'); this.disabled = false; this.textContent = 'SUBMIT TO NETWORK';
             }
         });
+
+        function closeAnalysis() {
+            document.getElementById('analysisModal').classList.remove('show');
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAnalysis(); });
     </script>
 </body>
 </html>
