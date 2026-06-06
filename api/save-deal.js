@@ -1,50 +1,79 @@
 import { kv } from '@vercel/kv';
 import { put } from '@vercel/blob';
+import formidable from 'formidable';
+import fs from 'fs';
 
-export const config = { runtime: 'edge' };
+export const config = {
+  api: {
+    bodyParser: false, // Required for formidable
+  },
+};
 
-export default async function handler(req) {
-  if (req.method!== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+export default async function handler(req, res) {
+  if (req.method!== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
   
   try {
-    const formData = await req.formData();
+    const form = formidable({ multiples: true, maxFileSize: 10 * 1024 * 1024 });
+    
+    const [fields, files] = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) reject(err);
+        resolve([fields, files]);
+      });
+    });
+    
     const dealId = Date.now().toString();
     
-    // Photos
+    // Upload photos to Vercel Blob
     const photoUrls = [];
-    for (const photo of formData.getAll('photos').slice(0, 10)) {
-      if (photo.size > 0) {
-        const blob = await put(`${dealId}/${photo.name}`, photo, { access: 'public' });
+    const photoFiles = Array.isArray(files.photos)? files.photos : [files.photos].filter(Boolean);
+    
+    for (const photo of photoFiles.slice(0, 10)) {
+      if (photo && photo.size > 0) {
+        const fileBuffer = fs.readFileSync(photo.filepath);
+        const blob = await put(`${dealId}/${photo.originalFilename}`, fileBuffer, { 
+          access: 'public',
+          contentType: photo.mimetype 
+        });
         photoUrls.push(blob.url);
+        fs.unlinkSync(photo.filepath); // Clean temp file
       }
     }
     
-    // Comps from form
-    const comps = formData.getAll('comp_address[]').map((addr, i) => ({
-      address: addr,
-      price: Number(formData.getAll('comp_price[]')[i]) || 0,
-      sold_date: formData.getAll('comp_date[]')[i] || '',
-      sqft: Number(formData.getAll('comp_sqft[]')[i]) || 0
+    // Parse comps
+    const compAddresses = Array.isArray(fields['comp_address[]'])? fields['comp_address[]'] : [fields['comp_address[]']].filter(Boolean);
+    const compPrices = Array.isArray(fields['comp_price[]'])? fields['comp_price[]'] : [fields['comp_price[]']].filter(Boolean);
+    const compDates = Array.isArray(fields['comp_date[]'])? fields['comp_date[]'] : [fields['comp_date[]']].filter(Boolean);
+    const compSqfts = Array.isArray(fields['comp_sqft[]'])? fields['comp_sqft[]'] : [fields['comp_sqft[]']].filter(Boolean);
+    
+    const comps = compAddresses.map((addr, i) => ({
+      address: addr || '',
+      price: Number(compPrices[i]) || 0,
+      sold_date: compDates[i] || '',
+      sqft: Number(compSqfts[i]) || 0
     })).filter(c => c.address);
     
-    const analysis = JSON.parse(formData.get('analysis') || '{}');
+    const analysis = fields.analysis? JSON.parse(fields.analysis[0]) : {};
     
+    // Build deal object - flattens all fields
     const deal = {
       id: dealId,
       created_at: new Date().toISOString(),
       status: "New Lead",
-     ...Object.fromEntries(formData), // Dumps all form fields
-      analysis, // Full grade + all metrics
+    ...Object.fromEntries(Object.entries(fields).map(([k,v]) => [k, Array.isArray(v)? v[0] : v])),
+      analysis,
       comps: comps.length > 0? comps : analysis.comps || [],
       photos: photoUrls,
     };
     
-    // Save
+    // Save to KV
     await kv.hset(`deal:${dealId}`, deal);
     await kv.lpush('deals:all', dealId);
     
-    // Title Concierge → Stripe
-    if (formData.get('title_concierge') === 'on') {
+    // Stripe checkout if Title Concierge
+    if (deal.title_concierge === 'on') {
       const stripe = (await import('stripe')).default(process.env.STRIPE_SECRET_KEY);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -53,18 +82,19 @@ export default async function handler(req) {
         success_url: `${process.env.NEXT_PUBLIC_URL}/success?deal=${dealId}`,
         cancel_url: `${process.env.NEXT_PUBLIC_URL}/sellers`,
         client_reference_id: dealId,
-        customer_email: formData.get('seller_email'),
+        customer_email: deal.seller_email,
       });
-      return new Response(JSON.stringify({ stripe_url: session.url }), { status: 200 });
+      return res.status(200).json({ stripe_url: session.url });
     }
     
-    return new Response(JSON.stringify({ 
+    return res.status(200).json({ 
       success: true, 
       dealId,
       redirect: '/success?deal=' + dealId 
-    }), { status: 200 });
+    });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error('Save-deal error:', error);
+    return res.status(500).json({ error: error.message });
   }
 }
