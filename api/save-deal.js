@@ -74,8 +74,7 @@ export default async function handler(req, res) {
 
     let stripe_url = null;
     if (data.title_concierge === true) {
-      // REPLACE WITH YOUR STRIPE $500 PAYMENT LINK
-      stripe_url = `https://buy.stripe.com/YOUR_STRIPE_LINK?client_reference_id=${deal.id}`;
+      stripe_url = `https://buy.stripe.com/bJefZg56ocj93Apama4ow03?client_reference_id=${deal.id}`;
     }
 
     return res.status(200).json({ 
