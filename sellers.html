@@ -3,317 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultForge VIP - Submit Deal</title>
+    <title>VaultForge - Submit Deal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; }
-      .container { max-width: 700px; margin: 0 auto; padding: 20px; }
-      .header { text-align: center; margin-bottom: 30px; }
-      .header h1 { color: #d4af37; font-size: 32px; margin-bottom: 8px; }
-      .header p { color: #888; }
-      .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
-      .card-label { color: #d4af37; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; }
-      .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 14px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 16px; }
-        input:focus, select:focus { border-color: #d4af37; outline: none; }
-      .radio-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-      .radio-item { background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; font-weight: 600; }
-      .radio-item input { display: none; }
-      .radio-item.active { border-color: #d4af37; background: #d4af37; color: #000; }
-      .hidden { display: none; }
-        button { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #000; border: none; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-      .btn-secondary { background: transparent; border: 1px solid #d4af37; color: #d4af37; margin-bottom: 12px; }
-      .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-      .modal.show { display: flex; }
-      .modal-content { background: #1a1a1a; border: 2px solid #d4af37; border-radius: 8px; padding: 30px; max-width: 600px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
-      .modal-close-x { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; font-size: 28px; cursor: pointer; }
-      .modal h2 { color: #d4af37; margin-bottom: 20px; text-align: center; }
-      .analysis-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333; }
-      .analysis-row:last-child { border: none; }
-      .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
-      .btn-cancel { background: transparent; border: 1px solid #666; color: #888; }
-      .gold { color: #d4af37; font-weight: 600; }
-      .checkbox-item { background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
-      .checkbox-item input { width: 20px; height: 20px; margin: 0; accent-color: #d4af37; }
-      .comp-table { width: 100%; margin-top: 16px; border-collapse: collapse; }
-      .comp-table th, .comp-table td { padding: 10px; text-align: left; border-bottom: 1px solid #333; font-size: 14px; }
-      .comp-table th { color: #d4af37; }
-        @media (max-width: 600px) {.radio-grid { grid-template-columns: 1fr; } .modal-btns { grid-template-columns: 1fr; } }
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 32px; }
+        .header h1 { color: #FFD700; font-size: 32px; letter-spacing: 2px; }
+        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+        .card-label { color: #FFD700; font-size: 12px; letter-spacing: 1px; margin-bottom: 16px; text-transform: uppercase; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; color: #ccc; font-size: 14px; margin-bottom: 8px; }
+        .form-input, .form-select { width: 100%; padding: 12px; background: #000; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 16px; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: #FFD700; }
+        .radio-group { display: flex; gap: 16px; }
+        .radio-item { display: flex; align-items: center; gap: 8px; }
+        .btn { width: 100%; padding: 16px; background: #FFD700; color: #000; border: none; border-radius: 4px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; text-transform: uppercase; }
+        .btn:hover { background: #FFC700; }
+        .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+        .checkbox-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: #000; border: 1px solid #333; border-radius: 4px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #1a1a1a; border: 1px solid #FFD700; border-radius: 8px; padding: 32px; max-width: 500px; width: 90%; position: relative; }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #FFD700; font-size: 24px; cursor: pointer; }
+        .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+        .score-box { text-align: center; padding: 16px; background: #000; border: 1px solid #333; border-radius: 4px; }
+        .score-label { color: #888; font-size: 12px; margin-bottom: 8px; }
+        .score-value { color: #FFD700; font-size: 28px; font-weight: 700; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>SUBMIT DEAL</h1>
-            <p>Get your deal analyzed + in front of cash buyers</p>
+            <h1>VAULTFORGE</h1>
+            <p style="color: #888; margin-top: 8px;">Submit Your Off-Market Deal</p>
         </div>
 
-        <form id="sellerForm">
-            <div class="card">
-                <div class="card-label">Property Type *</div>
-                <div class="radio-grid">
-                    <label class="radio-item active"><input type="radio" name="property_type" value="Residential" checked> RESIDENTIAL</label>
-                    <label class="radio-item"><input type="radio" name="property_type" value="Commercial"> COMMERCIAL</label>
-                    <label class="radio-item"><input type="radio" name="property_type" value="Land"> LAND</label>
-                </div>
-            </div>
-
+        <form id="dealForm">
             <div class="card">
                 <div class="card-label">Property Details</div>
-                <div class="form-group"><label>Address *</label><input type="text" name="address" required></div>
-                <div class="form-group"><label>State *</label>
-                    <select name="state" required>
+                <div class="form-group">
+                    <label class="form-label">Property Type</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="res" name="property_type" value="residential" checked>
+                            <label for="res">Residential</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="com" name="property_type" value="commercial">
+                            <label for="com">Commercial</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="land" name="property_type" value="land">
+                            <label for="land">Land</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Property Address</label>
+                    <input type="text" id="address" name="address" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">State</label>
+                    <select id="state" name="state" class="form-select" required>
                         <option value="">Select State</option>
-                        <option value="GA">GEORGIA</option><option value="FL">FLORIDA</option>
-                        <option value="TN">TENNESSEE</option><option value="AL">ALABAMA</option>
-                        <option value="SC">SOUTH CAROLINA</option>
+                        <option>GA</option><option>FL</option><option>TN</option><option>AL</option><option>SC</option>
                     </select>
                 </div>
-                <div class="form-group"><label>Asking Price *</label><input type="number" name="asking_price" required></div>
-                <div class="form-group"><label>ARV *</label><input type="number" name="arv" required></div>
-                <div class="form-group"><label>Repair Estimate</label><input type="number" name="repairs" value="0"></div>
-                <button type="button" class="btn-secondary" id="runCompsBtn">RUN COMPS</button>
+            </div>
 
-                <!-- RESIDENTIAL FIELDS -->
-                <div id="res-fields">
-                    <div class="form-group"><label>Beds</label><input type="number" name="beds"></div>
-                    <div class="form-group"><label>Baths</label><input type="number" name="baths" step="0.5"></div>
-                    <div class="form-group"><label>SqFt</label><input type="number" name="sqft"></div>
-                    <div class="form-group"><label>Year Built</label><input type="number" name="year_built"></div>
-                    <div class="form-group"><label>Condition</label>
-                        <select name="condition">
-                            <option value="">Select...</option>
-                            <option value="Turnkey">Turnkey</option>
-                            <option value="Light Rehab">Light Rehab</option>
-                            <option value="Full Rehab">Full Rehab</option>
-                            <option value="Teardown">Teardown</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Occupancy</label>
-                        <select name="occupancy">
-                            <option value="">Select...</option>
-                            <option value="Vacant">Vacant</option>
-                            <option value="Tenant">Tenant Occupied</option>
-                            <option value="Owner">Owner Occupied</option>
-                        </select>
-                    </div>
+            <div class="card">
+                <div class="card-label">Deal Numbers</div>
+                <div class="form-group">
+                    <label class="form-label">Asking Price</label>
+                    <input type="number" id="asking_price" name="asking_price" class="form-input" required>
                 </div>
-
-                <!-- COMMERCIAL FIELDS -->
-                <div id="com-fields" class="hidden">
-                    <div class="form-group"><label>SqFt</label><input type="number" name="com_sqft"></div>
-                    <div class="form-group"><label>Unit Count</label><input type="number" name="units"></div>
-                    <div class="form-group"><label>Cap Rate %</label><input type="number" name="cap_rate" step="0.1"></div>
-                    <div class="form-group"><label>NOI Annual</label><input type="number" name="noi"></div>
-                    <div class="form-group"><label>Occupancy %</label><input type="number" name="occupancy_pct"></div>
-                    <div class="form-group"><label>Lease Terms</label><input type="text" name="lease_terms"></div>
+                <div class="form-group">
+                    <label class="form-label">After Repair Value (ARV)</label>
+                    <input type="number" id="arv" name="arv" class="form-input" required>
                 </div>
+                <div class="form-group">
+                    <label class="form-label">Estimated Repairs</label>
+                    <input type="number" id="repairs" name="repairs" class="form-input" value="0">
+                </div>
+            </div>
 
-                <!-- LAND FIELDS -->
-                <div id="land-fields" class="hidden">
-                    <div class="form-group"><label>Acreage *</label><input type="number" name="acres" step="0.01"></div>
-                    <div class="form-group"><label>Zoning</label><input type="text" name="zoning"></div>
-                    <div class="form-group"><label>Utilities</label><input type="text" name="utilities" placeholder="Water, Sewer, Electric"></div>
-                    <div class="form-group"><label>Road Frontage</label><input type="text" name="road_frontage"></div>
-                    <div class="form-group"><label>Survey Available</label>
-                        <select name="survey">
-                            <option value="">Select...</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+            <div class="card">
+                <div class="card-label">Services</div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="title_concierge" name="title_concierge">
+                    <label for="title_concierge">Add Title Concierge - $500</label>
+                </div>
+                
+                <div id="title-questions" class="hidden" style="margin-top:16px; padding:16px; border:1px solid #FFD700; border-radius:8px;">
+                    <div class="form-group">
+                        <label class="form-label">Current Mortgage Payoff Amount</label>
+                        <input type="text" id="payoff_amount" name="payoff_amount" class="form-input" placeholder="$0 if free & clear">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Any liens, judgments, HOA, or back taxes?</label>
+                        <select id="has_liens" name="has_liens" class="form-select">
+                            <option>No</option><option>Yes</option>
                         </select>
+                        <input type="text" id="lien_details" name="lien_details" class="form-input" placeholder="Describe if yes" style="margin-top:8px; display:none;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preferred closing date</label>
+                        <input type="date" id="closing_date" name="closing_date" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Do you have a title company?</label>
+                        <select id="has_title_company" name="has_title_company" class="form-select">
+                            <option>No</option><option>Yes</option>
+                        </select>
+                        <input type="text" id="title_company" name="title_company" class="form-input" placeholder="Company name" style="margin-top:8px; display:none;">
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-label">Contact + Options</div>
-                <div class="form-group"><label>Your Name *</label><input type="text" name="seller_name" required></div>
-                <div class="form-group"><label>Phone *</label><input type="tel" name="phone" required></div>
-                <div class="form-group"><label>Email *</label><input type="email" name="email" required></div>
-                <div class="form-group"><label>Expected Assignment Fee</label><input type="number" name="assignment_fee" value="10000"></div>
+                <div class="card-label">Contact Info</div>
                 <div class="form-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="title_concierge"> Add Title Concierge - $500
-                    </label>
-                    <p style="color: #888; font-size: 13px; margin-top: 8px;">We handle title, payoffs, liens, closing coordination</p>
+                    <label class="form-label">Your Name</label>
+                    <input type="text" id="seller_name" name="seller_name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" id="seller_phone" name="seller_phone" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="seller_email" name="seller_email" class="form-input" required>
                 </div>
             </div>
 
-            <button type="button" id="analyzeBtn">ANALYZE DEAL</button>
+            <button type="button" id="analyzeBtn" class="btn">ANALYZE DEAL</button>
         </form>
     </div>
 
-    <!-- ANALYSIS MODAL -->
-    <div class="modal" id="analysisModal">
+    <div id="analysisModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close-x" onclick="closeAnalysis()">×</button>
-            <h2>DEAL ANALYSIS</h2>
-            <div id="analysisBody"></div>
-            <div class="modal-btns">
-                <button class="btn-cancel" onclick="closeAnalysis()">CANCEL</button>
-                <button id="submitDealBtn">SUBMIT TO NETWORK</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- COMPS MODAL -->
-    <div class="modal" id="compsModal">
-        <div class="modal-content">
-            <button class="modal-close-x" onclick="closeComps()">×</button>
-            <h2>COMPARABLE SALES</h2>
-            <div id="compsBody">
-                <p style="color: #888; text-align: center;">Enter address + radius to pull comps</p>
-                <div class="form-group">
-                    <label>Search Radius</label>
-                    <select id="compRadius">
-                        <option value="0.5">0.5 Miles</option>
-                        <option value="1">1 Mile</option>
-                        <option value="2">2 Miles</option>
-                    </select>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 style="color: #FFD700; text-align: center; margin-bottom: 24px;">DEAL ANALYSIS</h2>
+            <div class="score-grid">
+                <div class="score-box">
+                    <div class="score-label">SCORE</div>
+                    <div class="score-value" id="modalScore">-</div>
                 </div>
-                <button type="button" id="fetchCompsBtn">FETCH COMPS</button>
-                <div id="compsResults"></div>
+                <div class="score-box">
+                    <div class="score-label">ROI</div>
+                    <div class="score-value" id="modalRoi">-</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">MAO</div>
+                    <div class="score-value" id="modalMao">-</div>
+                </div>
             </div>
-            <div class="modal-btns">
-                <button class="btn-cancel" onclick="closeComps()">CLOSE</button>
-                <button id="saveCompsBtn">SAVE COMPS TO DEAL</button>
-            </div>
+            <button type="button" id="submitDealBtn" class="btn">SUBMIT TO NETWORK</button>
         </div>
     </div>
 
     <script>
         let currentDeal = {};
-        let currentComps = [];
         
-        // Property type toggle
-        document.querySelectorAll('.radio-item input').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.querySelectorAll('.radio-item').forEach(i => i.classList.remove('active'));
-                this.parentElement.classList.add('active');
-                const type = this.value;
-                document.getElementById('res-fields').classList.toggle('hidden', type !== 'Residential');
-                document.getElementById('com-fields').classList.toggle('hidden', type !== 'Commercial');
-                document.getElementById('land-fields').classList.toggle('hidden', type !== 'Land');
-            });
+        document.getElementById('title_concierge').addEventListener('change', function(e) {
+            document.getElementById('title-questions').style.display = e.target.checked ? 'block' : 'none';
         });
 
-        // Run Comps button
-        document.getElementById('runCompsBtn').addEventListener('click', function() {
-            document.getElementById('compsModal').classList.add('show');
+        document.getElementById('has_liens').addEventListener('change', e => {
+            document.getElementById('lien_details').style.display = e.target.value === 'Yes' ? 'block' : 'none';
+        });
+        
+        document.getElementById('has_title_company').addEventListener('change', e => {
+            document.getElementById('title_company').style.display = e.target.value === 'Yes' ? 'block' : 'none';
         });
 
-        // Fetch Comps - placeholder for API
-        document.getElementById('fetchCompsBtn').addEventListener('click', async function() {
-            const address = document.querySelector('input[name="address"]').value;
-            if (!address) { alert('Enter address first'); return; }
-            this.disabled = true; this.textContent = 'FETCHING...';
-            
-            // TODO: Replace with real Zillow/Redfin API call
-            // For now, mock data
-            setTimeout(() => {
-                currentComps = [
-                    { address: '123 Oak St', sold_price: 310000, sqft: 1800, dom: 45, distance: '0.3mi' },
-                    { address: '456 Pine Ave', sold_price: 295000, sqft: 1750, dom: 60, distance: '0.6mi' },
-                    { address: '789 Maple Dr', sold_price: 325000, sqft: 1900, dom: 30, distance: '0.8mi' }
-                ];
-                const avg = Math.round(currentComps.reduce((sum, c) => sum + c.sold_price, 0) / currentComps.length);
-                document.getElementById('compsResults').innerHTML = `
-                    <table class="comp-table">
-                        <thead><tr><th>Address</th><th>Sold</th><th>SqFt</th><th>DOM</th></tr></thead>
-                        <tbody>
-                            ${currentComps.map(c => `<tr><td>${c.address}</td><td>$${c.sold_price.toLocaleString()}</td><td>${c.sqft}</td><td>${c.dom}</td></tr>`).join('')}
-                        </tbody>
-                    </table>
-                    <p style="margin-top:16px; text-align:center;" class="gold">Avg Comp: $${avg.toLocaleString()}</p>
-                    <button type="button" onclick="useAvgARV(${avg})" style="margin-top:12px;">USE AVG AS ARV</button>
-                `;
-                this.disabled = false; this.textContent = 'FETCH COMPS';
-            }, 1000);
-        });
+        document.getElementById('analyzeBtn').addEventListener('click', async function() {
+            const form = document.getElementById('dealForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
 
-        function useAvgARV(val) {
-            document.querySelector('input[name="arv"]').value = val;
-            closeComps();
-        }
-
-        // Save comps to deal
-        document.getElementById('saveCompsBtn').addEventListener('click', function() {
-            currentDeal.comps = currentComps;
-            alert('Comps saved to deal');
-            closeComps();
-        });
-
-        // Analyze button
-        document.getElementById('analyzeBtn').addEventListener('click', function() {
-            const form = document.getElementById('sellerForm');
-            if (!form.checkValidity()) { form.reportValidity(); return; }
-            
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+            data.title_concierge = document.getElementById('title_concierge').checked;
             
-            const ask = parseInt(data.asking_price) || 0;
-            const arv = parseInt(data.arv) || 0;
-            const repairs = parseInt(data.repairs) || 0;
-            const mao = Math.round((arv * 0.7) - repairs);
-            const profit = arv - ask - repairs - 15000;
-            const roi = ask > 0 ? ((profit / ask) * 100).toFixed(1) : 0;
-            const score = roi > 30 ? 'A' : roi > 20 ? 'B' : roi > 10 ? 'C' : 'D';
-            const pricePerSqft = data.sqft ? Math.round(ask / parseInt(data.sqft)) : null;
-            const pricePerAcre = data.acres ? Math.round(ask / parseFloat(data.acres)) : null;
-            
-            currentDeal = { ...data, analysis: { mao, roi: roi + '%', profit, score, ask_vs_mao: ask - mao, pricePerSqft, pricePerAcre }, comps: currentComps };
-            
-            document.getElementById('analysisBody').innerHTML = `
-                <div class="analysis-row"><span>Asking Price</span><span class="gold">$${ask.toLocaleString()}</span></div>
-                <div class="analysis-row"><span>ARV</span><span class="gold">$${arv.toLocaleString()}</span></div>
-                <div class="analysis-row"><span>Repairs</span><span class="gold">$${repairs.toLocaleString()}</span></div>
-                <div class="analysis-row"><span>70% MAO</span><span class="gold">$${mao.toLocaleString()}</span></div>
-                <div class="analysis-row"><span>Ask vs MAO</span><span class="gold" style="color:${ask > mao ? '#f87171' : '#4ade80'}">${ask > mao ? '+' : ''}$${(ask - mao).toLocaleString()}</span></div>
-                <div class="analysis-row"><span>Est. Profit</span><span class="gold">$${profit.toLocaleString()}</span></div>
-                <div class="analysis-row"><span>Projected ROI</span><span class="gold">${roi}%</span></div>
-                ${pricePerSqft ? `<div class="analysis-row"><span>Price/SqFt</span><span class="gold">$${pricePerSqft}</span></div>` : ''}
-                ${pricePerAcre ? `<div class="analysis-row"><span>Price/Acre</span><span class="gold">$${pricePerAcre.toLocaleString()}</span></div>` : ''}
-                <div class="analysis-row"><span>Deal Score</span><span class="gold" style="font-size:24px">${score}</span></div>
-            `;
-            
-            document.getElementById('analysisModal').classList.add('show');
-        });
+            this.disabled = true;
+            this.textContent = 'ANALYZING...';
 
-        // Submit deal
-        document.getElementById('submitDealBtn').addEventListener('click', async function() {
-            this.disabled = true; this.textContent = 'SUBMITTING...';
-            currentDeal.form_type = 'seller'; 
-            currentDeal.created = new Date().toISOString();
-            currentDeal.title_concierge = document.querySelector('input[name="title_concierge"]').checked ? 'unpaid' : 'none';
-            
             try {
-                const res = await fetch('/api/save-deal', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(currentDeal)
+                const res = await fetch('/api/analyze-deal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
                 });
                 const json = await res.json();
                 
-                if (json.success) {
-                    closeAnalysis();
-                    if (json.stripe_url && currentDeal.title_concierge === 'unpaid') { 
-                        window.open(json.stripe_url, '_blank'); 
-                    }
-                    alert('Deal submitted to network!');
-                    window.location.href = '/';
-                } else {
-                    alert('Error submitting. Try again.');
-                    this.disabled = false; this.textContent = 'SUBMIT TO NETWORK';
-                }
+                currentDeal = { ...data, analysis: json };
+                document.getElementById('modalScore').textContent = json.score;
+                document.getElementById('modalRoi').textContent = json.roi + '%';
+                document.getElementById('modalMao').textContent = '$' + json.mao.toLocaleString();
+                document.getElementById('analysisModal').style.display = 'flex';
             } catch (err) {
-                alert('Network error.'); this.disabled = false; this.textContent = 'SUBMIT TO NETWORK';
+                alert('Analysis failed. Try again.');
+            } finally {
+                this.disabled = false;
+                this.textContent = 'ANALYZE DEAL';
             }
         });
 
-        function closeAnalysis() { document.getElementById('analysisModal').classList.remove('show'); }
-        function closeComps() { document.getElementById('compsModal').classList.remove('show'); }
-        document.addEventListener('keydown', e => { 
-            if (e.key === 'Escape') { closeAnalysis(); closeComps(); } 
+        document.getElementById('submitDealBtn').addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = 'SUBMITTING...';
+
+            try {
+                const res = await fetch('/api/save-deal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentDeal)
+                });
+                const json = await res.json();
+                
+                if (json.success && json.stripe_url) {
+                    window.open(json.stripe_url, '_blank');
+                }
+                
+                alert('Deal submitted to network!');
+                closeModal();
+                document.getElementById('dealForm').reset();
+                document.getElementById('title-questions').style.display = 'none';
+            } catch (err) {
+                alert('Submit failed. Try again.');
+            } finally {
+                this.disabled = false;
+                this.textContent = 'SUBMIT TO NETWORK';
+            }
+        });
+
+        function closeModal() {
+            document.getElementById('analysisModal').style.display = 'none';
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
         });
     </script>
 </body>
