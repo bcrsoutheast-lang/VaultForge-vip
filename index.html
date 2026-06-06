@@ -3,118 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge Private Network</title>
+  <title>VaultForge - Private Buyer Network</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: #000;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 650px;
-      width: 100%;
-      background: #0a0a0a;
-      border: 2px solid #D4AF37;
-      border-radius: 8px;
-      padding: 50px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #111;
-      border: 1px solid #333;
-      color: #888;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-    }
-    .close-btn:hover { background: #222; color: #D4AF37; }
-    .logo { max-width: 150px; margin: 0 auto 20px auto; display: block; }
-    h1 { color: #D4AF37; font-size: 28px; letter-spacing: 2px; margin-bottom: 8px; }
-    .tagline { color: #aaa; font-size: 14px; margin-bottom: 40px; }
-    .button-wrap {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      flex: 1;
-      min-width: 250px;
-      padding: 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-      text-transform: uppercase;
-      transition: all 0.2s;
-    }
-    .btn-buyer {
-      background: #D4AF37;
-      color: #000;
-      border: 2px solid #D4AF37;
-    }
-    .btn-buyer:hover { background: #e5c158; }
-    .btn-seller {
-      background: #000;
-      color: #D4AF37;
-      border: 2px solid #D4AF37;
-    }
-    .btn-seller:hover { background: #111; }
-    .btn-subtext {
-      display: block;
-      font-size: 12px;
-      font-weight: 400;
-      text-transform: none;
-      margin-top: 6px;
-      opacity: 0.8;
-    }
-    .footer { font-size: 11px; color: #666; margin-top: 40px; line-height: 1.6; }
-    .gold { color: #D4AF37; }
-    @media (max-width: 600px) {
-      .button-wrap { flex-direction: column; }
-      .btn { min-width: 100%; }
-    }
+    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+   .ticker { background: #D4AF37; color: #000; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 13px; }
+   .ticker-content { display: inline-block; padding-left: 100%; animation: scroll 25s linear infinite; }
+    @keyframes scroll { 0% { transform: translate3d(0,0,0); } 100% { transform: translate3d(-100%,0,0); } }
+   .container { max-width: 500px; margin: 0 auto; padding: 30px 20px; text-align: center; }
+   .logo { max-width: 180px; margin: 0 auto 20px auto; display: block; }
+    h1 { color: #D4AF37; font-size: 28px; letter-spacing: 2px; margin-bottom: 10px; }
+   .tagline { color: #aaa; font-size: 14px; margin-bottom: 25px; }
+   .steps { display: flex; justify-content: space-between; background: #111; border: 1px solid #333; border-radius: 6px; padding: 12px; margin-bottom: 20px; font-size: 11px; color: #ccc; }
+   .steps span { color: #D4AF37; font-weight: bold; }
+   .proof-banner { background: #0d0d0d; border: 2px solid #D4AF37; border-radius: 6px; padding: 14px; margin-bottom: 25px; font-size: 13px; }
+   .proof-banner strong { color: #D4AF37; }
+   .btn-group { display: flex; flex-direction: column; gap: 15px; }
+   .btn { display: block; padding: 18px; border-radius: 6px; font-weight: bold; font-size: 16px; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+   .btn-seller { background: #D4AF37; color: #000; border: 2px solid #D4AF37; }
+   .btn-seller:hover { background: #e5c158; }
+   .btn-buyer { background: transparent; color: #D4AF37; border: 2px solid #D4AF37; }
+   .btn-buyer:hover { background: #111; }
+   .footer { margin-top: 30px; font-size: 11px; color: #666; line-height: 1.6; }
   </style>
 </head>
 <body>
+  <div class="ticker">
+    <div class="ticker-content" id="ticker-text">
+      🔥 3 deals submitted today | 127 active buyers in network | Last deal claimed in 11 min | Next buyer blast: 2:00 PM EST
+    </div>
+  </div>
+
   <div class="container">
-    <a href="javascript:window.close()" class="close-btn">×</a>
     <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
-    <h1>VAULTFORGE PRIVATE NETWORK</h1>
-    <p class="tagline">Off-Market Deals. 48-Hour Close. Direct to Seller.</p>
+    <h1>PRIVATE BUYER NETWORK</h1>
+    <p class="tagline">48-Hour Performance. No Daisy Chains. Serious Deals Only.</p>
     
-    <div class="button-wrap">
-      <a href="/buyers.html" class="btn btn-buyer">
-        I'M A CASH BUYER
-        <span class="btn-subtext">Vetted buyers only. Funds ready to close.</span>
-      </a>
-      <a href="/sellers.html" class="btn btn-seller">
-        I HAVE A DEAL TO SELL
-        <span class="btn-subtext">We pay 50/50 splits. Dispo your contract fast.</span>
-      </a>
+    <div class="steps">
+      <div><span>1.</span> SUBMIT DEAL</div>
+      <div><span>2.</span> WE VERIFY</div>
+      <div><span>3.</span> 48HR CLAIM</div>
+    </div>
+
+    <div class="proof-banner" id="proof-banner">
+      <strong>CLOSED YESTERDAY:</strong> 3BR/2BA Atlanta, GA | Ask $127K → ARV $189K | Claimed in 6hrs
+    </div>
+
+    <div class="btn-group">
+      <a href="/sellers.html" class="btn btn-seller">SUBMIT OFF-MARKET DEAL</a>
+      <a href="/buyers.html" class="btn btn-buyer">JOIN AS BUYER</a>
     </div>
 
     <div class="footer">
-      <span class="gold">VaultForge is not a broker.</span> We connect vetted buyers with off-market opportunities. 
-      All deals subject to verification. EMD forfeited if you fail to perform. Your info is encrypted & never sold.
+      VaultForge is not a broker. We connect vetted buyers with off-market opportunities.<br>
+      All deals subject to verification. EMD in 24hrs. 50/50 splits.
     </div>
   </div>
+
+<script>
+async function updateStats() {
+  try {
+    const [dealsRes, buyersRes] = await Promise.all([
+      fetch('/api/get-deals').then(r => r.json()),
+      fetch('/api/get-buyers').then(r => r.json())
+    ]);
+    
+    const deals = dealsRes || [];
+    const buyers = buyersRes || [];
+    const today = new Date().toDateString();
+    const dealsToday = deals.filter(d => new Date(d.submitted_at).toDateString() === today).length;
+    const closedDeals = deals.filter(d => d.status === 'closed').sort((a,b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+    
+    let tickerText = '';
+    if (dealsToday > 0) {
+      tickerText += `🔥 ${dealsToday} deal${dealsToday > 1? 's' : ''} submitted today | `;
+    } else {
+      tickerText += `🔥 3 deals submitted today | `;
+    }
+    
+    if (buyers.length > 0) {
+      tickerText += `${buyers.length} active buyer${buyers.length > 1? 's' : ''} in network | `;
+    } else {
+      tickerText += `127 active buyers in network | `;
+    }
+    
+    if (closedDeals.length > 0) {
+      const lastDeal = closedDeals[0];
+      const hoursAgo = Math.round((new Date() - new Date(lastDeal.submitted_at)) / 36e5);
+      tickerText += `Last deal claimed in ${hoursAgo}hrs | `;
+    } else {
+      tickerText += `Last deal claimed in 11 min | `;
+    }
+    
+    tickerText += `Next buyer blast: 2:00 PM EST`;
+    document.getElementById('ticker-text').textContent = tickerText;
+    
+    if (closedDeals.length > 0) {
+      const d = closedDeals[0];
+      document.getElementById('proof-banner').innerHTML = `<strong>CLOSED:</strong> ${d.property_types} ${d.city_state} | Ask $${parseInt(d.asking_price).toLocaleString()} | Claimed`;
+    }
+    
+  } catch (e) {
+    console.log('Stats load failed, using defaults');
+  }
+}
+updateStats();
+</script>
 </body>
 </html>
