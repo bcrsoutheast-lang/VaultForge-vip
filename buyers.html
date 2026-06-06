@@ -1,173 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join Buyer Network - VaultForge</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
-  .container { max-width: 600px; margin: 20px auto; background: #0a0a0a; border: 2px solid #D4AF37; border-radius: 8px; padding: 30px; position: relative; }
-  .close-btn { position: absolute; top: 15px; right: 15px; background: #111; border: 1px solid #333; color: #888; width: 30px; height: 30px; border-radius: 50%; font-size: 18px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1; }
-  .close-btn:hover { background: #222; color: #D4AF37; }
-  .logo { display: block; margin: 0 auto 20px auto; max-width: 150px; }
-    h1 { color: #D4AF37; text-align: center; margin-bottom: 8px; font-size: 26px; letter-spacing: 1px; }
-  .tagline { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 14px; }
-    label { color: #D4AF37; font-size: 14px; font-weight: 600; display: block; margin: 16px 0 6px 0; }
-    input, select, textarea { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 16px; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #D4AF37; }
-  .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 10px 0 20px 0; }
-  .checkbox-item { display: flex; align-items: center; background: #111; border: 2px solid #333; border-radius: 6px; padding: 10px; cursor: pointer; }
-  .checkbox-item.active { border-color: #D4AF37; background: #1a1a1a; }
-  .checkbox-item input { width: auto; margin-right: 10px; }
-  .checkbox-item label { margin: 0; font-weight: 400; color: #ddd; font-size: 14px; cursor: pointer; }
-  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    button { width: 100%; padding: 16px; background: #D4AF37; color: #000; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
-    button:hover { background: #e5c158; }
-    button:disabled { background: #555; cursor: not-allowed; }
-  .success-msg { text-align: center; padding: 20px; }
-  .success-msg h1 { color: #D4AF37; font-size: 24px; margin-bottom: 15px; }
-  .gold { color: #D4AF37; font-weight: 600; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultForge VIP - Buyer Network</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a; 
+            color: #fff; 
+            line-height: 1.6;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #d4af37; font-size: 28px; margin-bottom: 8px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            color: #fff; 
+            font-size: 16px;
+        }
+        .checkbox-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-top: 8px;
+        }
+        .checkbox-item { 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            padding: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            cursor: pointer;
+        }
+        .checkbox-item input { width: 20px; height: 20px; margin: 0; }
+        .checkbox-item.checked { border-color: #d4af37; }
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: linear-gradient(135deg, #d4af37, #b8941f); 
+            color: #000; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.show { display: flex; }
+        .modal-content { 
+            background: #0a0a0a; 
+            border: 2px solid #d4af37; 
+            border-radius: 8px; 
+            padding: 30px; 
+            max-width: 500px; 
+            text-align: center;
+        }
+        .modal-content h2 { color: #d4af37; margin-bottom: 16px; font-size: 24px; }
+        .modal-content p { margin-bottom: 12px; }
+        .gold { color: #d4af37; font-weight: 600; }
+        .modal-close { 
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+        }
+        @media (max-width: 600px) { .checkbox-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-  <div class="container" id="form-container">
-    <a href="/" class="close-btn">×</a>
-    <img src="IMG_4751.png" class="logo" alt="VaultForge Logo">
-    <h1>JOIN BUYER NETWORK</h1>
-    <p class="tagline">Get First Look at Off-Market Deals. 48hr Close.</p>
-    <form id="buyer-form" action="https://formspree.io/f/mqeoeeqe" method="POST">
-      <input type="text" name="_gotcha" style="display:none">
-      <label>Full Name *</label>
-      <input type="text" name="full_name" required>
-      <label>Email *</label>
-      <input type="email" name="email" required>
-      <label>Phone *</label>
-      <input type="tel" name="phone" required>
-      <label>Target States - Tap All That Apply *</label>
-      <div class="checkbox-grid" id="states-grid">
-        <div class="checkbox-item" data-state="GEORGIA"><input type="checkbox"><label>GEORGIA</label></div>
-        <div class="checkbox-item" data-state="TENNESSEE"><input type="checkbox"><label>TENNESSEE</label></div>
-        <div class="checkbox-item" data-state="ALABAMA"><input type="checkbox"><label>ALABAMA</label></div>
-        <div class="checkbox-item" data-state="FLORIDA"><input type="checkbox"><label>FLORIDA</label></div>
-        <div class="checkbox-item" data-state="NORTH CAROLINA"><input type="checkbox"><label>N CAROLINA</label></div>
-        <div class="checkbox-item" data-state="SOUTH CAROLINA"><input type="checkbox"><label>S CAROLINA</label></div>
-        <div class="checkbox-item" data-state="TEXAS"><input type="checkbox"><label>TEXAS</label></div>
-      </div>
-      <input type="hidden" name="target_states" id="target_states">
-      <label>Residential Buy Box</label>
-      <div class="checkbox-grid">
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_res" value="SFR Fix & Flip"><label>SFR Fix & Flip</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_res" value="Buy & Hold Rental"><label>Buy & Hold</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_res" value="BRRRR"><label>BRRRR</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_res" value="Vacant Land"><label>Vacant Land</label></div>
-      </div>
-      <label>Commercial Buy Box</label>
-      <div class="checkbox-grid">
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_com" value="Multi-Family 5+"><label>Multi-Family 5+</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_com" value="Retail"><label>Retail</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_com" value="Office"><label>Office</label></div>
-        <div class="checkbox-item"><input type="checkbox" name="buy_box_com" value="Industrial"><label>Industrial</label></div>
-      </div>
-      <label>Max Purchase Price - Residential</label>
-      <select name="max_price_res">
-        <option value="">Select Max...</option>
-        <option value="100000">Up to $100K</option>
-        <option value="250000">Up to $250K</option>
-        <option value="500000">Up to $500K</option>
-        <option value="1000000">Up to $1M</option>
-        <option value="2500000">Up to $2.5M</option>
-        <option value="5000000">Up to $5M</option>
-        <option value="99999999">$5M+</option>
-      </select>
-      <label>Max Purchase Price - Commercial</label>
-      <select name="max_price_com">
-        <option value="">Select Max...</option>
-        <option value="500000">Up to $500K</option>
-        <option value="1000000">Up to $1M</        <option value="2500000">Up to $2.5M</option>
-        <option value="5000000">Up to $5M</option>
-        <option value="10000000">Up to $10M</option>
-        <option value="99999999">$10M+</option>
-      </select>
-      <label>Proof of Funds - Upload Later</label>
-      <p class="note">No upload needed now. If we send you a deal, we'll request POF before you get contract.</p>
-      <label>Additional Criteria</label>
-      <textarea name="criteria" rows="3" placeholder="Cash only, 1031 exchange, quick close, specific zip codes, etc"></textarea>
-      <button type="submit" id="submit-btn">JOIN BUYER NETWORK</button>
-    </form>
-  </div>
-<script>
-document.querySelectorAll('#states-grid .checkbox-item').forEach(item => {
-  item.addEventListener('click', function(e) {
-    if (e.target.tagName !== 'INPUT') this.querySelector('input').click();
-  });
-  item.querySelector('input').addEventListener('change', function() {
-    this.parentElement.classList.toggle('active', this.checked);
-    updateStates();
-  });
-});
-function updateStates() {
-  const states = Array.from(document.querySelectorAll('#states-grid input:checked')).map(cb => cb.parentElement.dataset.state);
-  document.getElementById('target_states').value = states.join(', ');
-}
-document.querySelectorAll('.checkbox-item').forEach(item => {
-  if (!item.dataset.state) {
-    item.addEventListener('click', function(e) {
-      if (e.target.tagName !== 'INPUT') this.querySelector('input').click();
-    });
-    item.querySelector('input').addEventListener('change', function() {
-      this.parentElement.classList.toggle('active', this.checked);
-    });
-  }
-});
-document.getElementById('buyer-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const states = document.getElementById('target_states').value;
-  if (!states) {
-    alert('Please select at least one Target State');
-    return;
-  }
-  const form = e.target;
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'SAVING PROFILE...';
-  const formData = new FormData(form);
-  const buyerData = Object.fromEntries(formData.entries());
-  buyerData.target_states = states;
-  buyerData.buy_box_res = formData.getAll('buy_box_res').join(', ');
-  buyerData.buy_box_com = formData.getAll('buy_box_com').join(', ');
-  fetch('/api/save-buyer', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(buyerData)
-  }).then(() => {
-    return fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    });
-  }).then(response => {
-    if (response.ok) {
-      document.getElementById('form-container').innerHTML = `
-        <div class="success-msg">
-          <h1>PROFILE SAVED</h1>
-          <p class="gold">You're in the VaultForge buyer network.</p>
-          <p>You'll only get deals for: <span class="gold">${states}</span></p>
-          <p>When a deal matches your criteria, you'll get an email from us.</p>
-          <p>No dashboard. No login. Just off-market deals.</p>
+    <div class="container">
+        <div class="header">
+            <h1>VAULTFORGE VIP</h1>
+            <p>Join our private buyer network</p>
         </div>
-      `;
-    } else {
-      alert('Error saving. Please try again.');
-      btn.disabled = false;
-      btn.textContent = 'JOIN BUYER NETWORK';
-    }
-  }).catch(error => {
-    alert('Network error. Check connection and try again.');
-    btn.disabled = false;
-    btn.textContent = 'JOIN BUYER NETWORK';
-  });
-});
-</script>
+
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" name="buyer_name" required>
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Target States - Tap All That Apply *</label>
+                <div class="checkbox-grid" id="states">
+                    <label class="checkbox-item"><input type="checkbox" name="states" value="GA"> GEORGIA</label>
+                    <label class="checkbox-item"><input type="checkbox" name="states" value="TN"> TENNESSEE</label>
+                    <label class="checkbox-item"><input type="checkbox" name="states" value="AL"> ALABAMA</label>
+                    <label class="checkbox-item"><input type="checkbox" name="states" value="FL"> FLORIDA</label>
+                    <label class="checkbox-item"><input type="checkbox" name="states" value="SC"> S CAROLINA</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Residential Buy Box</label>
+                <div class="checkbox-grid">
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="SFR Fix & Flip"> SFR Fix & Flip</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Buy & Hold"> Buy & Hold</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="BRRRR"> BRRRR</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_res" value="Vacant Land"> Vacant Land</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="landFields" style="display:none;">
+                <label>Min Land Acreage</label>
+                <select name="min_acres">
+                    <option value="">Any Size</option>
+                    <option value="0.25">0.25+ Acres</option>
+                    <option value="1">1+ Acres</option>
+                    <option value="5">5+ Acres</option>
+                    <option value="10">10+ Acres</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Commercial Buy Box</label>
+                <div class="checkbox-grid">
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Multi-Family 5+"> Multi-Family 5+</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Retail"> Retail</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Office"> Office</label>
+                    <label class="checkbox-item"><input type="checkbox" name="buybox_com" value="Industrial"> Industrial</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Max Purchase Price - Residential</label>
+                <select name="max_price_res">
+                    <option value="">Select Max...</option>
+                    <option value="100000">$100K</option>
+                    <option value="250000">$250K</option>
+                    <option value="500000">$500K</option>
+                    <option value="1000000">$1M+</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Max Purchase Price - Commercial</label>
+                <select name="max_price_com">
+                    <option value="">Select Max...</option>
+                    <option value="500000">$500K</option>
+                    <option value="1000000">$1M</option>
+                    <option value="5000000">$5M</option>
+                    <option value="10000000">$10M+</option>
+                </select>
+            </div>
+
+            <button type="submit">JOIN BUYER NETWORK</button>
+        </form>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h2>PROFILE SAVED</h2>
+            <p class="gold">Profile submitted for review.</p>
+            <p>You'll only get deals for:</p>
+            <p class="gold" id="selectedStates"></p>
+            <p>When approved, you'll get an email from us.</p>
+            <p>No dashboard. No login. Just off-market deals.</p>
+            <button class="modal-close" onclick="closeModal()">CLOSE</button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.checkbox-item input').forEach(cb => {
+            cb.addEventListener('change', function() {
+                this.parentElement.classList.toggle('checked', this.checked);
+                if (this.value === 'Vacant Land') {
+                    document.getElementById('landFields').style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        });
+
+        document.getElementById('buyerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            data.states = formData.getAll('states');
+            data.buybox_res = formData.getAll('buybox_res');
+            data.buybox_com = formData.getAll('buybox_com');
+            data.form_type = 'buyer';
+            
+            const res = await fetch('/api/save-deal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (res.ok) {
+                document.getElementById('selectedStates').textContent = data.states.join(', ');
+                document.getElementById('successModal').classList.add('show');
+            }
+        });
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+            document.getElementById('buyerForm').reset();
+            document.querySelectorAll('.checked').forEach(el => el.classList.remove('checked'));
+        }
+    </script>
 </body>
 </html>
