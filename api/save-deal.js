@@ -1,11 +1,11 @@
-import { kv } from '@vercel/kv';
 import { put } from '@vercel/blob';
+import { kv } from '@vercel/kv';
 import formidable from 'formidable';
 import fs from 'fs';
 
 export const config = {
   api: {
-    bodyParser: false, // Required for formidable
+    bodyParser: false,
   },
 };
 
@@ -13,88 +13,65 @@ export default async function handler(req, res) {
   if (req.method!== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-  
+
   try {
-    const form = formidable({ multiples: true, maxFileSize: 10 * 1024 * 1024 });
+    const form = formidable({ multiples: true });
+    const [fields, files] = await form.parse(req);
+
+    const getField = (f) => Array.isArray(f)? f[0] : f;
     
-    const [fields, files] = await new Promise((resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
-        resolve([fields, files]);
-      });
-    });
-    
-    const dealId = Date.now().toString();
-    
-    // Upload photos to Vercel Blob
+    const deal = {
+      id: `deal_${Date.now()}`,
+      address: getField(fields.address),
+      state: getField(fields.state),
+      zip: getField(fields.zip),
+      ask: Number(getField(fields.ask)),
+      arv: Number(getField(fields.arv)),
+      repairs: Number(getField(fields.repairs)),
+      payoff: Number(getField(fields.payoff)),
+      reason: getField(fields.reason),
+      created: new Date().toISOString()
+    };
+
+    // Handle photos
+    const photoFiles = files.photos || [];
+    const photoArray = Array.isArray(photoFiles)? photoFiles : [photoFiles];
     const photoUrls = [];
-    const photoFiles = Array.isArray(files.photos)? files.photos : [files.photos].filter(Boolean);
-    
-    for (const photo of photoFiles.slice(0, 10)) {
-      if (photo && photo.size > 0) {
-        const fileBuffer = fs.readFileSync(photo.filepath);
-        const blob = await put(`${dealId}/${photo.originalFilename}`, fileBuffer, { 
+
+    for (const file of photoArray) {
+      if (file && file.filepath) {
+        const buffer = fs.readFileSync(file.filepath);
+        const filename = `deals/${deal.id}/${Date.now()}_${file.originalFilename}`;
+        const blob = await put(filename, buffer, {
           access: 'public',
-          contentType: photo.mimetype 
+          contentType: file.mimetype
         });
         photoUrls.push(blob.url);
-        fs.unlinkSync(photo.filepath); // Clean temp file
       }
     }
+
+    deal.photos = photoUrls;
+
+    // Run VaultForge analysis
+    const mao = (deal.arv * 0.70) - deal.repairs - 10000;
+    const equity = deal.arv - deal.payoff - deal.ask;
+    const askDiff = mao - deal.ask;
     
-    // Parse comps
-    const compAddresses = Array.isArray(fields['comp_address[]'])? fields['comp_address[]'] : [fields['comp_address[]']].filter(Boolean);
-    const compPrices = Array.isArray(fields['comp_price[]'])? fields['comp_price[]'] : [fields['comp_price[]']].filter(Boolean);
-    const compDates = Array.isArray(fields['comp_date[]'])? fields['comp_date[]'] : [fields['comp_date[]']].filter(Boolean);
-    const compSqfts = Array.isArray(fields['comp_sqft[]'])? fields['comp_sqft[]'] : [fields['comp_sqft[]']].filter(Boolean);
-    
-    const comps = compAddresses.map((addr, i) => ({
-      address: addr || '',
-      price: Number(compPrices[i]) || 0,
-      sold_date: compDates[i] || '',
-      sqft: Number(compSqfts[i]) || 0
-    })).filter(c => c.address);
-    
-    const analysis = fields.analysis? JSON.parse(fields.analysis[0]) : {};
-    
-    // Build deal object - flattens all fields
-    const deal = {
-      id: dealId,
-      created_at: new Date().toISOString(),
-      status: "New Lead",
-    ...Object.fromEntries(Object.entries(fields).map(([k,v]) => [k, Array.isArray(v)? v[0] : v])),
-      analysis,
-      comps: comps.length > 0? comps : analysis.comps || [],
-      photos: photoUrls,
-    };
-    
+    let grade = 'F';
+    if (askDiff >= 0 && equity > 20000) grade = 'A';
+    else if (askDiff >= -10000 && equity > 10000) grade = 'B';
+    else if (askDiff >= -20000 && equity > 0) grade = 'C';
+    else if (equity > 0) grade = 'D';
+
+    deal.analysis = { mao, equity, askDiff, grade };
+
     // Save to KV
-    await kv.hset(`deal:${dealId}`, deal);
-    await kv.lpush('deals:all', dealId);
-    
-    // Stripe checkout if Title Concierge
-    if (deal.title_concierge === 'on') {
-      const stripe = (await import('stripe')).default(process.env.STRIPE_SECRET_KEY);
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{ price: process.env.STRIPE_PRICE_ID, quantity: 1 }],
-        mode: 'payment',
-        success_url: `${process.env.NEXT_PUBLIC_URL}/success?deal=${dealId}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_URL}/sellers`,
-        client_reference_id: dealId,
-        customer_email: deal.seller_email,
-      });
-      return res.status(200).json({ stripe_url: session.url });
-    }
-    
-    return res.status(200).json({ 
-      success: true, 
-      dealId,
-      redirect: '/success?deal=' + dealId 
-    });
-    
+    await kv.hset(`deal:${deal.id}`, deal);
+    await kv.lpush('deals:all', deal.id);
+
+    return res.status(200).json({ id: deal.id, success: true });
   } catch (error) {
-    console.error('Save-deal error:', error);
+    console.error('Save deal error:', error);
     return res.status(500).json({ error: error.message });
   }
 }
