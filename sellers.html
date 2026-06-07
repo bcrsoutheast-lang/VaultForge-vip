@@ -1,169 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge - Submit Deal</title>
-  <style>
-    body { background:#0a0a0a; color:#fff; font-family:system-ui; padding:20px; max-width:600px; margin:0 auto; }
-    input, textarea, select { width:100%; padding:12px; margin:8px 0 16px; background:#1a1a1a; border:1px solid #333; color:#fff; border-radius:6px; font-size:16px; }
-    button { background:#FFD700; color:#000; padding:14px 28px; border:none; border-radius:6px; font-weight:700; font-size:16px; cursor:pointer; width:100%; }
-    button:disabled { opacity:0.5; cursor:not-allowed; }
-    label { font-weight:600; display:block; margin-top:12px; }
-   .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-   .result { background:#1a1a1a; padding:16px; border-radius:6px; margin:16px 0; border:1px solid #333; }
-   .grade { font-size:24px; font-weight:900; }
-   .error { background:#3a0000; color:#ff6b6b; padding:12px; border-radius:6px; margin:12px 0; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultForge - Submit Deal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a; 
+            color: #fff; 
+            padding: 20px;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { color: #d4af37; margin-bottom: 30px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #d4af37; font-weight: 600; }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            color: #fff; 
+            font-size: 16px;
+        }
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: #d4af37; 
+        }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .radio-group { display: flex; gap: 20px; margin-bottom: 20px; }
+        .radio-group label { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            color: #fff; 
+            font-weight: 400;
+            cursor: pointer;
+        }
+        .radio-group input[type="radio"] { width: auto; }
+        .conditional { display: none; }
+        .conditional.active { display: block; }
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: #d4af37; 
+            color: #000; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            cursor: pointer;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .grade-box { 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 20px 0; 
+        }
+        .grade-box h2 { margin-bottom: 10px; }
+        .error { 
+            background: #4d1a1a; 
+            color: #f87171; 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin: 20px 0; 
+        }
+        .success { 
+            background: #1a4d1a; 
+            color: #4ade80; 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin: 20px 0; 
+        }
+    </style>
 </head>
 <body>
-  <h1>Submit Your Property</h1>
-  <form id="dealForm" enctype="multipart/form-data">
-    <label>Property Address *</label>
-    <input type="text" id="address" name="address" placeholder="121 Bowdoin Ln" required>
-    
-    <div class="grid">
-      <div>
-        <label>State *</label>
-        <select id="state" name="state" required>
-          <option value="">Select</option>
-          <option value="GA">GA</option>
-          <option value="FL">FL</option>
-          <option value="AL">AL</option>
-          <option value="SC">SC</option>
-          <option value="TN">TN</option>
-          <option value="NC">NC</option>
-        </select>
-      </div>
-      <div>
-        <label>Zip *</label>
-        <input type="text" id="zip" name="zip" placeholder="30303" required>
-      </div>
+    <div class="container">
+        <h1>SUBMIT YOUR DEAL</h1>
+        <form id="dealForm">
+            
+            <div class="form-group">
+                <label>Property Type *</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="property_type" value="residential" required> Residential</label>
+                    <label><input type="radio" name="property_type" value="commercial"> Commercial</label>
+                    <label><input type="radio" name="property_type" value="land"> Land</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Property Address *</label>
+                <input type="text" name="address" required>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>State *</label>
+                    <input type="text" name="state" maxlength="2" required>
+                </div>
+                <div class="form-group">
+                    <label>Zip Code *</label>
+                    <input type="text" name="zip" required>
+                </div>
+            </div>
+
+            <!-- RESIDENTIAL FIELDS -->
+            <div id="residentialFields" class="conditional">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Bedrooms</label>
+                        <input type="number" name="beds" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Bathrooms</label>
+                        <input type="number" name="baths" min="0" step="0.5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Square Feet</label>
+                    <input type="number" name="sqft" min="0">
+                </div>
+            </div>
+
+            <!-- COMMERCIAL FIELDS -->
+            <div id="commercialFields" class="conditional">
+                <div class="form-group">
+                    <label>Property Use</label>
+                    <select name="use_type">
+                        <option value="">Select Use</option>
+                        <option value="retail">Retail</option>
+                        <option value="office">Office</option>
+                        <option value="industrial">Industrial</option>
+                        <option value="multifamily">Multifamily</option>
+                        <option value="mixed_use">Mixed Use</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Total Units</label>
+                        <input type="number" name="units" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Building SqFt</label>
+                        <input type="number" name="building_sqft" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAND FIELDS -->
+            <div id="landFields" class="conditional">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Lot Size (Acres)</label>
+                        <input type="number" name="acres" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Zoning</label>
+                        <input type="text" name="zoning">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Asking Price *</label>
+                    <input type="number" name="ask" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>ARV *</label>
+                    <input type="number" name="arv" required min="0">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Repairs *</label>
+                    <input type="number" name="repairs" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Mortgage Payoff *</label>
+                    <input type="number" name="payoff" required min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Why Are You Selling? *</label>
+                <textarea name="motivation" required></textarea>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" name="seller_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" name="phone" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Property Photos</label>
+                <input type="file" name="photos" multiple accept="image/*">
+            </div>
+
+            <div id="gradeBox" class="grade-box" style="display:none;">
+                <h2>Grade: <span id="grade"></span></h2>
+                <p>MAO: $<span id="mao"></span></p>
+                <p>Equity Spread: $<span id="equity"></span></p>
+                <p>$<span id="askDiff"></span> vs Ask</p>
+                <p id="message"></p>
+            </div>
+
+            <div id="formMessage"></div>
+
+            <button type="submit" id="submitBtn">SUBMIT DEAL</button>
+        </form>
     </div>
 
-    <div class="grid">
-      <div>
-        <label>Asking Price *</label>
-        <input type="text" inputmode="numeric" id="ask" name="ask" placeholder="125,000" required>
-      </div>
-      <div>
-        <label>ARV *</label>
-        <input type="text" inputmode="numeric" id="arv" name="arv" placeholder="185,000" required>
-      </div>
-    </div>
+    <script>
+        const form = document.getElementById('dealForm');
+        const gradeBox = document.getElementById('gradeBox');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+        let analysisData = null;
 
-    <div class="grid">
-      <div>
-        <label>Repairs *</label>
-        <input type="text" inputmode="numeric" id="repairs" name="repairs" placeholder="10,000" required>
-      </div>
-      <div>
-        <label>Mortgage Payoff *</label>
-        <input type="text" inputmode="numeric" id="payoff" name="payoff" placeholder="80,000" required>
-      </div>
-    </div>
+        // Show/hide conditional fields
+        document.querySelectorAll('input[name="property_type"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                document.querySelectorAll('.conditional').forEach(el => el.classList.remove('active'));
+                if (e.target.value === 'residential') {
+                    document.getElementById('residentialFields').classList.add('active');
+                } else if (e.target.value === 'commercial') {
+                    document.getElementById('commercialFields').classList.add('active');
+                } else if (e.target.value === 'land') {
+                    document.getElementById('landFields').classList.add('active');
+                }
+                analyzeDeal();
+            });
+        });
 
-    <label>Why Are You Selling? *</label>
-    <textarea id="reason" name="reason" rows="3" placeholder="Motivated, inherited, etc" required></textarea>
+        // Live analyze on input
+        ['ask', 'arv', 'repairs', 'payoff'].forEach(name => {
+            form[name].addEventListener('input', analyzeDeal);
+        });
 
-    <label>Property Photos</label>
-    <input type="file" id="photos" name="photos" multiple accept="image/*">
+        async function analyzeDeal() {
+            const ask = form.ask.value;
+            const arv = form.arv.value;
+            const repairs = form.repairs.value;
+            const payoff = form.payoff.value;
 
-    <div id="result" class="result" style="display:none;"></div>
-    <div id="error" class="error" style="display:none;"></div>
+            if (!ask || !arv || !repairs || !payoff) return;
 
-    <button type="submit" id="submitBtn">SUBMIT TO NETWORK</button>
-  </form>
+            try {
+                const res = await fetch('/api/analyze-deal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ask, arv, repairs, payoff })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    analysisData = data;
+                    document.getElementById('grade').textContent = data.grade;
+                    document.getElementById('mao').textContent = parseInt(data.mao).toLocaleString();
+                    document.getElementById('equity').textContent = parseInt(data.equity).toLocaleString();
+                    document.getElementById('askDiff').textContent = parseInt(data.askDiff).toLocaleString();
+                    document.getElementById('message').textContent = data.message;
+                    gradeBox.style.display = 'block';
+                }
+            } catch (err) {
+                console.error('Analyze failed:', err);
+            }
+        }
 
-<script>
-// Auto-add commas while typing
-['ask','arv','repairs','payoff'].forEach(id => {
-  document.getElementById(id).addEventListener('input', function(e) {
-    let val = e.target.value.replace(/[^0-9]/g, '');
-    if(val) e.target.value = Number(val).toLocaleString();
-  });
-});
+        // Submit handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            formMessage.innerHTML = '';
 
-// Live analyzer
-let debounce;
-['ask','arv','repairs','payoff'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => {
-    clearTimeout(debounce);
-    debounce = setTimeout(runAnalysis, 500);
-  });
-});
+            const formData = new FormData(form);
+            if (analysisData) {
+                formData.append('analysis', JSON.stringify(analysisData));
+            }
 
-async function runAnalysis() {
-  const data = getFormData();
-  if(!data.ask ||!data.arv ||!data.repairs) return;
-  
-  try {
-    const res = await fetch('/api/analyze-deal', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    });
-    const json = await res.json();
-    const r = document.getElementById('result');
-    r.style.display = 'block';
-    r.innerHTML = `
-      <div class="grade">Grade: ${json.grade}</div>
-      <div>MAO: $${Number(json.mao).toLocaleString()}</div>
-      <div>Equity Spread: $${Number(json.equity).toLocaleString()}</div>
-      <div>${json.askDiff >= 0? '+' : ''}$${Number(json.askDiff).toLocaleString()} vs Ask</div>
-      <div style="margin-top:8px; font-size:14px; color:#999;">${json.message}</div>
-    `;
-  } catch(e) {
-    console.log('Analysis failed', e);
-  }
-}
+            try {
+                const res = await fetch('/api/save-deal', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
 
-function getFormData() {
-  const strip = v => Number(v.replace(/[^0-9]/g, '')) || 0;
-  return {
-    address: document.getElementById('address').value,
-    state: document.getElementById('state').value,
-    zip: document.getElementById('zip').value,
-    ask: strip(document.getElementById('ask').value),
-    arv: strip(document.getElementById('arv').value),
-    repairs: strip(document.getElementById('repairs').value),
-    payoff: strip(document.getElementById('payoff').value),
-    reason: document.getElementById('reason').value
-  };
-}
-
-// Submit handler
-document.getElementById('dealForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const err = document.getElementById('error');
-  err.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'SUBMITTING...';
-
-  // Strip commas + $ before submit
-  ['ask','arv','repairs','payoff'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value = el.value.replace(/[$,]/g, '');
-  });
-
-  const formData = new FormData(e.target);
-  
-  try {
-    const res = await fetch('/api/save-deal', {
-      method: 'POST',
-      body: formData
-    });
-    const json = await res.json();
-    if(!res.ok) throw new Error(json.error || 'Submit failed');
-    window.location.href = `/success?deal=${json.id}`;
-  } catch(error) {
-    err.textContent = `Submit failed: ${error.message}`;
-    err.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'SUBMIT TO NETWORK';
-  }
-});
-</script>
+                if (res.ok) {
+                    formMessage.innerHTML = '<div class="success">Deal submitted! We will review and contact you.</div>';
+                    form.reset();
+                    gradeBox.style.display = 'none';
+                    document.querySelectorAll('.conditional').forEach(el => el.classList.remove('active'));
+                } else {
+                    formMessage.innerHTML = `<div class="error">Submit failed: ${data.error || 'Unknown error'}</div>`;
+                }
+            } catch (err) {
+                formMessage.innerHTML = `<div class="error">Submit failed: ${err.message}</div>`;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
