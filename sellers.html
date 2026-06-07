@@ -3,361 +3,165 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge - Submit Your Deal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>VaultForge - Submit Deal</title>
   <style>
-  .hidden { display: none; }
-  .thumbnail { width: 80px; height: 80px; object-fit: cover; }
-  .grade-A { background: #166534; border: 2px solid #22c55e; }
-  .grade-B { background: #854d0e; border: 2px solid #eab308; }
-  .grade-C { background: #9a3412; border: 2px solid #f97316; }
-  .grade-D { background: #991b1b; border: 2px solid #ef4444; }
-  .grade-F { background: #7f1d1d; border: 2px solid #dc2626; }
+    body { background:#0a0a0a; color:#fff; font-family:system-ui; padding:20px; max-width:600px; margin:0 auto; }
+    input, textarea, select { width:100%; padding:12px; margin:8px 0 16px; background:#1a1a1a; border:1px solid #333; color:#fff; border-radius:6px; font-size:16px; }
+    button { background:#FFD700; color:#000; padding:14px 28px; border:none; border-radius:6px; font-weight:700; font-size:16px; cursor:pointer; width:100%; }
+    button:disabled { opacity:0.5; cursor:not-allowed; }
+    label { font-weight:600; display:block; margin-top:12px; }
+   .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+   .result { background:#1a1a1a; padding:16px; border-radius:6px; margin:16px 0; border:1px solid #333; }
+   .grade { font-size:24px; font-weight:900; }
+   .error { background:#3a0000; color:#ff6b6b; padding:12px; border-radius:6px; margin:12px 0; }
   </style>
 </head>
-<body class="bg-zinc-900 text-white">
-  <div class="max-w-5xl mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-6">Submit Your Deal to VaultForge Network</h1>
+<body>
+  <h1>Submit Your Property</h1>
+  <form id="dealForm" enctype="multipart/form-data">
+    <label>Property Address *</label>
+    <input type="text" id="address" name="address" placeholder="121 Bowdoin Ln" required>
     
-    <form id="sellerForm" class="space-y-6">
-      <!-- PROPERTY TYPE -->
-      <div class="bg-zinc-800 p-4 rounded">
-        <label class="block text-sm font-bold mb-2">Property Type *</label>
-        <select id="property_type" name="property_type" required class="w-full p-2 bg-zinc-700 rounded">
-          <option value="">Select Type</option>
-          <option value="Residential">Residential</option>
-          <option value="Commercial">Commercial</option>
-          <option value="Land">Land</option>
+    <div class="grid">
+      <div>
+        <label>State *</label>
+        <select id="state" name="state" required>
+          <option value="">Select</option>
+          <option value="GA">GA</option>
+          <option value="FL">FL</option>
+          <option value="AL">AL</option>
+          <option value="SC">SC</option>
+          <option value="TN">TN</option>
+          <option value="NC">NC</option>
         </select>
       </div>
-
-      <!-- RESIDENTIAL -->
-      <div id="residential_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-bold mb-2">Sub-Type</label>
-            <select name="res_subtype" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Single Family</option><option>Multi-Family</option><option>Condo/Townhome</option><option>Mobile Home</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-bold mb-2">Condition</label>
-            <select name="condition" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Turnkey</option><option>Light Rehab</option><option>Heavy Rehab</option><option>Teardown</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4">
-          <div><label class="block text-sm mb-1">Beds *</label><input type="number" name="bed" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Baths *</label><input type="number" step="0.5" name="bath" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">SQFT *</label><input type="number" name="sqft" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Year Built</label><input type="number" name="year_built" class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-        <div><label class="block text-sm mb-1">Lot Size (Acres)</label><input type="number" step="0.01" name="lot_size" class="w-full p-2 bg-zinc-700 rounded"></div>
+      <div>
+        <label>Zip *</label>
+        <input type="text" id="zip" name="zip" placeholder="30303" required>
       </div>
-
-      <!-- COMMERCIAL -->
-      <div id="commercial_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-bold mb-2">Sub-Type</label>
-            <select name="com_subtype" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Office</option><option>Retail</option><option>Industrial</option><option>Warehouse</option><option>Mixed Use</option><option>Multi-Family 5+</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-bold mb-2">Occupancy</label>
-            <select name="occupancy" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Vacant</option><option>Partial</option><option>Fully Leased</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4">
-          <div><label class="block text-sm mb-1">SQFT *</label><input type="number" name="com_sqft" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Units</label><input type="number" name="units" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Acres</label><input type="number" step="0.01" name="com_acres" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Parking Spaces</label><input type="number" name="parking" class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-        <div class="grid grid-cols-3 gap-4">
-          <div><label class="block text-sm mb-1">Zoning</label><input type="text" name="zoning" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Cap Rate %</label><input type="number" step="0.1" name="cap_rate" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">NOI Annual</label><input type="number" name="noi" class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-      </div>
-
-      <!-- LAND -->
-      <div id="land_fields" class="hidden bg-zinc-800 p-4 rounded space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-bold mb-2">Sub-Type</label>
-            <select name="land_subtype" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Residential Lot</option><option>Commercial Lot</option><option>Agricultural</option><option>Recreational</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-bold mb-2">Access</label>
-            <select name="access" class="w-full p-2 bg-zinc-700 rounded">
-              <option>Paved Road</option><option>Dirt Road</option><option>Easement</option><option>Landlocked</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-3 gap-4">
-          <div><label class="block text-sm mb-1">Acres *</label><input type="number" step="0.01" name="acres" class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm mb-1">Road Frontage</label>
-            <select name="road_frontage" class="w-full p-2 bg-zinc-700 rounded">
-              <option value="No">No</option><option value="Yes">Yes</option>
-            </select>
-          </div>
-          <div><label class="block text-sm mb-1">Frontage Feet</label><input type="number" name="frontage_feet" class="w-full p-2 bg-zinc-700 rounded hidden"></div>
-        </div>
-        <div class="grid grid-cols-4 gap-4">
-          <div><label class="block text-sm mb-1">Power</label>
-            <select name="power" class="w-full p-2 bg-zinc-700 rounded"><option>None</option><option>At Street</option><option>On Property</option></select>
-          </div>
-          <div><label class="block text-sm mb-1">Water/Sewer</label>
-            <select name="water_sewer" class="w-full p-2 bg-zinc-700 rounded"><option>None</option><option>City</option><option>Well/Septic</option></select>
-          </div>
-          <div><label class="block text-sm mb-1">Topography</label>
-            <select name="topography" class="w-full p-2 bg-zinc-700 rounded"><option>Flat</option><option>Hilly</option><option>Wooded</option><option>Cleared</option></select>
-          </div>
-          <div><label class="block text-sm mb-1">Zoning</label><input type="text" name="land_zoning" class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-      </div>
-
-      <!-- CORE DEAL INFO -->
-      <div class="bg-zinc-800 p-4 rounded space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div><label class="block text-sm font-bold mb-1">Property Address *</label><input type="text" name="address" required class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm font-bold mb-1">State *</label><input type="text" name="state" required maxlength="2" class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-        <div class="grid grid-cols-3 gap-4">
-          <div><label class="block text-sm font-bold mb-1">Asking Price *</label><input type="number" name="asking_price" required class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm font-bold mb-1">ARV *</label><input type="number" name="arv" required class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm font-bold mb-1">Repairs *</label><input type="number" name="repairs" required class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-        <div><label class="block text-sm mb-1">Why Are You Selling? *</label><textarea name="motivation" required class="w-full p-2 bg-zinc-700 rounded h-20"></textarea></div>
-      </div>
-
-      <!-- PHOTOS -->
-      <div class="bg-zinc-800 p-4 rounded">
-        <label class="block text-sm font-bold mb-2">Upload Photos (Max 10) *</label>
-        <input type="file" id="photos" name="photos" multiple accept="image/*" required class="w-full p-2 bg-zinc-700 rounded">
-        <div id="photo_preview" class="flex flex-wrap gap-2 mt-4"></div>
-      </div>
-
-      <!-- COMPS -->
-      <div class="bg-zinc-800 p-4 rounded">
-        <label class="block text-sm font-bold mb-2">Your Comparable Sales (Optional but boosts Grade)</label>
-        <div id="comps_container" class="space-y-2">
-          <div class="comp-row grid grid-cols-5 gap-2">
-            <input type="text" name="comp_address[]" placeholder="Address" class="p-2 bg-zinc-700 rounded col-span-2">
-            <input type="number" name="comp_price[]" placeholder="Sale Price" class="p-2 bg-zinc-700 rounded">
-            <input type="date" name="comp_date[]" class="p-2 bg-zinc-700 rounded">
-            <input type="number" name="comp_sqft[]" placeholder="SQFT" class="p-2 bg-zinc-700 rounded">
-          </div>
-        </div>
-        <button type="button" id="add_comp" class="mt-2 text-sm text-blue-400">+ Add Another Comp</button>
-      </div>
-
-      <!-- TITLE CONCIERGE -->
-      <div class="bg-zinc-800 p-4 rounded">
-        <label class="flex items-center space-x-2 mb-4">
-          <input type="checkbox" id="title_concierge" name="title_concierge" class="w-5 h-5">
-          <span class="font-bold">Title Concierge - $500 (We handle title + closing + payoffs)</span>
-        </label>
-        <div id="title_questions" class="hidden space-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-sm mb-1">Payoff Amount *</label><input type="number" name="payoff_amount" class="w-full p-2 bg-zinc-700 rounded"></div>
-            <div><label class="block text-sm mb-1">Desired Closing Date *</label><input type="date" name="closing_date" class="w-full p-2 bg-zinc-700 rounded"></div>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-sm mb-1">Any Liens/Judgments? *</label>
-              <select name="liens" class="w-full p-2 bg-zinc-700 rounded"><option>No</option><option>Yes</option></select>
-            </div>
-            <div><label class="block text-sm mb-1">Do you have a Title Company? *</label>
-              <select name="has_title_co" class="w-full p-2 bg-zinc-700 rounded"><option>No</option><option>Yes</option></select>
-            </div>
-          </div>
-          <input type="text" name="lien_details" placeholder="If liens, describe" class="w-full p-2 bg-zinc-700 rounded hidden">
-          <input type="text" name="title_co_name" placeholder="If yes, company name" class="w-full p-2 bg-zinc-700 rounded hidden">
-        </div>
-      </div>
-
-      <!-- SELLER INFO -->
-      <div class="bg-zinc-800 p-4 rounded space-y-4">
-        <div class="grid grid-cols-3 gap-4">
-          <div><label class="block text-sm font-bold mb-1">Your Name *</label><input type="text" name="seller_name" required class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm font-bold mb-1">Phone *</label><input type="tel" name="seller_phone" required class="w-full p-2 bg-zinc-700 rounded"></div>
-          <div><label class="block text-sm font-bold mb-1">Email *</label><input type="email" name="seller_email" required class="w-full p-2 bg-zinc-700 rounded"></div>
-        </div>
-      </div>
-
-      <div class="flex gap-4">
-        <button type="button" id="analyzeBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 p-4 rounded font-bold disabled:bg-gray-600">ANALYZE DEAL</button>
-        <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 p-4 rounded font-bold disabled:bg-gray-600">SUBMIT TO NETWORK</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- ANALYSIS MODAL - OPERATING ROOM -->
-  <div id="analysisModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
-    <div class="bg-zinc-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-      <button id="closeModal" class="absolute top-4 right-4 text-2xl hover:text-red-500">✕</button>
-      <h2 class="text-3xl font-bold mb-4">Deal Operating Room</h2>
-      <div id="analysis_content"></div>
     </div>
-  </div>
+
+    <div class="grid">
+      <div>
+        <label>Asking Price *</label>
+        <input type="text" inputmode="numeric" id="ask" name="ask" placeholder="125,000" required>
+      </div>
+      <div>
+        <label>ARV *</label>
+        <input type="text" inputmode="numeric" id="arv" name="arv" placeholder="185,000" required>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Repairs *</label>
+        <input type="text" inputmode="numeric" id="repairs" name="repairs" placeholder="10,000" required>
+      </div>
+      <div>
+        <label>Mortgage Payoff *</label>
+        <input type="text" inputmode="numeric" id="payoff" name="payoff" placeholder="80,000" required>
+      </div>
+    </div>
+
+    <label>Why Are You Selling? *</label>
+    <textarea id="reason" name="reason" rows="3" placeholder="Motivated, inherited, etc" required></textarea>
+
+    <label>Property Photos</label>
+    <input type="file" id="photos" name="photos" multiple accept="image/*">
+
+    <div id="result" class="result" style="display:none;"></div>
+    <div id="error" class="error" style="display:none;"></div>
+
+    <button type="submit" id="submitBtn">SUBMIT TO NETWORK</button>
+  </form>
 
 <script>
-let currentAnalysis = null;
-
-// TOGGLES
-document.getElementById('property_type').addEventListener('change', (e) => {
-  document.querySelectorAll('#residential_fields, #commercial_fields, #land_fields').forEach(el => el.classList.add('hidden'));
-  if (e.target.value === 'Residential') document.getElementById('residential_fields').classList.remove('hidden');
-  if (e.target.value === 'Commercial') document.getElementById('commercial_fields').classList.remove('hidden');
-  if (e.target.value === 'Land') document.getElementById('land_fields').classList.remove('hidden');
-});
-
-document.getElementById('title_concierge').addEventListener('change', (e) => {
-  document.getElementById('title_questions').classList.toggle('hidden',!e.target.checked);
-});
-
-document.querySelector('[name="road_frontage"]').addEventListener('change', (e) => {
-  document.querySelector('[name="frontage_feet"]').classList.toggle('hidden', e.target.value!== 'Yes');
-});
-document.querySelector('[name="liens"]').addEventListener('change', (e) => {
-  document.querySelector('[name="lien_details"]').classList.toggle('hidden', e.target.value!== 'Yes');
-});
-document.querySelector('[name="has_title_co"]').addEventListener('change', (e) => {
-  document.querySelector('[name="title_co_name"]').classList.toggle('hidden', e.target.value!== 'Yes');
-});
-
-// PHOTOS
-document.getElementById('photos').addEventListener('change', (e) => {
-  const preview = document.getElementById('photo_preview');
-  preview.innerHTML = '';
-  [...e.target.files].slice(0,10).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.className = 'thumbnail rounded';
-      preview.appendChild(img);
-    }
-    reader.readAsDataURL(file);
+// Auto-add commas while typing
+['ask','arv','repairs','payoff'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function(e) {
+    let val = e.target.value.replace(/[^0-9]/g, '');
+    if(val) e.target.value = Number(val).toLocaleString();
   });
 });
 
-// COMPS
-document.getElementById('add_comp').addEventListener('click', () => {
-  const container = document.getElementById('comps_container');
-  const row = container.querySelector('.comp-row').cloneNode(true);
-  row.querySelectorAll('input').forEach(input => input.value = '');
-  container.appendChild(row);
-});
-
-// ANALYZE
-document.getElementById('analyzeBtn').addEventListener('click', async () => {
-  const form = document.getElementById('sellerForm');
-  if (!form.checkValidity()) return form.reportValidity();
-  
-  const btn = document.getElementById('analyzeBtn');
-  btn.textContent = 'ANALYZING...';
-  btn.disabled = true;
-  
-  const res = await fetch('/api/analyze-deal', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(Object.fromEntries(new FormData(form)))
+// Live analyzer
+let debounce;
+['ask','arv','repairs','payoff'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(runAnalysis, 500);
   });
-  
-  currentAnalysis = await res.json();
-  
-  const gradeClass = `grade-${currentAnalysis.grade}`;
-  document.getElementById('analysis_content').innerHTML = `
-    <div class="${gradeClass} p-6 rounded-lg mb-6 text-center">
-      <div class="text-6xl font-black mb-2">${currentAnalysis.grade}</div>
-      <div class="text-xl font-bold">DEAL GRADE</div>
-      <div class="text-sm mt-2">${currentAnalysis.reason}</div>
-    </div>
-    
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="bg-zinc-700 p-4 rounded text-center">
-        <div class="text-2xl font-bold">$${currentAnalysis.mao.toLocaleString()}</div>
-        <div class="text-xs">MAO</div>
-        <div class="text-xs ${currentAnalysis.ask_vs_mao > 0? 'text-red-400' : 'text-green-400'}">
-          ${currentAnalysis.ask_vs_mao > 0? '+' : ''}$${currentAnalysis.ask_vs_mao.toLocaleString()} vs Ask
-        </div>
-      </div>
-      <div class="bg-zinc-700 p-4 rounded text-center">
-        <div class="text-2xl font-bold">$${currentAnalysis.equity_spread.toLocaleString()}</div>
-        <div class="text-xs">Equity Spread</div>
-      </div>
-      <div class="bg-zinc-700 p-4 rounded text-center">
-        <div class="text-2xl font-bold">${currentAnalysis.roi}%</div>
-        <div class="text-xs">ROI</div>
-      </div>
-      <div class="bg-zinc-700 p-4 rounded text-center">
-        <div class="text-2xl font-bold">${currentAnalysis.discount_vs_comps}%</div>
-        <div class="text-xs">Under Comps</div>
-        <div class="text-xs">$${currentAnalysis.dollar_per_sqft}/sqft vs $${currentAnalysis.comps_avg_sqft}</div>
-      </div>
-    </div>
-
-    <h3 class="font-bold mb-2">Comparable Sales</h3>
-    <table class="w-full text-sm mb-6">
-      <thead><tr class="border-b border-zinc-600"><th class="text-left p-2">Address</th><th>Price</th><th>Sold</th><th>SQFT</th><th>$/SQFT</th></tr></thead>
-      <tbody>
-        ${currentAnalysis.comps.map(c => `
-          <tr class="border-b border-zinc-700">
-            <td class="p-2">${c.address}</td>
-            <td>$${c.price.toLocaleString()}</td>
-            <td>${c.sold_date}</td>
-            <td>${c.sqft}</td>
-            <td>$${Math.round(c.price/c.sqft)}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-    
-    <div class="flex gap-4">
-      <button id="editDeal" class="flex-1 bg-zinc-600 hover:bg-zinc-700 p-3 rounded font-bold">EDIT DEAL</button>
-      <button id="submitFromModal" class="flex-1 bg-green-600 hover:bg-green-700 p-3 rounded font-bold">SUBMIT TO NETWORK</button>
-    </div>
-  `;
-  
-  document.getElementById('analysisModal').classList.remove('hidden');
-  document.getElementById('editDeal').onclick = () => document.getElementById('analysisModal').classList.add('hidden');
-  document.getElementById('submitFromModal').onclick = () => document.getElementById('sellerForm').requestSubmit();
-  
-  btn.textContent = 'ANALYZE DEAL';
-  btn.disabled = false;
 });
 
-document.getElementById('closeModal').onclick = () => document.getElementById('analysisModal').classList.add('hidden');
+async function runAnalysis() {
+  const data = getFormData();
+  if(!data.ask ||!data.arv ||!data.repairs) return;
+  
+  try {
+    const res = await fetch('/api/analyze-deal', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    const r = document.getElementById('result');
+    r.style.display = 'block';
+    r.innerHTML = `
+      <div class="grade">Grade: ${json.grade}</div>
+      <div>MAO: $${Number(json.mao).toLocaleString()}</div>
+      <div>Equity Spread: $${Number(json.equity).toLocaleString()}</div>
+      <div>${json.askDiff >= 0? '+' : ''}$${Number(json.askDiff).toLocaleString()} vs Ask</div>
+      <div style="margin-top:8px; font-size:14px; color:#999;">${json.message}</div>
+    `;
+  } catch(e) {
+    console.log('Analysis failed', e);
+  }
+}
 
-// SUBMIT
-document.getElementById('sellerForm').addEventListener('submit', async (e) => {
+function getFormData() {
+  const strip = v => Number(v.replace(/[^0-9]/g, '')) || 0;
+  return {
+    address: document.getElementById('address').value,
+    state: document.getElementById('state').value,
+    zip: document.getElementById('zip').value,
+    ask: strip(document.getElementById('ask').value),
+    arv: strip(document.getElementById('arv').value),
+    repairs: strip(document.getElementById('repairs').value),
+    payoff: strip(document.getElementById('payoff').value),
+    reason: document.getElementById('reason').value
+  };
+}
+
+// Submit handler
+document.getElementById('dealForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  if (currentAnalysis) formData.append('analysis', JSON.stringify(currentAnalysis));
-  
-  const btn = e.target.querySelector('button[type="submit"]');
-  btn.textContent = 'SUBMITTING...';
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('error');
+  err.style.display = 'none';
   btn.disabled = true;
+  btn.textContent = 'SUBMITTING...';
+
+  // Strip commas + $ before submit
+  ['ask','arv','repairs','payoff'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = el.value.replace(/[$,]/g, '');
+  });
+
+  const formData = new FormData(e.target);
   
-  const res = await fetch('/api/save-deal', { method: 'POST', body: formData });
-  const data = await res.json();
-  
-  if (data.stripe_url) {
-    window.location.href = data.stripe_url;
-  } else if (data.success) {
-    window.location.href = data.redirect;
-  } else {
-    alert('Submit failed: ' + data.error);
-    btn.textContent = 'SUBMIT TO NETWORK';
+  try {
+    const res = await fetch('/api/save-deal', {
+      method: 'POST',
+      body: formData
+    });
+    const json = await res.json();
+    if(!res.ok) throw new Error(json.error || 'Submit failed');
+    window.location.href = `/success?deal=${json.id}`;
+  } catch(error) {
+    err.textContent = `Submit failed: ${error.message}`;
+    err.style.display = 'block';
     btn.disabled = false;
+    btn.textContent = 'SUBMIT TO NETWORK';
   }
 });
 </script>
