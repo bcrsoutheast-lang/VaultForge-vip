@@ -1,24 +1,13 @@
 import { put } from '@vercel/blob';
 import { kv } from '@vercel/kv';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const runtime = 'edge';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+export default async function POST(req) {
   try {
     const formData = await req.formData();
     
-    const getField = (name) => {
-      const val = formData.get(name);
-      return typeof val === 'string' ? val : '';
-    };
+    const getField = (name) => formData.get(name) || '';
     
     const deal = {
       id: `deal_${Date.now()}`,
@@ -33,18 +22,16 @@ export default async function handler(req, res) {
       created: new Date().toISOString()
     };
 
-    const photoFiles = formData.getAll('photos').filter(f => f && typeof f === 'object' && 'arrayBuffer' in f);
+    const photoFiles = formData.getAll('photos').filter(f => f && f.size > 0);
     const photoUrls = [];
 
     for (const file of photoFiles) {
-      if (file.size > 0) {
-        const filename = `deals/${deal.id}/${Date.now()}_${file.name}`;
-        const blob = await put(filename, file, {
-          access: 'public',
-          contentType: file.type
-        });
-        photoUrls.push(blob.url);
-      }
+      const filename = `deals/${deal.id}/${Date.now()}_${file.name}`;
+      const blob = await put(filename, file, {
+        access: 'public',
+        contentType: file.type
+      });
+      photoUrls.push(blob.url);
     }
 
     deal.photos = photoUrls;
@@ -64,9 +51,9 @@ export default async function handler(req, res) {
     await kv.hset(`deal:${deal.id}`, deal);
     await kv.lpush('deals:all', deal.id);
 
-    return res.status(200).json({ id: deal.id, success: true });
+    return Response.json({ id: deal.id, success: true });
   } catch (error) {
     console.error('Save deal error:', error);
-    return res.status(500).json({ error: error.message || 'Upload failed' });
+    return Response.json({ error: error.message || 'Upload failed' }, { status: 500 });
   }
 }
