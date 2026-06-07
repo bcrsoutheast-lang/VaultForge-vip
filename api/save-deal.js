@@ -1,7 +1,5 @@
 import { put } from '@vercel/blob';
 import { kv } from '@vercel/kv';
-import formidable from 'formidable';
-import fs from 'fs';
 
 export const config = {
   api: {
@@ -10,41 +8,40 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  if (req.method!== 'POST') {
+  if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const form = formidable({ multiples: true });
-    const [fields, files] = await form.parse(req);
-
-    const getField = (f) => Array.isArray(f)? f[0] : f;
+    const formData = await req.formData();
+    
+    const getField = (name) => {
+      const val = formData.get(name);
+      return typeof val === 'string' ? val : '';
+    };
     
     const deal = {
       id: `deal_${Date.now()}`,
-      address: getField(fields.address),
-      state: getField(fields.state),
-      zip: getField(fields.zip),
-      ask: Number(getField(fields.ask)),
-      arv: Number(getField(fields.arv)),
-      repairs: Number(getField(fields.repairs)),
-      payoff: Number(getField(fields.payoff)),
-      reason: getField(fields.reason),
+      address: getField('address'),
+      state: getField('state'),
+      zip: getField('zip'),
+      ask: Number(getField('ask')),
+      arv: Number(getField('arv')),
+      repairs: Number(getField('repairs')),
+      payoff: Number(getField('payoff')),
+      reason: getField('reason'),
       created: new Date().toISOString()
     };
 
-    // Handle photos
-    const photoFiles = files.photos || [];
-    const photoArray = Array.isArray(photoFiles)? photoFiles : [photoFiles];
+    const photoFiles = formData.getAll('photos').filter(f => f && typeof f === 'object' && 'arrayBuffer' in f);
     const photoUrls = [];
 
-    for (const file of photoArray) {
-      if (file && file.filepath) {
-        const buffer = fs.readFileSync(file.filepath);
-        const filename = `deals/${deal.id}/${Date.now()}_${file.originalFilename}`;
-        const blob = await put(filename, buffer, {
+    for (const file of photoFiles) {
+      if (file.size > 0) {
+        const filename = `deals/${deal.id}/${Date.now()}_${file.name}`;
+        const blob = await put(filename, file, {
           access: 'public',
-          contentType: file.mimetype
+          contentType: file.type
         });
         photoUrls.push(blob.url);
       }
@@ -52,7 +49,6 @@ export default async function handler(req, res) {
 
     deal.photos = photoUrls;
 
-    // Run VaultForge analysis
     const mao = (deal.arv * 0.70) - deal.repairs - 10000;
     const equity = deal.arv - deal.payoff - deal.ask;
     const askDiff = mao - deal.ask;
@@ -65,13 +61,12 @@ export default async function handler(req, res) {
 
     deal.analysis = { mao, equity, askDiff, grade };
 
-    // Save to KV
     await kv.hset(`deal:${deal.id}`, deal);
     await kv.lpush('deals:all', deal.id);
 
     return res.status(200).json({ id: deal.id, success: true });
   } catch (error) {
     console.error('Save deal error:', error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message || 'Upload failed' });
   }
 }
