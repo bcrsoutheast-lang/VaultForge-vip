@@ -25,8 +25,9 @@
 .success h2 { color: #10b981; margin-bottom: 15px; font-size: 24px; }
 .success p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
 .section-title { color: #FFD700; font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
-  select[multiple] { height: auto; min-height: 120px; }
+  select[multiple] { height: auto; min-height: 140px; }
 .sub-dropdown { display: none; margin-top: 10px; }
+.market-count { color: #10b981; font-size: 12px; margin-top: 5px; }
   </style>
 </head>
 <body>
@@ -144,7 +145,7 @@
         </div>
         <div class="form-group">
           <label>Markets You Operate In - Select Multiple</label>
-          <select name="markets" multiple required id="marketsSelect">
+          <select name="markets" multiple required id="marketsSelect" onchange="updateMarketCount()">
             <option value="GA">Georgia</option>
             <option value="FL">Florida</option>
             <option value="TX">Texas</option>
@@ -153,6 +154,7 @@
             <option value="AL">Alabama</option>
             <option value="TN">Tennessee</option>
           </select>
+          <div class="market-count" id="marketCount"></div>
         </div>
         <div class="checkbox-row">
           <input type="checkbox" id="agree1pct" required>
@@ -181,6 +183,12 @@ function toggleSub(type) {
   subDiv.style.display = checkbox.checked? 'block' : 'none';
 }
 
+function updateMarketCount() {
+  const select = document.getElementById('marketsSelect');
+  const selected = Array.from(select.selectedOptions).map(o => o.text);
+  document.getElementById('marketCount').textContent = selected.length > 0? 'Selected: ' + selected.join(', ') : '';
+}
+
 document.getElementById('buyerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
@@ -189,7 +197,7 @@ document.getElementById('buyerForm').addEventListener('submit', async (e) => {
     full_name: formData.get('full_name'),
     phone: formData.get('phone'),
     email: formData.get('email'),
-    buyer_state: formData.get('buyer_state'),
+    buyer_state: formData    buyer_state: formData.get('buyer_state'),
     budget_min: formData.get('budget_min')? parseInt(formData.get('budget_min')) : null,
     budget_max: formData.get('budget_max')? parseInt(formData.get('budget_max')) : null,
     markets: Array.from(e.target.querySelector('[name="markets"]').selectedOptions).map(o => o.value),
