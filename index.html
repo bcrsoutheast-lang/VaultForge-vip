@@ -6,32 +6,33 @@
   <title>VaultForge - Veteran Pride VaultForge LLC</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; min-height: 100vh; }
- .ticker-bar { background: #1a1a1a; border-bottom: 2px solid #FFD700; padding: 12px 0; overflow: hidden; white-space: nowrap; }
- .ticker-content { display: inline-block; padding-left: 100%; animation: scroll 18s linear infinite; color: #FFD700; font-size: 14px; font-weight: bold; }
- .ticker-content span { margin: 0 40px; }
-  @keyframes scroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
- .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center; }
- .logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; }
- .headline { color: #FFD700; font-size: 32px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
- .subline { color: #ccc; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
- .subline strong { color: #10b981; }
- .button-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
- .prop-btn { background: #1a1a1a; border: 2px solid #FFD700; color: #FFD700; padding: 20px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; text-decoration: none; display: block; transition: all 0.2s; }
- .prop-btn:hover { background: #FFD700; color: #000; }
- .prop-subtext { display: block; font-size: 12px; color: #ccc; font-weight: normal; margin-top: 5px; }
- .prop-btn:hover.prop-subtext { color: #333; }
- .buyer-access { margin-top: 30px; padding-top: 30px; border-top: 1px solid #333; }
- .buyer-link { color: #10b981; font-size: 16px; text-decoration: underline; cursor: pointer; }
- .buyer-link:hover { color: #FFD700; }
- .banner { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 15px; margin-top: 40px; font-size: 13px; color: #888; }
+    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; min-height: 100vh; padding-bottom: 60px; }
+   .ticker-bar { background: #1a1a1a; border-bottom: 2px solid #FFD700; padding: 12px 0; overflow: hidden; white-space: nowrap; }
+   .ticker-content { display: inline-block; padding-left: 100%; animation: scroll 18s linear infinite; color: #FFD700; font-size: 14px; font-weight: bold; }
+   .ticker-content span { margin: 0 40px; }
+    @keyframes scroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+   .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center; }
+   .logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; }
+   .headline { color: #FFD700; font-size: 32px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
+   .subline { color: #ccc; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
+   .subline strong { color: #10b981; }
+   .button-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
+   .prop-btn { background: #1a1a1a; border: 2px solid #FFD700; color: #FFD700; padding: 20px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; text-decoration: none; display: block; }
+   .prop-btn:hover { background: #FFD700; color: #000; }
+   .prop-subtext { display: block; font-size: 12px; color: #ccc; font-weight: normal; margin-top: 5px; }
+   .buyer-access { margin-top: 30px; padding-top: 30px; border-top: 1px solid #333; }
+   .buyer-link { color: #10b981; font-size: 16px; text-decoration: underline; cursor: pointer; }
+   .banner { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 15px; margin-top: 40px; font-size: 13px; color: #888; }
     @media (min-width: 500px) {.button-grid { grid-template-columns: 1fr 1fr 1fr; } }
   </style>
 </head>
 <body>
   <div class="ticker-bar">
-    <div class="ticker-content" id="tickerContent">
-      <span>Loading market data...</span>
+    <div class="ticker-content">
+      <span>ATL: 1,247 deals closed</span>
+      <span>DFW: $4.2M volume</span>
+      <span>MIA: 89 active buyers</span>
+      <span>CLT: Avg 12 days to close</span>
     </div>
   </div>
   <div class="container">
@@ -44,26 +45,25 @@
       Buyers pay <strong>1% coordination fee</strong>. We only win if you profit.
     </div>
     <div class="button-grid">
-      <a href="/sellers.html?type=residential" class="prop-btn">
+      <a href="./sellers.html?type=residential" class="prop-btn">
         RESIDENTIAL
         <span class="prop-subtext">Houses, Condos, 1-4 Units</span>
       </a>
-      <a href="/sellers.html?type=commercial" class="prop-btn">
+      <a href="./sellers.html?type=commercial" class="prop-btn">
         COMMERCIAL
         <span class="prop-subtext">Multi-Family, Retail, Office</span>
       </a>
-      <a href="/sellers.html?type=land" class="prop-btn">
+      <a href="./sellers.html?type=land" class="prop-btn">
         LAND
         <span class="prop-subtext">Vacant Lots, Acreage</span>
       </a>
     </div>
     <div class="buyer-access">
-      <a href="/buyers.html" class="buyer-link">CASH BUYER ACCESS →</a>
+      <a href="./buyers.html" class="buyer-link">CASH BUYER ACCESS →</a>
     </div>
     <div class="banner">
       Veteran Pride VaultForge LLC | Veteran Owned & Operated | GA • FL • TX • NC • SC • AL • TN
     </div>
   </div>
-  <script src="/ticker.js"></script>
 </body>
 </html>
