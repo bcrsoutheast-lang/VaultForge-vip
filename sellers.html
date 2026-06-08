@@ -6,22 +6,24 @@
   <title>Submit Property - VaultForge</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; padding-bottom: 100px; }
-  .container { max-width: 500px; margin: 0 auto; }
-  .back-btn { color: #FFD700; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
+    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; padding-bottom: 120px; }
+ .container { max-width: 500px; margin: 0 auto; }
+ .back-btn { color: #FFD700; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-  .form-group { margin-bottom: 15px; }
+ .form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select, textarea { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
     textarea { min-height: 80px; }
-  .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
-  .checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
-  .checkbox-row label { color: #FFD700; font-size: 14px; line-height: 1.4; }
-  .success { display: none; text-align: center; padding: 40px 20px; }
-  .success h2 { color: #10b981; margin-bottom: 15px; }
-  .dynamic { display: none; }
+ .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
+ .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+ .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+ .checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+ .checkbox-row label { color: #FFD700; font-size: 14px; line-height: 1.4; }
+ .success { display: none; text-align: center; padding: 40px 20px; }
+ .success h2 { color: #10b981; margin-bottom: 15px; font-size: 24px; }
+ .success p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
+ .dynamic { display: none; }
+ .section-title { color: #FFD700; font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
   </style>
 </head>
 <body>
@@ -84,8 +86,8 @@
           </div>
         </div>
 
-        <!-- RESIDENTIAL FIELDS -->
         <div id="resFields" class="dynamic">
+          <div class="section-title">Residential Details</div>
           <div class="grid">
             <div class="form-group"><label>Beds</label><input type="number" name="beds"></div>
             <div class="form-group"><label>Baths</label><input type="number" name="baths"></div>
@@ -96,8 +98,8 @@
           </div>
         </div>
 
-        <!-- COMMERCIAL FIELDS -->
         <div id="comFields" class="dynamic">
+          <div class="section-title">Commercial Details</div>
           <div class="grid">
             <div class="form-group"><label>Units</label><input type="number" name="units"></div>
             <div class="form-group"><label>Total SqFt</label><input type="number" name="total_sqft"></div>
@@ -109,8 +111,8 @@
           <div class="form-group"><label>Occupancy %</label><input type="number" name="occupancy"></div>
         </div>
 
-        <!-- LAND FIELDS -->
         <div id="landFields" class="dynamic">
+          <div class="section-title">Land Details</div>
           <div class="grid">
             <div class="form-group"><label>Acres</label><input type="number" name="acres" step="0.01"></div>
             <div class="form-group"><label>Zoning</label><input type="text" name="zoning"></div>
@@ -149,11 +151,10 @@
     </div>
     <div id="success" class="success">
       <h2>Deal Under Review</h2>
-      <p>We'll contact you with a 50/50 contract within 24 hours.</p>
-      <br>
-      <a href="./sellers.html?type=residential" class="btn" style="display:block; margin-bottom:10px; text-decoration:none; text-align:center;">Submit Another Residential</a>
-      <a href="./sellers.html?type=commercial" class="btn" style="display:block; margin-bottom:10px; text-decoration:none; text-align:center;">Submit Another Commercial</a>
-      <a href="./sellers.html?type=land" class="btn" style="display:block; text-decoration:none; text-align:center;">Submit Another Land</a>
+      <p>Your deal is being reviewed. We will contact you within 24 hours with a 50/50 profit split contract.</p>
+      <a href="./sellers.html?type=residential" class="btn" style="margin-bottom:10px;">Submit Another Residential Deal</a>
+      <a href="./sellers.html?type=commercial" class="btn" style="margin-bottom:10px;">Submit Another Commercial Deal</a>
+      <a href="./sellers.html?type=land" class="btn">Submit Another Land Deal</a>
     </div>
   </div>
 
