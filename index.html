@@ -29,17 +29,10 @@
   </style>
 </head>
 <body>
-  <!-- MOVING BANNER - REAL DEALS -->
+  <!-- MOVING BANNER - NO COUNTS -->
   <div class="ticker-bar">
     <div class="ticker-content" id="tickerContent">
-      <span>5 DEALS SUBMITTED TODAY</span>
-      <span>9 CLOSED THIS MONTH</span>
-      <span>$1.2M TOTAL VOLUME</span>
-      <span>RECENT MARKET: 3BR/2BA Marietta, GA • Sold $425K</span>
-      <span>RECENT MARKET: 3BR/2BA Woodway, TX • Sold $329K</span>
-      <span>RECENT MARKET: 4BR/2BA Robinson, TX • Sold $304K</span>
-      <span>RECENT MARKET: 3BR/2BA Jacksonville, FL • Median $360K</span>
-      <span>RECENT MARKET: 5BR/6.5BA Cypress, TX • Sold $1.79M</span>
+      <span>Loading market data...</span>
     </div>
   </div>
 
@@ -78,17 +71,6 @@
     </div>
   </div>
 
-  <script>
-    // When your API goes live, replace ticker content with real submissions
-    async function updateLiveDeals() {
-      try {
-        const res = await fetch('/api/live-deals');
-        const data = await res.json();
-        if (data.ticker) document.getElementById('tickerContent').innerHTML = data.ticker;
-      } catch (err) { console.log('Using default market data'); }
-    }
-    setInterval(updateLiveDeals, 30000);
-    updateLiveDeals();
-  </script>
+  <script src="/ticker.js"></script>
 </body>
 </html>
