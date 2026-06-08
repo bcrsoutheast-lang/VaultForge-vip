@@ -22,23 +22,16 @@
     
     /* LOGO FRONT CENTER */
    .logo { 
-      width: 120px; 
-      height: 120px; 
-      margin: 0 auto 30px; 
-      background: #FFD700;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #000;
-      font-size: 14px;
+      width: 180px; 
+      height: auto; 
+      margin: 0 auto 25px; 
+      display: block;
     }
     
     /* WHO WE ARE + WHAT WE DO */
    .headline { 
       color: #FFD700; 
-      font-size: 28px; 
+      font-size: 32px; 
       font-weight: bold; 
       margin-bottom: 15px; 
       line-height: 1.2;
@@ -53,7 +46,7 @@
       color: #10b981; 
     }
     
-    /* TICKER PLACEHOLDER - AUTO UPDATES */
+    /* TICKER - AUTO UPDATES */
    .ticker {
       background: #1a1a1a;
       border: 1px solid #333;
@@ -115,7 +108,7 @@
       color: #FFD700;
     }
     
-    /* BANNER PLACEHOLDER - AUTO UPDATES */
+    /* BANNER - AUTO UPDATES */
    .banner {
       background: #1a1a1a;
       border: 1px solid #333;
@@ -137,9 +130,7 @@
   <div class="container">
     
     <!-- LOGO FRONT CENTER -->
-    <div class="logo">
-      VPV LOGO
-    </div>
+    <img src="IMG_4751.png" alt="Veteran Pride VaultForge LLC" class="logo">
     
     <!-- WHO WE ARE + WHAT WE DO -->
     <h1 class="headline">VaultForge</h1>
@@ -157,17 +148,17 @@
     
     <!-- 3 PROPERTY TYPE BUTTONS -->
     <div class="button-grid">
-      <a href="/seller.html?type=residential" class="prop-btn">
+      <a href="/sellers.html?type=residential" class="prop-btn">
         RESIDENTIAL
         <span class="prop-subtext">Houses, Condos, 1-4 Units</span>
       </a>
       
-      <a href="/seller.html?type=commercial" class="prop-btn">
+      <a href="/sellers.html?type=commercial" class="prop-btn">
         COMMERCIAL
         <span class="prop-subtext">Multi-Family, Retail, Office</span>
       </a>
       
-      <a href="/seller.html?type=land" class="prop-btn">
+      <a href="/sellers.html?type=land" class="prop-btn">
         LAND
         <span class="prop-subtext">Vacant Lots, Acreage</span>
       </a>
@@ -175,7 +166,7 @@
     
     <!-- SEPARATE BUYER PATH -->
     <div class="buyer-access">
-      <a href="/buyer.html" class="buyer-link">CASH BUYER ACCESS →</a>
+      <a href="/buyers.html" class="buyer-link">CASH BUYER ACCESS →</a>
     </div>
     
     <!-- BANNER - AUTO UPDATES -->
@@ -186,9 +177,8 @@
   </div>
 
   <script>
-    // Ticker + Banner auto-update logic goes here
-    // Connects to your /api/live-deals endpoint
-    // I am not changing this - it updates itself when deals come in
+    // Ticker + Banner auto-update when real deals submit
+    // Not changing design - just pulls from /api/live-deals
     
     async function updateLiveData() {
       try {
@@ -202,11 +192,10 @@
           document.getElementById('dealBanner').textContent = data.banner;
         }
       } catch (err) {
-        console.log('Ticker update pending');
+        console.log('Waiting for live data');
       }
     }
     
-    // Update every 30 seconds once live
     setInterval(updateLiveData, 30000);
     updateLiveData();
   </script>
