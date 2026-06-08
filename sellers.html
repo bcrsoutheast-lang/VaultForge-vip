@@ -30,8 +30,18 @@
   <div class="container">
     <a href="./index.html" class="back-btn">← Back</a>
     <div id="formWrap">
-      <h1 id="formTitle">Submit Your Property</h1>
+      <h1>Submit Your Property</h1>
       <form id="sellerForm">
+        <div class="form-group">
+          <label>Property Type</label>
+          <select name="property_type" id="propType" required onchange="showFields()">
+            <option value="">Select Property Type</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Land">Land</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label>Full Name</label>
           <input type="text" name="full_name" required>
@@ -75,15 +85,9 @@
             </select>
           </div>
         </div>
-        <div class="grid">
-          <div class="form-group">
-            <label>Zip</label>
-            <input type="text" name="zip">
-          </div>
-          <div class="form-group">
-            <label>Property Type</label>
-            <input type="text" name="property_type" id="propType" readonly>
-          </div>
+        <div class="form-group">
+          <label>Zip</label>
+          <input type="text" name="zip">
         </div>
 
         <div id="resFields" class="dynamic">
@@ -152,9 +156,7 @@
     <div id="success" class="success">
       <h2>Deal Under Review</h2>
       <p>Your deal is being reviewed. We will contact you within 24 hours with a 50/50 profit split contract.</p>
-      <a href="./sellers.html?type=residential" class="btn" style="margin-bottom:10px;">Submit Another Residential Deal</a>
-      <a href="./sellers.html?type=commercial" class="btn" style="margin-bottom:10px;">Submit Another Commercial Deal</a>
-      <a href="./sellers.html?type=land" class="btn">Submit Another Land Deal</a>
+      <a href="./sellers.html" class="btn">Submit Another Deal</a>
     </div>
   </div>
 
@@ -164,14 +166,15 @@ const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
 const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-const urlParams = new URLSearchParams(window.location.search);
-const type = urlParams.get('type') || 'residential';
-document.getElementById('propType').value = type.charAt(0).toUpperCase() + type.slice(1);
-document.getElementById('formTitle').textContent = 'Submit Your ' + type.charAt(0).toUpperCase() + type.slice(1) + ' Property';
-
-if(type === 'residential') document.getElementById('resFields').style.display = 'block';
-if(type === 'commercial') document.getElementById('comFields').style.display = 'block';
-if(type === 'land') document.getElementById('landFields').style.display = 'block';
+function showFields() {
+  const type = document.getElementById('propType').value;
+  document.getElementById('resFields').style.display = 'none';
+  document.getElementById('comFields').style.display = 'none';
+  document.getElementById('landFields').style.display = 'none';
+  if(type === 'Residential') document.getElementById('resFields').style.display = 'block';
+  if(type === 'Commercial') document.getElementById('comFields').style.display = 'block';
+  if(type === 'Land') document.getElementById('landFields').style.display = 'block';
+}
 
 document.getElementById('sellerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
