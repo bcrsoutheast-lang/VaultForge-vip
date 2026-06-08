@@ -26,9 +26,20 @@ export default async function handler(req, res) {
       created: new Date().toISOString()
     };
 
+    // 1. Save to KV for admin/ticker
     const deals = await kv.get('deals') || [];
     deals.push(deal);
     await kv.set('deals', deals);
+
+    // 2. Send to Formspree so you get the email
+    await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _subject: `New ${deal.property_type} Deal: ${deal.address}`,
+        ...deal
+      })
+    });
 
     return res.status(200).json({ 
       success: true, 
