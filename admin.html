@@ -9,38 +9,39 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 12px; }
     h1 { color: #FFD700; margin-bottom: 16px; font-size: 22px; text-align: center; }
- .warning { background: #dc2626; color: #fff; padding: 8px; border-radius: 4px; margin-bottom: 16px; font-weight: bold; font-size: 12px; text-align: center; }
- .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
- .tab { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 10px; border-radius: 6px; cursor: pointer; text-align: center; font-size: 13px; font-weight: bold; }
- .tab.active { background: #FFD700; color: #000; border-color: #FFD700; }
- .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
- .stat-box { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px; text-align: center; }
- .stat-num { color: #FFD700; font-size: 20px; font-weight: bold; }
- .stat-label { color: #888; font-size: 10px; margin-top: 4px; letter-spacing: 0.5px; }
- .section { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
- .section h2 { color: #10b981; margin-bottom: 12px; font-size: 16px; }
- .deal-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
- .deal-card { background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 12px; }
- .deal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
- .deal-city { color: #FFD700; font-weight: bold; font-size: 15px; }
- .deal-status { font-size: 11px; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
- .status-new { background: #1d4ed8; color: #fff; }
- .status-live { background: #10b981; color: #000; }
- .status-sold { background: #444; color: #888; }
- .status-archived { background: #222; color: #666; }
- .deal-info { color: #ccc; font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
- .deal-info strong { color: #fff; }
- .btn-row { display: flex; flex-wrap: wrap; gap: 6px; }
- .btn { background: #FFD700; color: #000; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; }
- .btn:hover { opacity: 0.8; }
- .btn-green { background: #10b981; color: #000; }
- .btn-blue { background: #1d4ed8; color: #fff; }
- .btn-red { background: #dc2626; color: #fff; }
- .btn-gray { background: #444; color: #fff; }
- .btn-dark { background: #222; color: #888; }
- .empty { color: #666; text-align: center; padding: 20px; font-size: 14px; }
+.warning { background: #dc2626; color: #fff; padding: 8px; border-radius: 4px; margin-bottom: 16px; font-weight: bold; font-size: 12px; text-align: center; }
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.tab { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 10px; border-radius: 6px; cursor: pointer; text-align: center; font-size: 13px; font-weight: bold; }
+.tab.active { background: #FFD700; color: #000; border-color: #FFD700; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.stat-box { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px; text-align: center; }
+.stat-num { color: #FFD700; font-size: 20px; font-weight: bold; }
+.stat-label { color: #888; font-size: 10px; margin-top: 4px; letter-spacing: 0.5px; }
+.section { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
+.section h2 { color: #10b981; margin-bottom: 12px; font-size: 16px; }
+.deal-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.deal-card { background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 12px; }
+.deal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.deal-city { color: #FFD700; font-weight: bold; font-size: 15px; }
+.deal-status { font-size: 11px; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
+.status-new { background: #1d4ed8; color: #fff; }
+.status-live { background: #10b981; color: #000; }
+.status-sold { background: #444; color: #888; }
+.status-archived { background: #222; color: #666; }
+.deal-info { color: #ccc; font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
+.deal-info strong { color: #fff; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.btn { background: #FFD700; color: #000; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; }
+.btn:hover { opacity: 0.8; }
+.btn-green { background: #10b981; color: #000; }
+.btn-blue { background: #1d4ed8; color: #fff; }
+.btn-red { background: #dc2626; color: #fff; }
+.btn-gray { background: #444; color: #fff; }
+.btn-dark { background: #222; color: #888; }
+.empty { color: #666; text-align: center; padding: 20px; font-size: 14px; }
     textarea { width: 100%; background: #0a0a0a; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; min-height: 80px; margin-top: 10px; }
- .note { color: #888; font-size: 12px; margin-top: 8px; }
+.note { color: #888; font-size: 12px; margin-top: 8px; }
+.photo-link { color: #FFD700; cursor: pointer; text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -84,8 +85,8 @@
   </div>
 
 <script>
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
+const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 let currentTab = 'New';
@@ -112,10 +113,10 @@ async function loadStats() {
 
 async function loadDeals() {
   const { data: deals, error } = await supabase
-   .from('deals')
-   .select('*')
-   .eq('status', currentTab)
-   .order('created_at', { ascending: false });
+ .from('deals')
+ .select('*')
+ .eq('status', currentTab)
+ .order('created_at', { ascending: false });
 
   const dealList = document.getElementById('dealList');
   
@@ -134,6 +135,7 @@ async function loadDeals() {
         <strong>${deal.beds || '-'}BR/${deal.baths || '-'}BA • ${deal.sqft || '-'} sqft</strong><br>
         Ask: $${deal.asking_price?.toLocaleString() || '-'} • ARV: $${deal.arv?.toLocaleString() || '-'} • Rehab: $${deal.rehab_estimate?.toLocaleString() || '-'}<br>
         Type: ${deal.property_type || '-'} • Seller: Locked until contract
+        ${deal.photos && deal.photos.length > 0? `<br>Photos: ${deal.photos.length} <span class="photo-link" onclick="viewPhotos('${deal.id}')">View</span>` : ''}
       </div>
       <div class="btn-row">
         ${getButtons(deal)}
@@ -202,6 +204,16 @@ async function viewDetails(sellerId) {
   }
 }
 
+async function viewPhotos(dealId) {
+  const { data: deal } = await supabase.from('deals').select('photos').eq('id', dealId).single();
+  if (deal && deal.photos && deal.photos.length > 0) {
+    const links = deal.photos.map((url, i) => `Photo ${i+1}: ${url}`).join('\n');
+    alert(links);
+  } else {
+    alert('No photos');
+  }
+}
+
 function pushToTicker(city, state, price) {
   const line = `${city}, ${state} • $${price?.toLocaleString() || 'TBD'}`;
   const box = document.getElementById('tickerBox');
@@ -224,4 +236,15 @@ async function loadTicker() {
 function copyTicker() {
   const lines = document.getElementById('tickerBox').value.split('\n').filter(l => l.trim());
   const formatted = lines.map(l => `"RECENT MARKET: ${l.trim()}"`).join(',\n ');
-  const newFile = `const tickerData = [\n ${formatted},\n ${formatted}\n];\n\ndocument.addEventListener('DOMContentLoaded', function() {\n const tickerContent = document.getElementById('tickerContent');\n if (tickerContent) {\n tickerContent.innerHTML = tickerData.map(deal => \`<span>\${deal}</span>\`).join('');\n tickerContent.style.animationDuration = '18s';\n }\n
+  const newFile = `const tickerData = [\n ${formatted},\n ${formatted}\n];\n\ndocument.addEventListener('DOMContentLoaded', function() {\n const tickerContent = document.getElementById('tickerContent');\n if (tickerContent) {\n tickerContent.innerHTML = tickerData.map(deal => \`<span>\${deal}</span>\`).join('');\n tickerContent.style.animationDuration = '18s';\n }\n});`;
+  navigator.clipboard.writeText(newFile);
+  alert('ticker.js copied. Paste into ticker.js file and deploy.');
+}
+
+loadStats();
+loadDeals();
+loadTicker();
+setInterval(() => { loadStats(); loadDeals(); }, 5000);
+</script>
+</body>
+</html>
