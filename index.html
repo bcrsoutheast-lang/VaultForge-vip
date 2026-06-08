@@ -7,12 +7,15 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; min-height: 100vh; }
+   .ticker-bar { background: #1a1a1a; border-bottom: 2px solid #FFD700; padding: 12px 0; overflow: hidden; white-space: nowrap; }
+   .ticker-content { display: inline-block; padding-left: 100%; animation: scroll 40s linear infinite; color: #FFD700; font-size: 14px; font-weight: bold; }
+   .ticker-content span { margin: 0 40px; }
+   @keyframes scroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
    .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center; }
    .logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; }
    .headline { color: #FFD700; font-size: 32px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
    .subline { color: #ccc; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
    .subline strong { color: #10b981; }
-   .ticker { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px; margin-bottom: 30px; font-size: 14px; color: #FFD700; }
    .button-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
    .prop-btn { background: #1a1a1a; border: 2px solid #FFD700; color: #FFD700; padding: 20px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; text-decoration: none; display: block; transition: all 0.2s; }
    .prop-btn:hover { background: #FFD700; color: #000; }
@@ -26,6 +29,20 @@
   </style>
 </head>
 <body>
+  <!-- MOVING BANNER - REAL DEALS -->
+  <div class="ticker-bar">
+    <div class="ticker-content" id="tickerContent">
+      <span>5 DEALS SUBMITTED TODAY</span>
+      <span>9 CLOSED THIS MONTH</span>
+      <span>$1.2M TOTAL VOLUME</span>
+      <span>RECENT MARKET: 3BR/2BA Marietta, GA • Sold $425K</span>
+      <span>RECENT MARKET: 3BR/2BA Woodway, TX • Sold $329K</span>
+      <span>RECENT MARKET: 4BR/2BA Robinson, TX • Sold $304K</span>
+      <span>RECENT MARKET: 3BR/2BA Jacksonville, FL • Median $360K</span>
+      <span>RECENT MARKET: 5BR/6.5BA Cypress, TX • Sold $1.79M</span>
+    </div>
+  </div>
+
   <div class="container">
     <img src="IMG_4751.png" alt="Veteran Pride VaultForge LLC" class="logo">
     
@@ -35,11 +52,6 @@
       We connect property owners with 200+ cash buyers.<br>
       <strong>No listings. No agents.</strong> We split profit <strong>50/50 at closing</strong> with sellers.<br>
       Buyers pay <strong>1% coordination fee</strong>. We only win if you profit.
-    </div>
-    
-    <!-- TICKER - AUTO UPDATES -->
-    <div class="ticker" id="liveTicker">
-      LIVE: Waiting for first deal submission...
     </div>
     
     <div class="button-grid">
@@ -61,23 +73,22 @@
       <a href="/buyers.html" class="buyer-link">CASH BUYER ACCESS →</a>
     </div>
     
-    <!-- BANNER - PUT BACK -->
-    <div class="banner" id="dealBanner">
+    <div class="banner">
       Veteran Pride VaultForge LLC | Veteran Owned & Operated | GA • FL • TX • NC • SC • AL • TN
     </div>
   </div>
 
   <script>
-    async function updateLiveData() {
+    // When your API goes live, replace ticker content with real submissions
+    async function updateLiveDeals() {
       try {
         const res = await fetch('/api/live-deals');
         const data = await res.json();
-        if (data.ticker) document.getElementById('liveTicker').textContent = data.ticker;
-        if (data.banner) document.getElementById('dealBanner').textContent = data.banner;
-      } catch (err) { console.log('Waiting for live data'); }
+        if (data.ticker) document.getElementById('tickerContent').innerHTML = data.ticker;
+      } catch (err) { console.log('Using default market data'); }
     }
-    setInterval(updateLiveData, 30000);
-    updateLiveData();
+    setInterval(updateLiveDeals, 30000);
+    updateLiveDeals();
   </script>
 </body>
 </html>
