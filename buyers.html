@@ -6,62 +6,80 @@
   <title>Buyer Access - VaultForge</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; }
-  .container { max-width: 500px; margin: 0 auto; }
+    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; padding-bottom: 80px; }
+   .container { max-width: 500px; margin: 0 auto; }
+   .back-btn { color: #10b981; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-  .form-group { margin-bottom: 15px; }
+   .form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
-  .btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-  .btn:hover { opacity: 0.8; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
-  .checkbox-label input { width: auto; margin-right: 8px; }
+   .btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
+   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+   .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+   .checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
+   .checkbox-label input { width: auto; margin-right: 8px; }
+   .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+   .checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+   .checkbox-row label { color: #10b981; font-size: 14px; line-height: 1.4; }
+   .success { display: none; text-align: center; padding: 40px 20px; }
+   .success h2 { color: #10b981; margin-bottom: 15px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Cash Buyer Access</h1>
-    <form id="buyerForm">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" name="full_name" required>
-      </div>
-      <div class="grid">
+    <a href="./index.html" class="back-btn">← Back</a>
+    <div id="formWrap">
+      <h1>Cash Buyer Access</h1>
+      <form id="buyerForm">
         <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" name="phone" required>
+          <label>Full Name</label>
+          <input type="text" name="full_name" required>
+        </div>
+        <div class="grid">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="form-group">
+            <label>Budget Min</label>
+            <input type="number" name="budget_min" placeholder="200000">
+          </div>
+          <div class="form-group">
+            <label>Budget Max</label>
+            <input type="number" name="budget_max" placeholder="500000">
+          </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" required>
+          <label>Markets</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="GA"> Georgia</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="FL"> Florida</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="TX"> Texas</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="NC"> North Carolina</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="SC"> South Carolina</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="AL"> Alabama</label>
+            <label class="checkbox-label"><input type="checkbox" name="markets" value="TN"> Tennessee</label>
+          </div>
         </div>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>Budget Min</label>
-          <input type="number" name="budget_min" placeholder="200000">
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree1pct" required>
+          <label for="agree1pct">I agree to 1% coordination fee paid to Veteran Pride VaultForge LLC at closing. I understand I only pay if I close on a deal.</label>
         </div>
-        <div class="form-group">
-          <label>Budget Max</label>
-          <input type="number" name="budget_max" placeholder="500000">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Markets</label>
-        <div class="checkbox-group">
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="GA"> Georgia</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="FL"> Florida</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="TX"> Texas</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="NC"> North Carolina</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="SC"> South Carolina</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="AL"> Alabama</label>
-          <label class="checkbox-label"><input type="checkbox" name="markets" value="TN"> Tennessee</label>
-        </div>
-      </div>
-      <button type="submit" class="btn">GET DEAL ACCESS</button>
-    </form>
+        <button type="submit" class="btn">GET DEAL ACCESS</button>
+      </form>
+    </div>
+    <div id="success" class="success">
+      <h2>Application Under Review</h2>
+      <p>We'll contact you with deals matching your criteria.</p>
+      <br>
+      <a href="./buyers.html" class="btn" style="display:block; text-decoration:none; text-align:center;">Submit Another Application</a>
+    </div>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -90,8 +108,8 @@ document.getElementById('buyerForm').addEventListener('submit', async (e) => {
     return;
   }
   
-  alert('Access granted. You will receive deals matching your criteria.');
-  e.target.reset();
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
 });
 </script>
 </body>
