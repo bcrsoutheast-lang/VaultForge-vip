@@ -6,104 +6,104 @@
   <title>Submit Property - VaultForge</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; }
-  .container { max-width: 500px; margin: 0 auto; }
+    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; padding-bottom: 80px; }
+   .container { max-width: 500px; margin: 0 auto; }
+   .back-btn { color: #FFD700; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-  .form-group { margin-bottom: 15px; }
+   .form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select, textarea { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
     textarea { min-height: 80px; }
-  .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-  .btn:hover { opacity: 0.8; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+   .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
+   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+   .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+   .checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+   .checkbox-row label { color: #FFD700; font-size: 14px; line-height: 1.4; }
+   .success { display: none; text-align: center; padding: 40px 20px; }
+   .success h2 { color: #10b981; margin-bottom: 15px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Submit Your Property</h1>
-    <form id="sellerForm">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" name="full_name" required>
-      </div>
-      <div class="grid">
+    <a href="./index.html" class="back-btn">← Back</a>
+    <div id="formWrap">
+      <h1>Submit Your Property</h1>
+      <form id="sellerForm">
         <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" name="phone" required>
+          <label>Full Name</label>
+          <input type="text" name="full_name" required>
+        </div>
+        <div class="grid">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+          </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" required>
+          <label>Property Address</label>
+          <input type="text" name="property_address" required>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Property Address</label>
-        <input type="text" name="property_address" required>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>City</label>
-          <input type="text" name="city" required>
+        <div class="grid">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" name="city" required>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" name="state" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label>State</label>
-          <input type="text" name="state" required>
+        <div class="grid">
+          <div class="form-group">
+            <label>Zip</label>
+            <input type="text" name="zip">
+          </div>
+          <div class="form-group">
+            <label>Property Type</label>
+            <input type="text" name="property_type" id="propType" readonly>
+          </div>
         </div>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>Zip</label>
-          <input type="text" name="zip">
-        </div>
-        <div class="form-group">
-          <label>Property Type</label>
-          <select name="property_type">
-            <option>Residential</option>
-            <option>Commercial</option>
-            <option>Land</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>Beds</label>
-          <input type="number" name="beds">
-        </div>
-        <div class="form-group">
-          <label>Baths</label>
-          <input type="number" step="0.5" name="baths">
-        </div>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>Sq Ft</label>
-          <input type="number" name="sqft">
-        </div>
-        <div class="form-group">
-          <label>Asking Price</label>
-          <input type="number" name="asking_price">
-        </div>
-      </div>
-      <div class="grid">
-        <div class="form-group">
-          <label>ARV</label>
-          <input type="number" name="arv">
+        <div class="grid">
+          <div class="form-group">
+            <label>Asking Price</label>
+            <input type="number" name="asking_price">
+          </div>
+          <div class="form-group">
+            <label>ARV</label>
+            <input type="number" name="arv">
+          </div>
         </div>
         <div class="form-group">
           <label>Rehab Estimate</label>
           <input type="number" name="rehab_estimate">
         </div>
-      </div>
-      <div class="form-group">
-        <label>Property Photos</label>
-        <input type="file" name="photos" multiple accept="image/*">
-      </div>
-      <div class="form-group">
-        <label>Notes</label>
-        <textarea name="notes"></textarea>
-      </div>
-      <button type="submit" class="btn">SUBMIT DEAL</button>
-    </form>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea name="notes"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Property Photos</label>
+          <input type="file" name="photos" multiple accept="image/*">
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree5050" required>
+          <label for="agree5050">I agree to 50/50 profit split at closing with Veteran Pride VaultForge LLC. I understand VaultForge only gets paid if I profit.</label>
+        </div>
+        <button type="submit" class="btn">SUBMIT DEAL</button>
+      </form>
+    </div>
+    <div id="success" class="success">
+      <h2>Deal Under Review</h2>
+      <p>We'll contact you with a 50/50 contract within 24 hours.</p>
+      <br>
+      <a href="./sellers.html?type=residential" class="btn" style="display:block; margin-bottom:10px; text-decoration:none; text-align:center;">Submit Another Residential</a>
+      <a href="./sellers.html?type=commercial" class="btn" style="display:block; margin-bottom:10px; text-decoration:none; text-align:center;">Submit Another Commercial</a>
+      <a href="./sellers.html?type=land" class="btn" style="display:block; text-decoration:none; text-align:center;">Submit Another Land</a>
+    </div>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -113,8 +113,8 @@ const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const urlParams = new URLSearchParams(window.location.search);
-const type = urlParams.get('type');
-if (type) document.querySelector('[name="property_type"]').value = type.charAt(0).toUpperCase() + type.slice(1);
+const type = urlParams.get('type') || 'residential';
+document.getElementById('propType').value = type.charAt(0).toUpperCase() + type.slice(1);
 
 document.getElementById('sellerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -130,21 +130,13 @@ document.getElementById('sellerForm').addEventListener('submit', async (e) => {
     state: formData.get('state'),
     zip: formData.get('zip'),
     property_type: formData.get('property_type'),
-    beds: formData.get('beds')? parseInt(formData.get('beds')) : null,
-    baths: formData.get('baths')? parseFloat(formData.get('baths')) : null,
-    sqft: formData.get('sqft')? parseInt(formData.get('sqft')) : null,
     asking_price: formData.get('asking_price')? parseInt(formData.get('asking_price')) : null,
     arv: formData.get('arv')? parseInt(formData.get('arv')) : null,
     rehab_estimate: formData.get('rehab_estimate')? parseInt(formData.get('rehab_estimate')) : null,
     notes: formData.get('notes')
   };
 
-  const { data: seller, error: sellerError } = await supabase
- .from('sellers')
- .insert([sellerData])
- .select()
- .single();
-
+  const { data: seller, error: sellerError } = await supabase.from('sellers').insert([sellerData]).select().single();
   if (sellerError) {
     alert('Error: ' + sellerError.message);
     return;
@@ -167,9 +159,6 @@ document.getElementById('sellerForm').addEventListener('submit', async (e) => {
     city: sellerData.city,
     state: sellerData.state,
     property_type: sellerData.property_type,
-    beds: sellerData.beds,
-    baths: sellerData.baths,
-    sqft: sellerData.sqft,
     asking_price: sellerData.asking_price,
     arv: sellerData.arv,
     rehab_estimate: sellerData.rehab_estimate,
@@ -178,8 +167,8 @@ document.getElementById('sellerForm').addEventListener('submit', async (e) => {
   };
 
   await supabase.from('deals').insert([dealData]);
-  alert('Deal submitted. We will contact you within 24 hours.');
-  e.target.reset();
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
 });
 </script>
 </body>
