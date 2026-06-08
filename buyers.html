@@ -175,7 +175,8 @@ const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 function toggleSub(type) {
-  const checkbox = document.querySelector(`input[value="${type.charAt(0).toUpperCase() + type.slice(1)}"]`);
+  const map = { res: 'Residential', com: 'Commercial', land: 'Land' };
+  const checkbox = document.querySelector(`input[value="${map[type]}"]`);
   const subDiv = document.getElementById(type + 'Sub');
   subDiv.style.display = checkbox.checked? 'block' : 'none';
 }
@@ -186,3 +187,31 @@ document.getElementById('buyerForm').addEventListener('submit', async (e) => {
   
   const buyerData = {
     full_name: formData.get('full_name'),
+    phone: formData.get('phone'),
+    email: formData.get('email'),
+    buyer_state: formData.get('buyer_state'),
+    budget_min: formData.get('budget_min')? parseInt(formData.get('budget_min')) : null,
+    budget_max: formData.get('budget_max')? parseInt(formData.get('budget_max')) : null,
+    markets: Array.from(e.target.querySelector('[name="markets"]').selectedOptions).map(o => o.value),
+    deal_types: formData.getAll('deal_types'),
+    res_types: Array.from(e.target.querySelector('[name="res_types"]').selectedOptions).map(o => o.value),
+    com_types: Array.from(e.target.querySelector('[name="com_types"]').selectedOptions).map(o => o.value),
+    land_types: Array.from(e.target.querySelector('[name="land_types"]').selectedOptions).map(o => o.value),
+    min_arv: formData.get('min_arv')? parseInt(formData.get('min_arv')) : null,
+    max_rehab: formData.get('max_rehab')? parseInt(formData.get('max_rehab')) : null,
+    close_timeframe: formData.get('close_timeframe')
+  };
+
+  const { error } = await supabase.from('buyers').insert([buyerData]);
+  
+  if (error) {
+    alert('Error: ' + error.message);
+    return;
+  }
+  
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
+});
+</script>
+</body>
+</html>
