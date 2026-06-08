@@ -3,248 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VaultForge Deal Room</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Admin - VaultForge</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 12px; }
-    h1 { color: #FFD700; margin-bottom: 16px; font-size: 22px; text-align: center; }
-.warning { background: #dc2626; color: #fff; padding: 8px; border-radius: 4px; margin-bottom: 16px; font-weight: bold; font-size: 12px; text-align: center; }
-.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
-.tab { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 10px; border-radius: 6px; cursor: pointer; text-align: center; font-size: 13px; font-weight: bold; }
-.tab.active { background: #FFD700; color: #000; border-color: #FFD700; }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-.stat-box { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px; text-align: center; }
-.stat-num { color: #FFD700; font-size: 20px; font-weight: bold; }
-.stat-label { color: #888; font-size: 10px; margin-top: 4px; letter-spacing: 0.5px; }
-.section { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
-.section h2 { color: #10b981; margin-bottom: 12px; font-size: 16px; }
-.deal-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.deal-card { background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 12px; }
-.deal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.deal-city { color: #FFD700; font-weight: bold; font-size: 15px; }
-.deal-status { font-size: 11px; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
-.status-new { background: #1d4ed8; color: #fff; }
-.status-live { background: #10b981; color: #000; }
-.status-sold { background: #444; color: #888; }
-.status-archived { background: #222; color: #666; }
-.deal-info { color: #ccc; font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
-.deal-info strong { color: #fff; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.btn { background: #FFD700; color: #000; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; }
-.btn:hover { opacity: 0.8; }
-.btn-green { background: #10b981; color: #000; }
-.btn-blue { background: #1d4ed8; color: #fff; }
-.btn-red { background: #dc2626; color: #fff; }
-.btn-gray { background: #444; color: #fff; }
-.btn-dark { background: #222; color: #888; }
-.empty { color: #666; text-align: center; padding: 20px; font-size: 14px; }
-    textarea { width: 100%; background: #0a0a0a; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; min-height: 80px; margin-top: 10px; }
-.note { color: #888; font-size: 12px; margin-top: 8px; }
-.photo-link { color: #FFD700; cursor: pointer; text-decoration: underline; }
+    body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+   .container { max-width: 1200px; margin: 0 auto; }
+    h1 { color: #FFD700; margin-bottom: 30px; }
+   .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; }
+   .tab { padding: 10px 20px; background: #1a1a1a; border: none; color: #ccc; cursor: pointer; }
+   .tab.active { background: #FFD700; color: #000; }
+   .content { display: none; }
+   .content.active { display: block; }
+    table { width: 100%; border-collapse: collapse; background: #1a1a1a; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+    th { color: #FFD700; }
   </style>
 </head>
 <body>
-  <div class="warning">NO LOGIN. Add password protection before sharing this URL.</div>
-  <h1>VaultForge Deal Room</h1>
-
-  <div class="tabs">
-    <div class="tab active" data-status="New">NEW</div>
-    <div class="tab" data-status="Live">LIVE</div>
-    <div class="tab" data-status="Sold">SOLD</div>
-    <div class="tab" data-status="Archived">ARCHIVED</div>
+  <div class="container">
+    <h1>VaultForge Admin</h1>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('deals')">Deals</button>
+      <button class="tab" onclick="showTab('buyers')">Buyers</button>
+    </div>
+    <div id="deals" class="content active">
+      <table id="dealsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>City</th>
+            <th>Asking</th>
+            <th>ARV</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="buyers" class="content">
+      <table id="buyersTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Budget</th>
+            <th>Markets</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="stats">
-    <div class="stat-box">
-      <div class="stat-num" id="statNew">0</div>
-      <div class="stat-label">NEW DEALS</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="statLive">0</div>
-      <div class="stat-label">LIVE TO BUYERS</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="statBuyers">0</div>
-      <div class="stat-label">ACTIVE BUYERS</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Ticker Control</h2>
-    <textarea id="tickerBox" placeholder="3BR/2BA Atlanta, GA • $350K"></textarea>
-    <div class="btn-row">
-      <button class="btn" onclick="copyTicker()">Copy Updated ticker.js</button>
-    </div>
-    <div class="note">One deal per line. City only. No addresses. Paste into ticker.js and deploy.</div>
-  </div>
-
-  <div class="section">
-    <h2 id="sectionTitle">New Deals</h2>
-    <div id="dealList" class="deal-grid"></div>
-  </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
 const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-let currentTab = 'New';
-
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    currentTab = tab.dataset.status;
-    document.getElementById('sectionTitle').textContent = currentTab + ' Deals';
-    loadDeals();
-  });
-});
-
-async function loadStats() {
-  const { count: newCount } = await supabase.from('deals').select('*', { count: 'exact', head: true }).eq('status', 'New');
-  const { count: liveCount } = await supabase.from('deals').select('*', { count: 'exact', head: true }).eq('status', 'Live');
-  const { count: buyerCount } = await supabase.from('buyers').select('*', { count: 'exact', head: true }).eq('status', 'Active');
-  
-  document.getElementById('statNew').textContent = newCount || 0;
-  document.getElementById('statLive').textContent = liveCount || 0;
-  document.getElementById('statBuyers').textContent = buyerCount || 0;
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(tab).classList.add('active');
 }
 
 async function loadDeals() {
-  const { data: deals, error } = await supabase
- .from('deals')
- .select('*')
- .eq('status', currentTab)
- .order('created_at', { ascending: false });
-
-  const dealList = document.getElementById('dealList');
-  
-  if (!deals || deals.length === 0) {
-    dealList.innerHTML = '<div class="empty">No deals in this tab</div>';
-    return;
-  }
-
-  dealList.innerHTML = deals.map(deal => `
-    <div class="deal-card">
-      <div class="deal-head">
-        <div class="deal-city">${deal.city}, ${deal.state}</div>
-        <div class="deal-status status-${deal.status.toLowerCase()}">${deal.status.toUpperCase()}</div>
-      </div>
-      <div class="deal-info">
-        <strong>${deal.beds || '-'}BR/${deal.baths || '-'}BA • ${deal.sqft || '-'} sqft</strong><br>
-        Ask: $${deal.asking_price?.toLocaleString() || '-'} • ARV: $${deal.arv?.toLocaleString() || '-'} • Rehab: $${deal.rehab_estimate?.toLocaleString() || '-'}<br>
-        Type: ${deal.property_type || '-'} • Seller: Locked until contract
-        ${deal.photos && deal.photos.length > 0? `<br>Photos: ${deal.photos.length} <span class="photo-link" onclick="viewPhotos('${deal.id}')">View</span>` : ''}
-      </div>
-      <div class="btn-row">
-        ${getButtons(deal)}
-      </div>
-    </div>
+  const { data } = await supabase.from('deals').select('*').order('created_at', { ascending: false });
+  const tbody = document.querySelector('#dealsTable tbody');
+  tbody.innerHTML = data.map(d => `
+    <tr>
+      <td>${new Date(d.created_at).toLocaleDateString()}</td>
+      <td>${d.property_type}</td>
+      <td>${d.city}, ${d.state}</td>
+      <td>$${d.asking_price?.toLocaleString() || '-'}</td>
+      <td>$${d.arv?.toLocaleString() || '-'}</td>
+      <td>${d.status}</td>
+    </tr>
   `).join('');
 }
 
-function getButtons(deal) {
-  if (deal.status === 'New') {
-    return `
-      <button class="btn btn-green" onclick="blastDeal('${deal.id}')">Blast</button>
-      <button class="btn btn-blue" onclick="pushToTicker('${deal.city}', '${deal.state}', ${deal.asking_price})">Push to Ticker</button>
-      <button class="btn btn-gray" onclick="viewDetails('${deal.seller_id}')">View Details</button>
-      <button class="btn btn-dark" onclick="updateStatus('${deal.id}', 'Archived')">Archive</button>
-      <button class="btn btn-red" onclick="deleteDeal('${deal.id}')">Delete</button>
-    `;
-  }
-  if (deal.status === 'Live') {
-    return `
-      <button class="btn btn-green" onclick="updateStatus('${deal.id}', 'Sold')">Mark Sold</button>
-      <button class="btn btn-blue" onclick="pushToTicker('${deal.city}', '${deal.state}', ${deal.asking_price})">Push to Ticker</button>
-      <button class="btn btn-gray" onclick="viewDetails('${deal.seller_id}')">View Details</button>
-      <button class="btn btn-dark" onclick="updateStatus('${deal.id}', 'Archived')">Archive</button>
-    `;
-  }
-  if (deal.status === 'Sold') {
-    return `
-      <button class="btn btn-gray" onclick="viewDetails('${deal.seller_id}')">View Details</button>
-      <button class="btn btn-dark" onclick="updateStatus('${deal.id}', 'Archived')">Archive</button>
-      <button class="btn btn-red" onclick="deleteDeal('${deal.id}')">Delete</button>
-    `;
-  }
-  if (deal.status === 'Archived') {
-    return `
-      <button class="btn btn-gray" onclick="updateStatus('${deal.id}', 'New')">Restore</button>
-      <button class="btn btn-red" onclick="deleteDeal('${deal.id}')">Delete</button>
-    `;
-  }
+async function loadBuyers() {
+  const { data } = await supabase.from('buyers').select('*').order('created_at', { ascending: false });
+  const tbody = document.querySelector('#buyersTable tbody');
+  tbody.innerHTML = data.map(b => `
+    <tr>
+      <td>${b.full_name}</td>
+      <td>${b.phone}</td>
+      <td>${b.email}</td>
+      <td>$${b.budget_min?.toLocaleString() || '0'} - $${b.budget_max?.toLocaleString() || '∞'}</td>
+      <td>${b.markets?.join(', ') || '-'}</td>
+    </tr>
+  `).join('');
 }
 
-async function blastDeal(id) {
-  await supabase.from('deals').update({ status: 'Live', blasted_at: new Date().toISOString() }).eq('id', id);
-  alert('Deal blasted to buyers');
-  loadDeals();
-  loadStats();
-}
-
-async function updateStatus(id, status) {
-  await supabase.from('deals').update({ status: status }).eq('id', id);
-  loadDeals();
-  loadStats();
-}
-
-async function deleteDeal(id) {
-  if (!confirm('Delete this deal permanently?')) return;
-  await supabase.from('deals').delete().eq('id', id);
-  loadDeals();
-  loadStats();
-}
-
-async function viewDetails(sellerId) {
-  const { data: seller } = await supabase.from('sellers').select('*').eq('id', sellerId).single();
-  if (seller) {
-    alert(`Seller: ${seller.full_name}\nPhone: ${seller.phone}\nEmail: ${seller.email}\nAddress: ${seller.property_address}\nNotes: ${seller.notes || 'None'}`);
-  }
-}
-
-async function viewPhotos(dealId) {
-  const { data: deal } = await supabase.from('deals').select('photos').eq('id', dealId).single();
-  if (deal && deal.photos && deal.photos.length > 0) {
-    const links = deal.photos.map((url, i) => `Photo ${i+1}: ${url}`).join('\n');
-    alert(links);
-  } else {
-    alert('No photos');
-  }
-}
-
-function pushToTicker(city, state, price) {
-  const line = `${city}, ${state} • $${price?.toLocaleString() || 'TBD'}`;
-  const box = document.getElementById('tickerBox');
-  box.value = box.value? box.value + '\n' + line : line;
-  alert('Added to ticker box. Click Copy Updated ticker.js when ready.');
-}
-
-async function loadTicker() {
-  try {
-    const res = await fetch('/ticker.js');
-    const text = await res.text();
-    const match = text.match(/const tickerData = \[([\s\S]*?)\];/);
-    if (match) {
-      const items = match[1].split(',').map(s => s.trim().replace(/^"|"$/g, '').replace(/RECENT MARKET: /g, ''));
-      document.getElementById('tickerBox').value = items.slice(0,5).filter(i => i).join('\n');
-    }
-  } catch(e) { }
-}
-
-function copyTicker() {
-  const lines = document.getElementById('tickerBox').value.split('\n').filter(l => l.trim());
-  const formatted = lines.map(l => `"RECENT MARKET: ${l.trim()}"`).join(',\n ');
-  const newFile = `const tickerData = [\n ${formatted},\n ${formatted}\n];\n\ndocument.addEventListener('DOMContentLoaded', function() {\n const tickerContent = document.getElementById('tickerContent');\n if (tickerContent) {\n tickerContent.innerHTML = tickerData.map(deal => \`<span>\${deal}</span>\`).join('');\n tickerContent.style.animationDuration = '18s';\n }\n});`;
-  navigator.clipboard.writeText(newFile);
-  alert('ticker.js copied. Paste into ticker.js file and deploy.');
-}
-
-loadStats();
 loadDeals();
-loadTicker();
-setInterval(() => { loadStats(); loadDeals(); }, 5000);
+loadBuyers();
 </script>
 </body>
 </html>
