@@ -7,17 +7,17 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; }
-   .container { max-width: 500px; margin: 0 auto; }
+  .container { max-width: 500px; margin: 0 auto; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-   .form-group { margin-bottom: 15px; }
+  .form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
-   .btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-   .btn:hover { opacity: 0.8; }
-   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-   .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-   .checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
-   .checkbox-label input { width: auto; margin-right: 8px; }
+  .btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
+  .btn:hover { opacity: 0.8; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
+  .checkbox-label input { width: auto; margin-right: 8px; }
   </style>
 </head>
 <body>
@@ -66,8 +66,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
+const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 document.getElementById('buyerForm').addEventListener('submit', async (e) => {
