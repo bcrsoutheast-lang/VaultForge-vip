@@ -32,12 +32,39 @@ export default async function handler(req, res) {
     await kv.set('deals', deals);
 
     // 2. Send to Formspree so you get the email
-    await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+    await fetch('https://formspree.io/f/mqeoeeqe', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
-        _subject: `New ${deal.property_type} Deal: ${deal.address}`,
-        ...deal
+        _subject: `New ${deal.property_type} Deal: ${deal.address}, ${deal.state}`,
+        _replyto: deal.email,
+        property_type: deal.property_type,
+        address: deal.address,
+        state: deal.state,
+        zip: deal.zip,
+        asking_price: `$${deal.ask.toLocaleString()}`,
+        arv: `$${deal.arv.toLocaleString()}`,
+        repairs: `$${deal.repairs.toLocaleString()}`,
+        mortgage_payoff: `$${deal.payoff.toLocaleString()}`,
+        beds: deal.beds || 'N/A',
+        baths: deal.baths || 'N/A',
+        sqft: deal.sqft || 'N/A',
+        use_type: deal.use_type || 'N/A',
+        units: deal.units || 'N/A',
+        building_sqft: deal.building_sqft || 'N/A',
+        acres: deal.acres || 'N/A',
+        zoning: deal.zoning || 'N/A',
+        motivation: deal.motivation,
+        seller_name: deal.seller_name,
+        phone: deal.phone,
+        email: deal.email,
+        grade: deal.analysis?.grade || 'N/A',
+        mao: deal.analysis?.mao ? `$${parseInt(deal.analysis.mao).toLocaleString()}` : 'N/A',
+        equity_spread: deal.analysis?.equity ? `$${parseInt(deal.analysis.equity).toLocaleString()}` : 'N/A',
+        deal_id: deal.id
       })
     });
 
