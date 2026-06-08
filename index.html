@@ -3,332 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Submit Your Deal - Veteran Pride VaultForge LLC</title>
+  <title>VaultForge - Veteran Pride VaultForge LLC</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
-    h1 { color: #FFD700; text-align: center; margin-bottom: 10px; font-size: 28px; }
-  .subtext { text-align: center; color: #ccc; margin-bottom: 20px; font-size: 14px; }
+    body { 
+      background: #0a0a0a; 
+      color: #fff; 
+      font-family: 'Arial', sans-serif; 
+      min-height: 100vh;
+    }
     
-    /* FEE BANNER - VISIBLE ON PAGE */
-  .fee-banner {
-      background: #1a1a1a;
-      border: 2px solid #FFD700;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 25px;
+   .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      padding: 40px 20px; 
       text-align: center;
     }
-  .fee-banner-title {
-      color: #FFD700;
-      font-size: 18px;
+    
+    /* LOGO FRONT CENTER */
+   .logo { 
+      width: 120px; 
+      height: 120px; 
+      margin: 0 auto 30px; 
+      background: #FFD700;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: bold;
-      margin-bottom: 8px;
-    }
-  .fee-banner-text {
-      color: #fff;
+      color: #000;
       font-size: 14px;
+    }
+    
+    /* WHO WE ARE + WHAT WE DO */
+   .headline { 
+      color: #FFD700; 
+      font-size: 28px; 
+      font-weight: bold; 
+      margin-bottom: 15px; 
+      line-height: 1.2;
+    }
+   .subline { 
+      color: #ccc; 
+      font-size: 16px; 
+      margin-bottom: 30px; 
       line-height: 1.6;
     }
-  .fee-highlight { color: #10b981; font-weight: bold; }
-    
-  .form-group { margin-bottom: 20px; }
-    label { display: block; color: #FFD700; margin-bottom: 8px; font-size: 14px; font-weight: bold; }
-    input, select, textarea { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 6px; font-size: 16px; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #FFD700; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .btn { width: 100%; background: #FFD700; color: #000; padding: 16px; border: none; border-radius: 6px; font-weight: bold; font-size: 18px; cursor: pointer; margin-top: 10px; }
-  .btn:disabled { background: #555; color: #888; cursor: not-allowed; }
-    
-    /* CHECKBOX - LEGAL SIGNATURE */
-  .checkbox-wrap { 
-      background: #1a1a1a; 
-      border: 1px solid #FFD700; 
-      padding: 15px; 
-      border-radius: 6px; 
-      margin: 25px 0 15px 0; 
-      display: flex; 
-      align-items: flex-start;
+   .subline strong { 
+      color: #10b981; 
     }
-  .checkbox-wrap input[type="checkbox"] { 
-      width: 20px; 
-      height: 20px; 
-      margin-right: 12px; 
-      margin-top: 2px;
-      cursor: pointer; 
-      flex-shrink: 0;
+    
+    /* TICKER PLACEHOLDER - AUTO UPDATES */
+   .ticker {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      color: #FFD700;
     }
-  .checkbox-wrap label { 
-      color: #ccc; 
-      font-size: 13px; 
-      font-weight: normal; 
-      line-height: 1.5;
-      margin: 0;
+    
+    /* 3 PROPERTY BUTTONS */
+   .button-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+   .prop-btn {
+      background: #1a1a1a;
+      border: 2px solid #FFD700;
+      color: #FFD700;
+      padding: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
+    }
+   .prop-btn:hover {
+      background: #FFD700;
+      color: #000;
+    }
+   .prop-subtext {
+      display: block;
+      font-size: 12px;
+      color: #ccc;
+      font-weight: normal;
+      margin-top: 5px;
+    }
+   .prop-btn:hover .prop-subtext {
+      color: #333;
+    }
+    
+    /* BUYER ACCESS */
+   .buyer-access {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+    }
+   .buyer-link {
+      color: #10b981;
+      font-size: 16px;
+      text-decoration: underline;
       cursor: pointer;
     }
-  .checkbox-wrap a { color: #FFD700; text-decoration: underline; cursor: pointer; }
+   .buyer-link:hover {
+      color: #FFD700;
+    }
     
-    /* MODAL */
-  .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; overflow-y: auto; }
-  .modal-content { background: #1a1a1a; margin: 20px; padding: 25px; border-radius: 8px; border: 1px solid #FFD700; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .modal-title { color: #FFD700; font-size: 18px; font-weight: bold; }
-  .close { color: #FFD700; font-size: 32px; cursor: pointer; line-height: 1; }
-  .agreement-text { color: #ccc; font-size: 13px; line-height: 1.6; }
-  .agreement-text strong { color: #FFD700; }
-  .agreement-text ol { padding-left: 20px; }
-  .agreement-text li { margin-bottom: 12px; }
+    /* BANNER PLACEHOLDER - AUTO UPDATES */
+   .banner {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #888;
+    }
+    
+    @media (min-width: 500px) {
+      .button-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Submit Deal → 50/50 Split</h1>
-  <div class="subtext">We blast your property to 200+ cash buyers instantly</div>
-  
-  <!-- VISIBLE FEE EXPLANATION ON PAGE -->
-  <div class="fee-banner">
-    <div class="fee-banner-title">How You Get Paid</div>
-    <div class="fee-banner-text">
-      <span class="fee-highlight">50/50 Profit Split</span> at closing. No upfront fees. No commission.<br>
-      We bring the buyers. You bring the house. <span class="fee-highlight">We both win.</span><br>
-      <span style="font-size:12px;color:#888;">Buyers pay 1% coordination fee to VPV. You pay $0.</span>
+  <div class="container">
+    
+    <!-- LOGO FRONT CENTER -->
+    <div class="logo">
+      VPV LOGO
     </div>
-  </div>
-  
-  <form id="dealForm">
-    <div class="form-group">
-      <label>Property Type *</label>
-      <select name="property_type" id="propertyType" required>
-        <option value="">Select Type</option>
-        <option value="residential">Residential</option>
-        <option value="commercial">Commercial</option>
-        <option value="land">Land</option>
-      </select>
+    
+    <!-- WHO WE ARE + WHAT WE DO -->
+    <h1 class="headline">VaultForge</h1>
+    <div class="subline">
+      Off-Market Deals by <strong>Veteran Pride VaultForge LLC</strong><br>
+      We connect property owners with 200+ cash buyers.<br>
+      <strong>No listings. No agents.</strong> We split profit <strong>50/50 at closing</strong> with sellers.<br>
+      Buyers pay <strong>1% coordination fee</strong>. We only win if you profit.
     </div>
-
-    <div class="form-group">
-      <label>Property Address *</label>
-      <input type="text" name="address" required>
+    
+    <!-- TICKER - AUTO UPDATES WHEN DEALS COME IN -->
+    <div class="ticker" id="liveTicker">
+      LIVE: Waiting for first deal submission...
     </div>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>State *</label>
-        <input type="text" name="state" required>
-      </div>
-      <div class="form-group">
-        <label>Zip Code *</label>
-        <input type="text" name="zip" required>
-      </div>
+    
+    <!-- 3 PROPERTY TYPE BUTTONS -->
+    <div class="button-grid">
+      <a href="/seller.html?type=residential" class="prop-btn">
+        RESIDENTIAL
+        <span class="prop-subtext">Houses, Condos, 1-4 Units</span>
+      </a>
+      
+      <a href="/seller.html?type=commercial" class="prop-btn">
+        COMMERCIAL
+        <span class="prop-subtext">Multi-Family, Retail, Office</span>
+      </a>
+      
+      <a href="/seller.html?type=land" class="prop-btn">
+        LAND
+        <span class="prop-subtext">Vacant Lots, Acreage</span>
+      </a>
     </div>
-
-    <!-- Residential Fields -->
-    <div id="residentialFields" style="display:none;">
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Beds *</label>
-          <input type="number" name="beds">
-        </div>
-        <div class="form-group">
-          <label>Baths *</label>
-          <input type="number" step="0.5" name="baths">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Sq Ft *</label>
-        <input type="number" name="sqft">
-      </div>
+    
+    <!-- SEPARATE BUYER PATH -->
+    <div class="buyer-access">
+      <a href="/buyer.html" class="buyer-link">CASH BUYER ACCESS →</a>
     </div>
-
-    <!-- Commercial Fields -->
-    <div id="commercialFields" style="display:none;">
-      <div class="form-group">
-        <label>Use Type *</label>
-        <input type="text" name="use_type" placeholder="Retail, Office, Multi-Family">
-      </div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Units *</label>
-          <input type="number" name="units">
-        </div>
-        <div class="form-group">
-          <label>Building Sq Ft *</label>
-          <input type="number" name="building_sqft">
-        </div>
-      </div>
+    
+    <!-- BANNER - AUTO UPDATES -->
+    <div class="banner" id="dealBanner">
+      Veteran Pride VaultForge LLC | Veteran Owned & Operated
     </div>
-
-    <!-- Land Fields -->
-    <div id="landFields" style="display:none;">
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Acres *</label>
-          <input type="number" step="0.01" name="acres">
-        </div>
-        <div class="form-group">
-          <label>Zoning *</label>
-          <input type="text" name="zoning">
-        </div>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Asking Price *</label>
-        <input type="number" name="ask" required>
-      </div>
-      <div class="form-group">
-        <label>ARV *</label>
-        <input type="number" name="arv" required>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Repairs *</label>
-        <input type="number" name="repairs" required>
-      </div>
-      <div class="form-group">
-        <label>Mortgage Payoff *</label>
-        <input type="number" name="payoff" required>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Why Are You Selling? *</label>
-      <textarea name="motivation" required rows="3"></textarea>
-    </div>
-
-    <div class="grid-2">
-      <div class="form-group">
-        <label>Your Name *</label>
-        <input type="text" name="seller_name" required>
-      </div>
-      <div class="form-group">
-        <label>Phone *</label>
-        <input type="tel" name="phone" required>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Email *</label>
-      <input type="email" name="email" required>
-    </div>
-
-    <!-- LEGAL CHECKBOX - REQUIRED TO SUBMIT -->
-    <div class="checkbox-wrap">
-      <input type="checkbox" id="agreement_accepted" name="agreement_accepted" required>
-      <label for="agreement_accepted">
-        I agree to the <a onclick="openAgreement()">Veteran Pride VaultForge LLC 50/50 Partnership Agreement</a>. 
-        I authorize VPV to market my property and split net profits 50/50 at closing. No upfront fees.
-      </label>
-    </div>
-
-    <button type="submit" class="btn" id="submitBtn">BLAST MY DEAL TO BUYERS →</button>
-  </form>
-
-  <!-- AGREEMENT MODAL -->
-  <div id="agreementModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">VETERAN PRIDE VAULTFORGE LLC<br>MARKETING & PROFIT SHARE AGREEMENT v1.0</div>
-        <span class="close" onclick="closeAgreement()">&times;</span>
-      </div>
-      <div class="agreement-text">
-        <ol>
-          <li><strong>APPOINTMENT:</strong> Seller appoints Veteran Pride VaultForge LLC ("VPV") as exclusive marketing partner for thirty (30) days to procure a cash buyer for the Property.</li>
-          <li><strong>PROFIT SHARE:</strong> Net Profit equals Gross Sale Price minus Seller's Existing Mortgage Payoff minus Agreed Repair Costs minus All Closing Costs and Prorations. VPV and Seller shall split Net Profit 50/50 at closing.</li>
-          <li><strong>ASSIGNMENT RIGHTS:</strong> VPV may assign this agreement or contract rights to end buyer. Seller agrees to cooperate with assignment or double-close transaction as directed by VPV.</li>
-          <li><strong>PAYMENT AUTHORIZATION:</strong> Seller irrevocably instructs any Closing Agent or Title Company to pay VPV fifty percent (50%) of Net Profit from Seller's proceeds at closing. This fee shall appear as a separate line item on the final ALTA Settlement Statement.</li>
-          <li><strong>NON-CIRCUMVENTION:</strong> If Seller sells Property to a buyer introduced by VPV within one hundred eighty (180) days, Seller owes VPV 50% of Net Profit or $10,000, whichever is greater.</li>
-          <li><strong>ELECTRONIC SIGNATURE:</strong> By checking the box and submitting, Seller electronically signs this Agreement under E-SIGN Act and UETA.</li>
-        </ol>
-        <p style="margin-top:20px;color:#FFD700;"><strong>Entity: Veteran Pride VaultForge LLC</strong></p>
-      </div>
-    </div>
+    
   </div>
 
   <script>
-    // Property type toggle
-    document.getElementById('propertyType').addEventListener('change', function() {
-      document.getElementById('residentialFields').style.display = this.value === 'residential'? 'block' : 'none';
-      document.getElementById('commercialFields').style.display = this.value === 'commercial'? 'block' : 'none';
-      document.getElementById('landFields').style.display = this.value === 'land'? 'block' : 'none';
-    });
-
-    // Modal functions
-    function openAgreement() {
-      document.getElementById('agreementModal').style.display = 'block';
-    }
-    function closeAgreement() {
-      document.getElementById('agreementModal').style.display = 'none';
-    }
-
-    // Autosave draft
-    const form = document.getElementById('dealForm');
-    const DRAFT_KEY = 'vaultforge_deal_draft';
+    // Ticker + Banner auto-update logic goes here
+    // Connects to your /api/live-deals endpoint
+    // I am not changing this - it updates itself when deals come in
     
-    function saveDraft() {
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
-    }
-    
-    function loadDraft() {
-      const draft = localStorage.getItem(DRAFT_KEY);
-      if (draft && confirm('Resume your previous deal draft?')) {
-        const data = JSON.parse(draft);
-        Object.keys(data).forEach(key => {
-          const field = form.querySelector(`[name="${key}"]`);
-          if (field && field.type!== 'checkbox') field.value = data[key];
-          if (field && field.type === 'checkbox') field.checked = data[key] === 'on';
-        });
-        document.getElementById('propertyType').dispatchEvent(new Event('change'));
-      }
-    }
-    
-    loadDraft();
-    form.addEventListener('input', saveDraft);
-
-    // Form submit
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      if (!document.getElementById('agreement_accepted').checked) {
-        alert('You must agree to the 50/50 Partnership Agreement to submit.');
-        return;
-      }
-      
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'SUBMITTING...';
-      
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      
+    async function updateLiveData() {
       try {
-        const res = await fetch('/api/save-deal', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+        const res = await fetch('/api/live-deals');
+        const data = await res.json();
         
-        const result = await res.json();
-        
-        if (result.success) {
-          localStorage.removeItem(DRAFT_KEY);
-          alert('Deal Received. Your property is live in the VaultForge Deal Room. Status: Broadcasting to 200+ cash buyers now...');
-          form.reset();
-        } else {
-          alert('Error: ' + result.error);
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'BLAST MY DEAL TO BUYERS →';
+        if (data.ticker) {
+          document.getElementById('liveTicker').textContent = data.ticker;
+        }
+        if (data.banner) {
+          document.getElementById('dealBanner').textContent = data.banner;
         }
       } catch (err) {
-        alert('Network error. Please try again.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'BLAST MY DEAL TO BUYERS →';
+        console.log('Ticker update pending');
       }
-    });
+    }
+    
+    // Update every 30 seconds once live
+    setInterval(updateLiveData, 30000);
+    updateLiveData();
   </script>
 </body>
 </html>
