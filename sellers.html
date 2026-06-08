@@ -7,15 +7,15 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; }
-   .container { max-width: 500px; margin: 0 auto; }
+  .container { max-width: 500px; margin: 0 auto; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-   .form-group { margin-bottom: 15px; }
+  .form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select, textarea { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
     textarea { min-height: 80px; }
-   .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
-   .btn:hover { opacity: 0.8; }
-   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .btn { width: 100%; background: #FFD700; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; }
+  .btn:hover { opacity: 0.8; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
   </style>
 </head>
 <body>
@@ -95,6 +95,10 @@
         </div>
       </div>
       <div class="form-group">
+        <label>Property Photos</label>
+        <input type="file" name="photos" multiple accept="image/*">
+      </div>
+      <div class="form-group">
         <label>Notes</label>
         <textarea name="notes"></textarea>
       </div>
@@ -104,8 +108,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
+const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -115,6 +119,7 @@ if (type) document.querySelector('[name="property_type"]').value = type.charAt(0
 document.getElementById('sellerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
+  const files = formData.getAll('photos');
   
   const sellerData = {
     full_name: formData.get('full_name'),
@@ -135,14 +140,26 @@ document.getElementById('sellerForm').addEventListener('submit', async (e) => {
   };
 
   const { data: seller, error: sellerError } = await supabase
-  .from('sellers')
-  .insert([sellerData])
-  .select()
-  .single();
+ .from('sellers')
+ .insert([sellerData])
+ .select()
+ .single();
 
   if (sellerError) {
     alert('Error: ' + sellerError.message);
     return;
+  }
+
+  let photoUrls = [];
+  for (const file of files) {
+    if (file.size > 0) {
+      const fileName = `${seller.id}/${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage.from('deal-photos').upload(fileName, file);
+      if (!uploadError) {
+        const { data: urlData } = supabase.storage.from('deal-photos').getPublicUrl(fileName);
+        photoUrls.push(urlData.publicUrl);
+      }
+    }
   }
 
   const dealData = {
@@ -156,6 +173,7 @@ document.getElementById('sellerForm').addEventListener('submit', async (e) => {
     asking_price: sellerData.asking_price,
     arv: sellerData.arv,
     rehab_estimate: sellerData.rehab_estimate,
+    photos: photoUrls,
     status: 'New'
   };
 
