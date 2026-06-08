@@ -6,133 +6,29 @@
   <title>VaultForge - Veteran Pride VaultForge LLC</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      background: #0a0a0a; 
-      color: #fff; 
-      font-family: 'Arial', sans-serif; 
-      min-height: 100vh;
-    }
-    
-   .container { 
-      max-width: 600px; 
-      margin: 0 auto; 
-      padding: 40px 20px; 
-      text-align: center;
-    }
-    
-    /* LOGO FRONT CENTER */
-   .logo { 
-      width: 180px; 
-      height: auto; 
-      margin: 0 auto 25px; 
-      display: block;
-    }
-    
-    /* WHO WE ARE + WHAT WE DO */
-   .headline { 
-      color: #FFD700; 
-      font-size: 32px; 
-      font-weight: bold; 
-      margin-bottom: 15px; 
-      line-height: 1.2;
-    }
-   .subline { 
-      color: #ccc; 
-      font-size: 16px; 
-      margin-bottom: 30px; 
-      line-height: 1.6;
-    }
-   .subline strong { 
-      color: #10b981; 
-    }
-    
-    /* TICKER - AUTO UPDATES */
-   .ticker {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 30px;
-      font-size: 14px;
-      color: #FFD700;
-    }
-    
-    /* 3 PROPERTY BUTTONS */
-   .button-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-   .prop-btn {
-      background: #1a1a1a;
-      border: 2px solid #FFD700;
-      color: #FFD700;
-      padding: 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-      transition: all 0.2s;
-    }
-   .prop-btn:hover {
-      background: #FFD700;
-      color: #000;
-    }
-   .prop-subtext {
-      display: block;
-      font-size: 12px;
-      color: #ccc;
-      font-weight: normal;
-      margin-top: 5px;
-    }
-   .prop-btn:hover .prop-subtext {
-      color: #333;
-    }
-    
-    /* BUYER ACCESS */
-   .buyer-access {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 1px solid #333;
-    }
-   .buyer-link {
-      color: #10b981;
-      font-size: 16px;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-   .buyer-link:hover {
-      color: #FFD700;
-    }
-    
-    /* BANNER - AUTO UPDATES */
-   .banner {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 40px;
-      font-size: 13px;
-      color: #888;
-    }
-    
-    @media (min-width: 500px) {
-      .button-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-    }
+    body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; min-height: 100vh; }
+   .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center; }
+   .logo { width: 180px; height: auto; margin: 0 auto 25px; display: block; }
+   .headline { color: #FFD700; font-size: 32px; font-weight: bold; margin-bottom: 15px; line-height: 1.2; }
+   .subline { color: #ccc; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
+   .subline strong { color: #10b981; }
+   .ticker { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px; margin-bottom: 30px; font-size: 14px; color: #FFD700; }
+   .button-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
+   .prop-btn { background: #1a1a1a; border: 2px solid #FFD700; color: #FFD700; padding: 20px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; text-decoration: none; display: block; transition: all 0.2s; }
+   .prop-btn:hover { background: #FFD700; color: #000; }
+   .prop-subtext { display: block; font-size: 12px; color: #ccc; font-weight: normal; margin-top: 5px; }
+   .prop-btn:hover .prop-subtext { color: #333; }
+   .buyer-access { margin-top: 30px; padding-top: 30px; border-top: 1px solid #333; }
+   .buyer-link { color: #10b981; font-size: 16px; text-decoration: underline; cursor: pointer; }
+   .buyer-link:hover { color: #FFD700; }
+   .banner { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 15px; margin-top: 40px; font-size: 13px; color: #888; }
+    @media (min-width: 500px) { .button-grid { grid-template-columns: 1fr 1fr 1fr; } }
   </style>
 </head>
 <body>
   <div class="container">
-    
-    <!-- LOGO FRONT CENTER -->
     <img src="IMG_4751.png" alt="Veteran Pride VaultForge LLC" class="logo">
     
-    <!-- WHO WE ARE + WHAT WE DO -->
     <h1 class="headline">VaultForge</h1>
     <div class="subline">
       Off-Market Deals by <strong>Veteran Pride VaultForge LLC</strong><br>
@@ -141,61 +37,45 @@
       Buyers pay <strong>1% coordination fee</strong>. We only win if you profit.
     </div>
     
-    <!-- TICKER - AUTO UPDATES WHEN DEALS COME IN -->
+    <!-- TICKER - AUTO UPDATES -->
     <div class="ticker" id="liveTicker">
       LIVE: Waiting for first deal submission...
     </div>
     
-    <!-- 3 PROPERTY TYPE BUTTONS -->
     <div class="button-grid">
       <a href="/sellers.html?type=residential" class="prop-btn">
         RESIDENTIAL
         <span class="prop-subtext">Houses, Condos, 1-4 Units</span>
       </a>
-      
       <a href="/sellers.html?type=commercial" class="prop-btn">
         COMMERCIAL
         <span class="prop-subtext">Multi-Family, Retail, Office</span>
       </a>
-      
       <a href="/sellers.html?type=land" class="prop-btn">
         LAND
         <span class="prop-subtext">Vacant Lots, Acreage</span>
       </a>
     </div>
     
-    <!-- SEPARATE BUYER PATH -->
     <div class="buyer-access">
       <a href="/buyers.html" class="buyer-link">CASH BUYER ACCESS →</a>
     </div>
     
-    <!-- BANNER - AUTO UPDATES -->
+    <!-- BANNER - PUT BACK -->
     <div class="banner" id="dealBanner">
-      Veteran Pride VaultForge LLC | Veteran Owned & Operated
+      Veteran Pride VaultForge LLC | Veteran Owned & Operated | GA • FL • TX • NC • SC • AL • TN
     </div>
-    
   </div>
 
   <script>
-    // Ticker + Banner auto-update when real deals submit
-    // Not changing design - just pulls from /api/live-deals
-    
     async function updateLiveData() {
       try {
         const res = await fetch('/api/live-deals');
         const data = await res.json();
-        
-        if (data.ticker) {
-          document.getElementById('liveTicker').textContent = data.ticker;
-        }
-        if (data.banner) {
-          document.getElementById('dealBanner').textContent = data.banner;
-        }
-      } catch (err) {
-        console.log('Waiting for live data');
-      }
+        if (data.ticker) document.getElementById('liveTicker').textContent = data.ticker;
+        if (data.banner) document.getElementById('dealBanner').textContent = data.banner;
+      } catch (err) { console.log('Waiting for live data'); }
     }
-    
     setInterval(updateLiveData, 30000);
     updateLiveData();
   </script>
