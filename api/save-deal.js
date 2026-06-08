@@ -8,18 +8,17 @@ export default async function handler(req, res) {
   try {
     const dealData = req.body;
     
-    // Capture agreement + autosave metadata
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const userAgent = req.headers['user-agent'];
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    const userAgent = req.headers['user-agent'] || 'unknown';
     
     const id = Date.now().toString();
     const deal = {
       id,
      ...dealData,
-      ask: parseInt(dealData.ask),
-      arv: parseInt(dealData.arv),
-      repairs: parseInt(dealData.repairs),
-      payoff: parseInt(dealData.payoff),
+      ask: parseInt(dealData.ask) || 0,
+      arv: parseInt(dealData.arv) || 0,
+      repairs: parseInt(dealData.repairs) || 0,
+      payoff: parseInt(dealData.payoff) || 0,
       beds: dealData.beds? parseInt(dealData.beds) : null,
       baths: dealData.baths? parseFloat(dealData.baths) : null,
       sqft: dealData.sqft? parseInt(dealData.sqft) : null,
@@ -27,18 +26,23 @@ export default async function handler(req, res) {
       building_sqft: dealData.building_sqft? parseInt(dealData.building_sqft) : null,
       acres: dealData.acres? parseFloat(dealData.acres) : null,
       
-      // Deal Status + Tracking
+      // Deal Management
       status: 'pending',
       notes: '',
       sent_to: [],
+      title_company: '',
+      buyer_name: '',
+      buyer_email: '',
+      buyer_contract_signed: false,
       
-      // LEGAL: Contract proof for Veteran Pride VaultForge LLC
-      contract_signed: dealData.agreement_accepted || false,
-      contract_version: 'VF-S-1.0',
-      contract_entity: 'Veteran Pride VaultForge LLC',
-      contract_timestamp: new Date().toISOString(),
-      contract_ip: ip,
-      contract_user_agent: userAgent,
+      // LEGAL: SELLER CONTRACT - Veteran Pride VaultForge LLC
+      seller_contract_signed: dealData.agreement_accepted === 'on' || dealData.agreement_accepted === true,
+      seller_contract_version: 'VF-S-1.0',
+      seller_contract_entity: 'Veteran Pride VaultForge LLC',
+      seller_contract_type: '50/50 Profit Share',
+      seller_contract_timestamp: new Date().toISOString(),
+      seller_contract_ip: ip,
+      seller_contract_user_agent: userAgent,
       
       created: new Date().toISOString(),
       last_updated: new Date().toISOString()
@@ -52,7 +56,7 @@ export default async function handler(req, res) {
       success: true, 
       message: 'Deal saved',
       deal_id: id,
-      contract_signed: deal.contract_signed
+      contract_signed: deal.seller_contract_signed
     });
 
   } catch (error) {
