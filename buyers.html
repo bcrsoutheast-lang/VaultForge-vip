@@ -7,25 +7,26 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0a0a; color: #fff; font-family: Arial, sans-serif; padding: 20px; padding-bottom: 120px; }
- .container { max-width: 500px; margin: 0 auto; }
- .back-btn { color: #10b981; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
+.container { max-width: 500px; margin: 0 auto; }
+.back-btn { color: #10b981; text-decoration: none; font-size: 16px; margin-bottom: 20px; display: inline-block; }
     h1 { color: #FFD700; margin-bottom: 20px; text-align: center; }
- .form-group { margin-bottom: 15px; }
+.form-group { margin-bottom: 15px; }
     label { display: block; color: #ccc; margin-bottom: 5px; font-size: 14px; }
     input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 4px; font-size: 16px; }
- .btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
- .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
- .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
- .checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
- .checkbox-label input { width: auto; margin-right: 8px; }
- .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
- .checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
- .checkbox-row label { color: #10b981; font-size: 14px; line-height: 1.4; }
- .success { display: none; text-align: center; padding: 40px 20px; }
- .success h2 { color: #10b981; margin-bottom: 15px; font-size: 24px; }
- .success p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
- .section-title { color: #FFD700; font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
+.btn { width: 100%; background: #10b981; color: #000; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.checkbox-label { display: flex; align-items: center; color: #ccc; font-size: 14px; }
+.checkbox-label input { width: auto; margin-right: 8px; }
+.checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+.checkbox-row input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+.checkbox-row label { color: #FFD700; font-size: 14px; line-height: 1.4; }
+.success { display: none; text-align: center; padding: 40px 20px; }
+.success h2 { color: #10b981; margin-bottom: 15px; font-size: 24px; }
+.success p { color: #ccc; margin-bottom: 25px; line-height: 1.6; }
+.section-title { color: #FFD700; font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
   select[multiple] { height: auto; min-height: 120px; }
+ .sub-dropdown { display: none; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -70,13 +71,46 @@
         
         <div class="section-title">Buy Box</div>
         <div class="form-group">
-          <label>Deal Types</label>
+          <label>Deal Types - Check all that apply</label>
           <div class="checkbox-group">
-            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Residential"> Residential</label>
-            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Commercial"> Commercial</label>
-            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Land"> Land</label>
+            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Residential" onchange="toggleSub('res')"> Residential</label>
+            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Commercial" onchange="toggleSub('com')"> Commercial</label>
+            <label class="checkbox-label"><input type="checkbox" name="deal_types" value="Land" onchange="toggleSub('land')"> Land</label>
           </div>
         </div>
+
+        <div id="resSub" class="form-group sub-dropdown">
+          <label>Residential Types - Select Multiple</label>
+          <select name="res_types" multiple>
+            <option value="Single Family">Single Family</option>
+            <option value="Duplex">Duplex</option>
+            <option value="Triplex">Triplex</option>
+            <option value="Fourplex">Fourplex</option>
+            <option value="Condo">Condo/Townhome</option>
+          </select>
+        </div>
+
+        <div id="comSub" class="form-group sub-dropdown">
+          <label>Commercial Types - Select Multiple</label>
+          <select name="com_types" multiple>
+            <option value="Multi-Family 5+">Multi-Family 5+ Units</option>
+            <option value="Retail">Retail</option>
+            <option value="Office">Office</option>
+            <option value="Industrial">Industrial/Warehouse</option>
+            <option value="Mixed-Use">Mixed-Use</option>
+          </select>
+        </div>
+
+        <div id="landSub" class="form-group sub-dropdown">
+          <label>Land Types - Select Multiple</label>
+          <select name="land_types" multiple>
+            <option value="Residential Lot">Residential Lot</option>
+            <option value="Commercial Lot">Commercial Lot</option>
+            <option value="Agricultural">Agricultural</option>
+            <option value="Development">Development Land</option>
+          </select>
+        </div>
+
         <div class="grid">
           <div class="form-group">
             <label>Budget Min</label>
@@ -140,6 +174,16 @@ const supabaseUrl = 'https://cnxrwnxtpfxoyjymuwvs.supabase.co';
 const supabaseKey = 'sb_publishable_t-QviJYrFalcqFST7igSQw_9JbkCeXX';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+function toggleSub(type) {
+  const checkbox = document.querySelector(`input[value="${type.charAt(0).toUpperCase() + type.slice(1)}"]`);
+  const subDiv = document.getElementById(type + 'Sub');
+  if (checkbox.checked) {
+    subDiv.style.display = 'block';
+  } else {
+    subDiv.style.display = 'none';
+  }
+}
+
 document.getElementById('buyerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
@@ -153,6 +197,9 @@ document.getElementById('buyerForm').addEventListener('submit', async (e) => {
     budget_max: formData.get('budget_max')? parseInt(formData.get('budget_max')) : null,
     markets: Array.from(e.target.querySelector('[name="markets"]').selectedOptions).map(o => o.value),
     deal_types: formData.getAll('deal_types'),
+    res_types: Array.from(e.target.querySelector('[name="res_types"]').selectedOptions).map(o => o.value),
+    com_types: Array.from(e.target.querySelector('[name="com_types"]').selectedOptions).map(o => o.value),
+    land_types: Array.from(e.target.querySelector('[name="land_types"]').selectedOptions).map(o => o.value),
     min_arv: formData.get('min_arv')? parseInt(formData.get('min_arv')) : null,
     max_rehab: formData.get('max_rehab')? parseInt(formData.get('max_rehab')) : null,
     close_timeframe: formData.get('close_timeframe')
